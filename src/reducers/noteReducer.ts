@@ -11,10 +11,10 @@ const noteReducer = (state = initialState, action) => {
 			return state.map(note => {
 				if(note.id === action.payload.id){
 					return {
-						id: action.payload.id,
+						id: note.id,
 						text: action.payload.text,
-						created: action.payload.created,
-						lastUpdated: ''
+						created: note.created,
+						lastUpdated: 'new-value'
 					}
 				} else {
 					return note

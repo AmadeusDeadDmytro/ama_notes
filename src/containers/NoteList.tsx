@@ -1,15 +1,19 @@
+import { Dispatch } from 'redux'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { swapNote } from '../actions'
 
-const NoteList = ({ notes }) => {
+const NoteList = ({ notes, swapNote }) => {
 	return (
 		<Sidebar>
 			<NoteListContainer>
 				{notes.map((note) => {
 					const noteTitle = note.text.indexOf('\n') !== -1 ? note.text.slice(0, note.text.indexOf('\n')) : note.text.slice(0, 50)
 					return (
-						<NoteTitle key={note.id}>
+						<NoteTitle key={note.id} onClick={() => {
+							swapNote(note.id)
+						}}>
 							{noteTitle}
 						</NoteTitle>
 					)
@@ -23,7 +27,11 @@ const mapStateToProps = (state: { notes: any }) => ({
 	notes: state.notes
 })
 
-export default connect(mapStateToProps)(NoteList)
+const mapDispatchToProps = (dispatch:Dispatch) => ({
+	swapNote: noteId => dispatch(swapNote(noteId))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(NoteList)
 
 const Sidebar = styled.aside`
 	background: #efefef;

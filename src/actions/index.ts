@@ -1,16 +1,16 @@
 import { ADD_NOTE, SWAP_NOTE, UPDATE_NOTE } from './../constants/actionTypes';
 
-export const addNote = (note: any) => ({
+export const addNote = (note) => ({
 	type: ADD_NOTE,
 	payload: note
 })
 
-export const updateNote = (note: any) => ({
+export const updateNote = (note) => ({
 	type: UPDATE_NOTE,
 	payload: note
 })
 
-export const swapNote = (note: any) => ({
+export const swapNote = (noteId) => ({
 	type: SWAP_NOTE,
-	payload: note.id
+	payload: noteId
 })

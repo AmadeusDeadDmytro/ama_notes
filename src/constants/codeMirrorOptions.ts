@@ -1,7 +1,8 @@
 const options =  {
 	mode: 'gfm',
 	theme: 'base16-light',
-	lineNumbers: true
+	lineNumbers: true,
+	lineWrapping: 'wrap'
 }
 
 export default options
