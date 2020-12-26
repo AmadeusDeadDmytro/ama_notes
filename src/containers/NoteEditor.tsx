@@ -6,9 +6,9 @@ import { Controlled as CodeMirror } from 'react-codemirror2'
 import { Dispatch } from 'redux'
 import React from 'react'
 import { connect } from 'react-redux'
-import options from '../constants/codeMirrorOptions'
+import options from 'constants/codeMirrorOptions'
 import styled from 'styled-components'
-import { updateNote } from '../actions'
+import { updateNote } from 'actions'
 
 interface NoteObject {
 	id: string,

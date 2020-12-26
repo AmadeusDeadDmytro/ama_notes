@@ -2,7 +2,7 @@ import { Dispatch } from 'redux'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { swapNote } from '../actions'
+import { swapNote } from 'actions'
 
 const NoteList = ({ notes, swapNote }) => {
 	return (

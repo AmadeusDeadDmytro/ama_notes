@@ -1,4 +1,4 @@
-import { ADD_NOTE, SWAP_NOTE, UPDATE_NOTE } from './../constants/actionTypes';
+import { ADD_NOTE, SWAP_NOTE, UPDATE_NOTE } from 'constants/actionTypes';
 
 export const addNote = (note) => ({
 	type: ADD_NOTE,

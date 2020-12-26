@@ -1,4 +1,4 @@
-import { addNote, swapNote } from '../actions'
+import { addNote, swapNote } from 'actions'
 
 import { Dispatch } from 'redux'
 import React from 'react'

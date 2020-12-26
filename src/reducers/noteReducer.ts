@@ -1,6 +1,6 @@
-import { ADD_NOTE, UPDATE_NOTE } from './../constants/actionTypes';
+import { ADD_NOTE, UPDATE_NOTE } from 'constants/actionTypes';
 
-import { initialState } from './../constants/fakeState';
+import { initialState } from 'constants/fakeState';
 import { v4 as uuid } from 'uuid';
 
 const noteReducer = (state = initialState, action) => {

@@ -1,6 +1,6 @@
-import Navigation from '../containers/Navigation'
-import NoteEditor from '../containers/NoteEditor'
-import NoteList from '../containers/NoteList'
+import Navigation from 'containers/Navigation'
+import NoteEditor from 'containers/NoteEditor'
+import NoteList from 'containers/NoteList'
 import React from 'react'
 import styled from 'styled-components'
 
