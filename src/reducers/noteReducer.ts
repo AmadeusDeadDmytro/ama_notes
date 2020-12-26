@@ -1,0 +1,28 @@
+import { ADD_NOTE, UPDATE_NOTE } from './../constants/actionTypes';
+
+import { initialState } from './../constants/fakeState';
+import { v4 as uuid } from 'uuid';
+
+const noteReducer = (state = initialState, action) => {
+	switch (action.type) {
+		case ADD_NOTE:
+			return [...state, {id: uuid(), text: action.payload, created: '', lastUpdated: ''}]
+		case UPDATE_NOTE:
+			return state.map(note => {
+				if(note.id === action.payload.id){
+					return {
+						id: action.payload.id,
+						text: action.payload.text,
+						created: action.payload.created,
+						lastUpdated: ''
+					}
+				} else {
+					return note
+				}
+			})
+		default:
+			return state
+	}
+}
+
+export default noteReducer
