@@ -1,13 +1,12 @@
-import { ADD_NOTE, UPDATE_NOTE } from 'constants/actionTypes';
-
+import { ActionType } from 'constants/actionType';
 import { initialState } from 'constants/fakeState';
 import { v4 as uuid } from 'uuid';
 
 const noteReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case ADD_NOTE:
+		case ActionType.ADD_NOTE:
 			return [...state, action.payload]
-		case UPDATE_NOTE:
+		case ActionType.UPDATE_NOTE:
 			return state.map(note => {
 				if(note.id === action.payload.id){
 					return {

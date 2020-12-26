@@ -4,24 +4,19 @@ import 'codemirror/mode/gfm/gfm.js'
 
 import { Controlled as CodeMirror } from 'react-codemirror2'
 import { Dispatch } from 'redux'
+import { NoteItem } from 'types'
 import React from 'react'
 import { connect } from 'react-redux'
 import options from 'constants/codeMirrorOptions'
 import styled from 'styled-components'
 import { updateNote } from 'actions'
 
-interface NoteObject {
-	id: string,
-	text: string
-}
-
-interface NoteProps {
-	note: NoteObject,
+interface NoteEditorProps {
+	note: NoteItem,
 	updateNote: Function,
 }
 
-const NoteEditor = (props: NoteProps) => {
-	const {note, updateNote} = props
+const NoteEditor: React.FC<NoteEditorProps> = ({ note, updateNote }) => {
 
 	return (
 		<Editor

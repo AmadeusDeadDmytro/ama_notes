@@ -6,7 +6,12 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import {v4 as uuid} from 'uuid'
 
-const Navigation = (props) => {
+interface NavigationProps {
+	addNote: Function
+	swapNote: Function
+}
+
+const Navigation: React.FC<NavigationProps> = (props) => {
 	const {addNote, swapNote} = props
 
 	return (

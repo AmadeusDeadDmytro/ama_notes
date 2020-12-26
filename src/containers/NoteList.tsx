@@ -1,10 +1,16 @@
 import { Dispatch } from 'redux'
+import { NoteItem } from 'types'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { swapNote } from 'actions'
 
-const NoteList = ({ notes, swapNote }) => {
+interface NoteListProps {
+	notes: NoteItem[],
+	swapNote: Function
+}
+
+const NoteList: React.FC<NoteListProps> = ({ notes, swapNote }) => {
 	return (
 		<Sidebar>
 			<NoteListContainer>
