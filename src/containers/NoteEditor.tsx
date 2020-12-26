@@ -12,46 +12,42 @@ import styled from 'styled-components'
 import { updateNote } from 'actions'
 
 interface NoteEditorProps {
-	note: NoteItem,
-	updateNote: Function,
+    note: NoteItem
+    updateNote: Function
 }
 
 const NoteEditor: React.FC<NoteEditorProps> = ({ note, updateNote }) => {
-
-	return (
-		<Editor
-			className="editor"
-			value={note.text}
-			options={options}
-			onBeforeChange={(editor, data, value) => {
-				updateNote(note.text)
-			}}
-			onChange={(editor, data, value) => {}}
-		/>
-	)
+    return (
+        <Editor
+            className="editor"
+            value={note.text}
+            options={options}
+            onBeforeChange={(editor, data, value) => {
+                updateNote(note.text)
+            }}
+            onChange={(editor, data, value) => {}}
+        />
+    )
 }
 
 const mapStateToProps = (state) => ({
-	note: state.notes.find((note) => note.id === state.active)
+    note: state.notes.find((note) => note.id === state.active),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-	updateNote: (note: any) => dispatch(updateNote(note))
+    updateNote: (note: any) => dispatch(updateNote(note)),
 })
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(NoteEditor)
+export default connect(mapStateToProps, mapDispatchToProps)(NoteEditor)
 
 const Editor = styled(CodeMirror)`
-	grid-area: editor;
+    grid-area: editor;
 
-	.CodeMirror {
-		-webkit-font-smoothing: subpixel-antialiased;
-		height: 100%;
-		font-family: Menlo, Monaco, monospace;
-		font-weight: 500;
-		font-size: 15px;
-	}
+    .CodeMirror {
+        -webkit-font-smoothing: subpixel-antialiased;
+        height: 100%;
+        font-family: Menlo, Monaco, monospace;
+        font-weight: 500;
+        font-size: 15px;
+    }
 `
