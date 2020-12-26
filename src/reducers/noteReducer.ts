@@ -1,4 +1,4 @@
-import { ActionType } from 'constants/actionType';
+import { ActionType } from 'constants/enum';
 import { initialState } from 'constants/fakeState';
 import { v4 as uuid } from 'uuid';
 

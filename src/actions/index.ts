@@ -1,4 +1,4 @@
-import { ActionType } from 'constants/actionType';
+import { ActionType } from 'constants/enum';
 
 export const addNote = (note) => ({
 	type: ActionType.ADD_NOTE,
