@@ -1,4 +1,4 @@
-# amaNote
+# AmaNote
 
 ```
 git clone git@github.com:AmadeusDeadDmytro/ama_notes.git

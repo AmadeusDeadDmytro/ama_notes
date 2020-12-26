@@ -20,10 +20,6 @@ interface NoteProps {
 	updateNote: Function,
 }
 
-interface NoteState {
-	note: NoteObject
-}
-
 const NoteEditor = (props: NoteProps) => {
 	const {note, updateNote} = props
 
@@ -54,7 +50,7 @@ export default connect(
 )(NoteEditor)
 
 const Editor = styled(CodeMirror)`
-	width: 100%;
+	grid-area: editor;
 
 	.CodeMirror {
 		-webkit-font-smoothing: subpixel-antialiased;

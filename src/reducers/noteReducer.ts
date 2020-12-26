@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid';
 const noteReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case ADD_NOTE:
-			return [...state, {id: uuid(), text: action.payload, created: '', lastUpdated: ''}]
+			return [...state, action.payload]
 		case UPDATE_NOTE:
 			return state.map(note => {
 				if(note.id === action.payload.id){

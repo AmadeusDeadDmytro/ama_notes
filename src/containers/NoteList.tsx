@@ -34,8 +34,8 @@ const mapDispatchToProps = (dispatch:Dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(NoteList)
 
 const Sidebar = styled.aside`
+	grid-area: sidebar;
 	background: #efefef;
-	width: 350px;
 `
 
 const NoteListContainer = styled.div`
