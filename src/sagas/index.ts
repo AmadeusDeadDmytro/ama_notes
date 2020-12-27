@@ -14,7 +14,7 @@ async function fetchAsync(endpoint) {
 
 function* fetchNotes() {
     try {
-        const data = yield fetchAsync('https://gist.githubusercontent.com/taniarascia/d0283d793979f63c7169210215d7922d/raw/5ca89530e7abe29a9eb7d8f2f915b5edf450f4c5/fakeNotes.json')
+        const data = yield fetchAsync('https://gist.githubusercontent.com/AmadeusDeadDmytro/f5372ce6a24f694129965382d4e0a94b/raw/61a9a9718344ba1a5bd3d447159e0986b4627076/fakeData.json')
         yield put({ type: ActionType.LOAD_NOTES_SUCCESS, payload: data })
     } catch (error) {
         yield put({ type: ActionType.LOAD_NOTES_ERROR, payload: error.message })
