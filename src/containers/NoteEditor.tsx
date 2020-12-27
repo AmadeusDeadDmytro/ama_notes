@@ -1,6 +1,7 @@
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/base16-light.css'
 import 'codemirror/mode/gfm/gfm.js'
+import 'codemirror/addon/selection/active-line.js'
 
 import React, { useEffect } from 'react'
 import { loadNotes, updateNote } from 'actions'
@@ -32,10 +33,17 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, note, updateNote, load
                 className="editor"
                 value={note.text}
                 options={options}
+                editorDidMount={(editor) => {
+                    editor.focus()
+                    editor.setCursor(editor.lineCount(), 0)
+                }}
                 onBeforeChange={(editor, data, value) => {
                     updateNote({ id: note.id, text: value })
                 }}
-                onChange={(editor, data, value) => {}}
+                onChange={(editor, data, value) => {
+                    editor.focus()
+                    editor.setCursor(editor.lineCount(), 0)
+                }}
             />
         )
     }
@@ -63,5 +71,10 @@ const Editor = styled(CodeMirror)`
         font-family: Menlo, Monaco, monospace;
         font-weight: 500;
         font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .CodeMirror-activeline-background {
+        background: rgba(0, 0, 0, 0.05) !important;
     }
 `
