@@ -1,3 +1,4 @@
+import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
 import { NoteItem } from 'types'
 import React from 'react'
@@ -44,7 +45,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(NoteList)
 
 const Sidebar = styled.aside`
     grid-area: sidebar;
-    background: #efefef;
+    background: ${Colors.BACKGROUND};
 `
 
 const NoteListContainer = styled.div``
@@ -52,8 +53,8 @@ const NoteListContainer = styled.div``
 const NoteTitle = styled.div`
     cursor: pointer;
     padding: 1rem;
-    border-bottom: 2px solid #dedede;
+    border-bottom: 2px solid ${Colors.HOVER};
     &:hover {
-        background: #dedede;
+        background: ${Colors.HOVER};
     }
 `

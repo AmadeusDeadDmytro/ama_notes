@@ -26,7 +26,7 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, note, updateNote, load
     }, [loadNotes])
 
     if (loading) {
-        return <div>Loading...</div>
+        return <EditorEmpty />
     } else {
         return (
             <Editor
@@ -61,6 +61,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteEditor)
+
+const EditorEmpty = styled.div``
 
 const Editor = styled(CodeMirror)`
     grid-area: editor;
