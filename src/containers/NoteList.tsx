@@ -7,11 +7,12 @@ import styled from 'styled-components'
 import { swapNote } from 'actions'
 
 interface NoteListProps {
+    active: string
     notes: NoteItem[]
     swapNote: Function
 }
 
-const NoteList: React.FC<NoteListProps> = ({ notes, swapNote }) => {
+const NoteList: React.FC<NoteListProps> = ({ active, notes, swapNote }) => {
     return (
         <Sidebar>
             <NoteListContainer>
@@ -20,6 +21,7 @@ const NoteList: React.FC<NoteListProps> = ({ notes, swapNote }) => {
                     return (
                         <NoteTitle
                             key={note.id}
+                            active={note.id === active}
                             onClick={() => {
                                 swapNote(note.id)
                             }}
@@ -35,6 +37,7 @@ const NoteList: React.FC<NoteListProps> = ({ notes, swapNote }) => {
 
 const mapStateToProps = (state) => ({
     notes: state.noteState.data,
+    active: state.noteState.active,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -50,10 +53,11 @@ const Sidebar = styled.aside`
 
 const NoteListContainer = styled.div``
 
-const NoteTitle = styled.div`
+const NoteTitle = styled.div<{ active: boolean }>`
     cursor: pointer;
     padding: 1rem;
     border-bottom: 2px solid ${Colors.HOVER};
+    background: ${({ active }) => active && Colors.ACTIVE};
     &:hover {
         background: ${Colors.HOVER};
     }

@@ -15,30 +15,32 @@ import styled from 'styled-components'
 
 interface NoteEditorProps {
     loading: boolean
-    note: NoteItem
+    activeNote: NoteItem
     updateNote: Function
     loadNotes: Function
 }
 
-const NoteEditor: React.FC<NoteEditorProps> = ({ loading, note, updateNote, loadNotes }) => {
+const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote, loadNotes }) => {
     useEffect(() => {
         loadNotes()
     }, [loadNotes])
 
     if (loading) {
         return <EditorEmpty />
+    } else if (!activeNote) {
+        return <div>Создать первую запись</div>
     } else {
         return (
             <Editor
                 className="editor"
-                value={note.text}
+                value={activeNote.text}
                 options={options}
                 editorDidMount={(editor) => {
                     editor.focus()
                     editor.setCursor(editor.lineCount(), 0)
                 }}
                 onBeforeChange={(editor, data, value) => {
-                    updateNote({ id: note.id, text: value })
+                    updateNote({ id: activeNote.id, text: value })
                 }}
                 onChange={(editor, data, value) => {
                     editor.focus()
@@ -51,7 +53,8 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, note, updateNote, load
 
 const mapStateToProps = (state) => ({
     loading: state.noteState.loading,
-    note: state.noteState.data.find((note) => note.id === state.noteState.active),
+    activeNote: state.noteState.data.find((note) => note.id === state.noteState.active),
+    notes: state.noteState.data,
     active: state.noteState.active,
 })
 
