@@ -1,17 +1,22 @@
 import { ActionType } from 'constants/enums'
-import { NoteItem } from 'types'
+import { NoteState } from 'types'
 import { loadNotes } from './../actions/index'
 import { v4 as uuid } from 'uuid'
 
-const initialState = {
-    data: [] as NoteItem[],
-    active: null,
+const initialState: NoteState = {
+    data: [],
+    active: '',
+    error: '',
     loading: true,
-    error: null,
 }
 
-const noteReducer = (state = initialState, action) => {
+const noteReducer = (state = initialState, action): NoteState => {
     switch (action.type) {
+        case ActionType.PRUNE_NOTES:
+            return {
+                ...state,
+                data: state.data.filter((note) => note.text !== ''),
+            }
         case ActionType.LOAD_NOTES:
             return state
         case ActionType.LOAD_NOTES_SUCCESS:
@@ -55,7 +60,7 @@ const noteReducer = (state = initialState, action) => {
             }
         case ActionType.DELETE_NOTE:
             const noteIndex = state.data.findIndex((note) => note.id === action.payload)
-            const newActiveNoteId = state.data[noteIndex - 1] ? state.data[noteIndex - 1].id : null
+            const newActiveNoteId = state.data[noteIndex - 1] ? state.data[noteIndex - 1].id : ''
 
             return {
                 ...state,

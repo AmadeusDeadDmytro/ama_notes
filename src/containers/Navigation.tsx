@@ -1,4 +1,4 @@
-import { addNote, deleteNote, swapNote } from 'actions'
+import { addNote, deleteNote, pruneNotes, swapNote } from 'actions'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
@@ -10,20 +10,20 @@ import { v4 as uuid } from 'uuid'
 
 interface NavigationProps {
     addNote: Function
-    active: string
+    pruneNotes: Function
     activeNote: NoteItem
     deleteNote: Function
     swapNote: Function
 }
 
-const Navigation: React.FC<NavigationProps> = ({ addNote, active, activeNote, deleteNote, swapNote }) => {
+const Navigation: React.FC<NavigationProps> = ({ addNote, pruneNotes, activeNote, deleteNote, swapNote }) => {
     return (
         <NavigationContainer>
             <NavButton
                 onClick={() => {
                     const note = {
                         id: uuid(),
-                        text: 'новая запись',
+                        text: '',
                         created: '',
                         lastUpdated: '',
                     }
@@ -36,7 +36,9 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, active, activeNote, de
             </NavButton>
             <NavButton
                 onClick={() => {
-                    deleteNote(activeNote.id)
+                    if (activeNote) {
+                        deleteNote(activeNote.id)
+                    }
                 }}
             >
                 X Удалить запись
@@ -47,7 +49,6 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, active, activeNote, de
 
 const mapStateToProps = (state) => ({
     state,
-    active: state.noteState.active,
     activeNote: state.noteState.data.find((note) => note.id === state.noteState.active),
 })
 
@@ -55,6 +56,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     addNote: (note) => dispatch(addNote(note)),
     swapNote: (noteId) => dispatch(swapNote(noteId)),
     deleteNote: (noteId) => dispatch(deleteNote(noteId)),
+    pruneNotes: () => dispatch(pruneNotes()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation)

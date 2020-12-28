@@ -24,3 +24,7 @@ export const swapNote = (noteId: string) => ({
 export const loadNotes = () => ({
     type: ActionType.LOAD_NOTES,
 })
+
+export const pruneNotes = () => ({
+    type: ActionType.PRUNE_NOTES,
+})
