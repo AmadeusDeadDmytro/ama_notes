@@ -1,11 +1,11 @@
 import { addNote, deleteNote, swapNote, syncState } from 'actions'
+import { downloadNote, getNoteTitle } from 'helpers'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
 import { NoteItem } from 'types'
 import React from 'react'
 import { connect } from 'react-redux'
-import { getNoteTitle } from 'helpers'
 import styled from 'styled-components'
 import { v4 as uuid } from 'uuid'
 
@@ -20,20 +20,6 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote, swapNote, syncState, notes, syncing }) => {
-    const downloadNote = (filename, text) => {
-        var pom = document.createElement('a')
-        pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
-        pom.setAttribute('download', `${filename}.md`)
-
-        if (document.createEvent) {
-            var event = document.createEvent('MouseEvents')
-            event.initEvent('click', true, true)
-            pom.dispatchEvent(event)
-        } else {
-            pom.click()
-        }
-    }
-
     return (
         <NavigationContainer>
             <NavButton
