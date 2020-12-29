@@ -1,4 +1,4 @@
-import { addNote, deleteNote, pruneNotes, swapNote } from 'actions'
+import { addNote, deleteNote, swapNote } from 'actions'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
@@ -10,13 +10,12 @@ import { v4 as uuid } from 'uuid'
 
 interface NavigationProps {
     addNote: Function
-    pruneNotes: Function
     activeNote: NoteItem
     deleteNote: Function
     swapNote: Function
 }
 
-const Navigation: React.FC<NavigationProps> = ({ addNote, pruneNotes, activeNote, deleteNote, swapNote }) => {
+const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote, swapNote }) => {
     return (
         <NavigationContainer>
             <NavButton
@@ -28,8 +27,10 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, pruneNotes, activeNote
                         lastUpdated: '',
                     }
 
-                    addNote(note)
-                    swapNote(note.id)
+                    if (activeNote.text !== '') {
+                        addNote(note)
+                        swapNote(note.id)
+                    }
                 }}
             >
                 + Новая запись
@@ -56,7 +57,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     addNote: (note) => dispatch(addNote(note)),
     swapNote: (noteId) => dispatch(swapNote(noteId)),
     deleteNote: (noteId) => dispatch(deleteNote(noteId)),
-    pruneNotes: () => dispatch(pruneNotes()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation)
