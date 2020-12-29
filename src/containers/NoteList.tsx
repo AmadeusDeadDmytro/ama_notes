@@ -5,6 +5,7 @@ import { Dispatch } from 'redux'
 import { NoteItem } from 'types'
 import React from 'react'
 import { connect } from 'react-redux'
+import { getNoteTitle } from 'helpers'
 import styled from 'styled-components'
 
 interface NoteListProps {
@@ -19,15 +20,7 @@ const NoteList: React.FC<NoteListProps> = ({ active, notes, swapNote, pruneNotes
         <Sidebar>
             <NoteListContainer>
                 {notes.map((note) => {
-                    let noteTitle: string
-
-                    if (!note.text) {
-                        noteTitle = 'Новая запись'
-                    } else if (note.text.indexOf('\n') !== -1) {
-                        noteTitle = note.text.slice(0, note.text.indexOf('\n'))
-                    } else {
-                        noteTitle = note.text.slice(0, 50)
-                    }
+                    const noteTitle: string = getNoteTitle(note.text)
 
                     return (
                         <NoteTitle
