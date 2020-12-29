@@ -27,7 +27,7 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote
                         lastUpdated: '',
                     }
 
-                    if (activeNote.text !== '') {
+                    if ((activeNote && activeNote.text !== '') || !activeNote) {
                         addNote(note)
                         swapNote(note.id)
                     }
@@ -70,7 +70,7 @@ const NavButton = styled.button`
     font-size: 1rem;
 
     &:hover {
-        background: rgba(0, 0, 0, 0.1);
+        background: ${Colors.HOVER};
     }
 `
 

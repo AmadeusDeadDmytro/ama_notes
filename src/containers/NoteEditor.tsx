@@ -7,6 +7,7 @@ import React, { useEffect } from 'react'
 import { loadNotes, updateNote } from 'actions'
 
 import { Controlled as CodeMirror } from 'react-codemirror2'
+import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
 import { NoteItem } from 'types'
 import { connect } from 'react-redux'
@@ -26,9 +27,9 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote
     }, [loadNotes])
 
     if (loading) {
-        return <EditorEmpty />
+        return <EmptyEditor />
     } else if (!activeNote) {
-        return <div>Создать первую запись</div>
+        return <EmptyEditorCenter>Создать первую запись</EmptyEditorCenter>
     } else {
         return (
             <Editor
@@ -65,7 +66,17 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteEditor)
 
-const EditorEmpty = styled.div``
+const EmptyEditor = styled.div`
+    grid-area: editor;
+    background: ${Colors.EMPTY_EDITOR};
+    width: 100%;
+`
+
+const EmptyEditorCenter = styled(EmptyEditor)`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
 
 const Editor = styled(CodeMirror)`
     grid-area: editor;
