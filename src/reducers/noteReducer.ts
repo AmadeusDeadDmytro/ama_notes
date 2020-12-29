@@ -8,7 +8,6 @@ const initialState: NoteState = {
     active: '',
     error: '',
     loading: true,
-    syncing: false,
 }
 
 const noteReducer = (state = initialState, action): NoteState => {
@@ -79,22 +78,6 @@ const noteReducer = (state = initialState, action): NoteState => {
                 ...state,
                 notes: state.notes.filter((note) => note.id !== action.payload),
                 active: newActiveNoteId,
-            }
-        case ActionType.SYNC_STATE:
-            return {
-                ...state,
-                syncing: true,
-            }
-        case ActionType.SYNC_STATE_SUCCESS:
-            return {
-                ...state,
-                syncing: false,
-            }
-        case ActionType.SYNC_STATE_ERROR:
-            return {
-                ...state,
-                syncing: false,
-                error: action.payload,
             }
         default:
             return state

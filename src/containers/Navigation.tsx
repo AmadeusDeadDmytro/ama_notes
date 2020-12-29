@@ -1,9 +1,9 @@
+import { CategoryItem, NoteItem } from 'types'
 import { addNote, deleteNote, swapNote, syncState } from 'actions'
 import { downloadNote, getNoteTitle } from 'helpers'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
-import { NoteItem } from 'types'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
@@ -16,10 +16,11 @@ interface NavigationProps {
     swapNote: Function
     syncState: Function
     notes: NoteItem[]
+    categories: CategoryItem[]
     syncing: boolean
 }
 
-const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote, swapNote, syncState, notes, syncing }) => {
+const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote, swapNote, syncState, notes, syncing, categories }) => {
     const newNoteHandler = () => {
         const note = {
             id: uuid(),
@@ -41,7 +42,7 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote
     }
 
     const syncNoteHandler = () => {
-        syncState(notes)
+        syncState(notes, categories)
     }
 
     const downloadHandler = () => {
@@ -64,8 +65,9 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote
 }
 
 const mapStateToProps = (state) => ({
-    syncing: state.noteState.syncing,
+    syncing: state.syncState.syncing,
     notes: state.noteState.notes,
+    categories: state.categoryState.categories,
     activeNote: state.noteState.notes.find((note) => note.id === state.noteState.active),
 })
 
@@ -73,7 +75,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     addNote: (note) => dispatch(addNote(note)),
     swapNote: (noteId) => dispatch(swapNote(noteId)),
     deleteNote: (noteId) => dispatch(deleteNote(noteId)),
-    syncState: (notes) => dispatch(syncState(notes)),
+    syncState: (notes, categories) => dispatch(syncState(notes, categories)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation)

@@ -4,9 +4,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-const CategoryList: React.FC = () => {
+const AppSidebar: React.FC = () => {
     return (
-        <CategorySidebar>
+        <AppSidebarContainer>
+            <AllCategories>Все записи</AllCategories>
             <CategoryListContainer>
                 {[1, 2, 3].map((category) => {
                     return (
@@ -16,7 +17,8 @@ const CategoryList: React.FC = () => {
                     )
                 })}
             </CategoryListContainer>
-        </CategorySidebar>
+            <AddCategory>Добавить категорию</AddCategory>
+        </AppSidebarContainer>
     )
 }
 
@@ -24,17 +26,21 @@ const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryList)
+export default connect(mapStateToProps, mapDispatchToProps)(AppSidebar)
 
-const CategorySidebar = styled.aside`
-    grid-area: category-sidebar;
+const AppSidebarContainer = styled.aside`
+    grid-area: app-sidebar;
     background: ${Colors.BACKGROUND_DARK_ONE};
 `
+
+const AllCategories = styled.div``
+const AddCategory = styled.div``
 
 const CategoryListContainer = styled.div``
 const CategoryEach = styled.div<{ active: boolean }>`
     cursor: pointer;
     padding: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
     border-bottom: 2px solid ${Colors.BACKGROUND_DARK_TWO};
     background: ${({ active }) => active && Colors.ACTIVE};
 
