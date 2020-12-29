@@ -1,4 +1,8 @@
+import 'mousetrap-global-bind'
+
 import { useEffect, useRef } from 'react'
+
+import mousetrap from 'mousetrap'
 
 const noop = () => {}
 
@@ -26,5 +30,3 @@ export const useInterval = (callback: () => void, delay: number | null, immediat
         return () => clearInterval(id)
     }, [delay])
 }
-
-export default useInterval

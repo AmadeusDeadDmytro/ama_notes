@@ -33,7 +33,7 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote
     } else {
         return (
             <Editor
-                className="editor"
+                className="mousetrap"
                 value={activeNote.text}
                 options={options}
                 editorDidMount={(editor) => {

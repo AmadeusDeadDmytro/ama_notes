@@ -17,13 +17,13 @@ interface NoteListProps {
 
 const NoteList: React.FC<NoteListProps> = ({ active, notes, swapNote, pruneNotes }) => {
     return (
-        <Sidebar>
+        <NoteSidebar>
             <NoteListContainer>
                 {notes.map((note) => {
                     const noteTitle: string = getNoteTitle(note.text)
 
                     return (
-                        <NoteTitle
+                        <NoteEach
                             key={note.id}
                             active={note.id === active}
                             onClick={() => {
@@ -34,11 +34,11 @@ const NoteList: React.FC<NoteListProps> = ({ active, notes, swapNote, pruneNotes
                             }}
                         >
                             {noteTitle}
-                        </NoteTitle>
+                        </NoteEach>
                     )
                 })}
             </NoteListContainer>
-        </Sidebar>
+        </NoteSidebar>
     )
 }
 
@@ -54,16 +54,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteList)
 
-const Sidebar = styled.aside`
-    grid-area: sidebar;
+const NoteSidebar = styled.aside`
+    grid-area: note-sidebar;
     background: ${Colors.BACKGROUND};
 `
 
 const NoteListContainer = styled.div``
 
-const NoteTitle = styled.div<{ active: boolean }>`
+const NoteEach = styled.div<{ active: boolean }>`
     cursor: pointer;
-    padding: 1rem;
+    padding: 0.5rem;
     border-bottom: 2px solid ${Colors.HOVER};
     background: ${({ active }) => active && Colors.ACTIVE};
     &:hover {

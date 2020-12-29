@@ -20,48 +20,42 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote, swapNote, syncState, notes, syncing }) => {
+    const newNoteHandler = () => {
+        const note = {
+            id: uuid(),
+            text: '',
+            created: '',
+            lastUpdated: '',
+        }
+
+        if ((activeNote && activeNote.text !== '') || !activeNote) {
+            addNote(note)
+            swapNote(note.id)
+        }
+    }
+
+    const deleteHandler = () => {
+        if (activeNote) {
+            deleteNote(activeNote.id)
+        }
+    }
+
+    const syncNoteHandler = () => {
+        syncState(notes)
+    }
+
+    const downloadHandler = () => {
+        if (activeNote) {
+            downloadNote(getNoteTitle(activeNote.text), activeNote.text)
+        }
+    }
+
     return (
         <NavigationContainer>
-            <NavButton
-                onClick={async () => {
-                    const note = {
-                        id: uuid(),
-                        text: '',
-                        created: '',
-                        lastUpdated: '',
-                    }
-
-                    if ((activeNote && activeNote.text !== '') || !activeNote) {
-                        await addNote(note)
-                        swapNote(note.id)
-                    }
-                }}
-            >
-                + Новая запись
-            </NavButton>
-            <NavButton
-                onClick={() => {
-                    if (activeNote) {
-                        deleteNote(activeNote.id)
-                    }
-                }}
-            >
-                x Удалить запись
-            </NavButton>
-            <NavButton
-                onClick={() => {
-                    if (activeNote) {
-                        downloadNote(getNoteTitle(activeNote.text), activeNote.text)
-                    }
-                }}
-            >
-                ^ Скачать запись
-            </NavButton>
-            <NavButton
-                onClick={() => {
-                    syncState(notes)
-                }}
-            >
+            <NavButton onClick={newNoteHandler}>+ Новая запись</NavButton>
+            <NavButton onClick={deleteHandler}>x Удалить запись</NavButton>
+            <NavButton onClick={downloadHandler}>^ Скачать запись</NavButton>
+            <NavButton onClick={syncNoteHandler}>
                 Синхронизировать записи
                 {syncing && 'Синхронизация...'}
             </NavButton>
