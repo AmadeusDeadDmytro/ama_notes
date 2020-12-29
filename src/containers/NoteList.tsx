@@ -34,8 +34,10 @@ const NoteList: React.FC<NoteListProps> = ({ active, notes, swapNote, pruneNotes
                             key={note.id}
                             active={note.id === active}
                             onClick={() => {
-                                swapNote(note.id)
-                                pruneNotes()
+                                if (note.id !== active) {
+                                    swapNote(note.id)
+                                    pruneNotes()
+                                }
                             }}
                         >
                             {noteTitle}
@@ -48,7 +50,7 @@ const NoteList: React.FC<NoteListProps> = ({ active, notes, swapNote, pruneNotes
 }
 
 const mapStateToProps = (state) => ({
-    notes: state.noteState.data,
+    notes: state.noteState.notes,
     active: state.noteState.active,
 })
 
