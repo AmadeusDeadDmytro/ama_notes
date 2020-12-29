@@ -28,3 +28,8 @@ export const loadNotes = () => ({
 export const pruneNotes = () => ({
     type: ActionType.PRUNE_NOTES,
 })
+
+export const syncState = (notes: NoteItem[]) => ({
+    type: ActionType.SYNC_STATE,
+    payload: notes,
+})

@@ -1,4 +1,4 @@
-import { addNote, deleteNote, swapNote } from 'actions'
+import { addNote, deleteNote, swapNote, syncState } from 'actions'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
@@ -14,9 +14,12 @@ interface NavigationProps {
     activeNote: NoteItem
     deleteNote: Function
     swapNote: Function
+    syncState: Function
+    notes: NoteItem[]
+    syncing: boolean
 }
 
-const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote, swapNote }) => {
+const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote, swapNote, syncState, notes, syncing }) => {
     const downloadNote = (filename, text) => {
         var pom = document.createElement('a')
         pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
@@ -34,7 +37,7 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote
     return (
         <NavigationContainer>
             <NavButton
-                onClick={() => {
+                onClick={async () => {
                     const note = {
                         id: uuid(),
                         text: '',
@@ -43,7 +46,7 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote
                     }
 
                     if ((activeNote && activeNote.text !== '') || !activeNote) {
-                        addNote(note)
+                        await addNote(note)
                         swapNote(note.id)
                     }
                 }}
@@ -68,12 +71,21 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote
             >
                 ^ Скачать запись
             </NavButton>
+            <NavButton
+                onClick={() => {
+                    syncState(notes)
+                }}
+            >
+                Синхронизировать записи
+                {syncing && 'Синхронизация...'}
+            </NavButton>
         </NavigationContainer>
     )
 }
 
 const mapStateToProps = (state) => ({
-    state,
+    syncing: state.noteState.syncing,
+    notes: state.noteState.notes,
     activeNote: state.noteState.notes.find((note) => note.id === state.noteState.active),
 })
 
@@ -81,6 +93,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     addNote: (note) => dispatch(addNote(note)),
     swapNote: (noteId) => dispatch(swapNote(noteId)),
     deleteNote: (noteId) => dispatch(deleteNote(noteId)),
+    syncState: (notes) => dispatch(syncState(notes)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation)
