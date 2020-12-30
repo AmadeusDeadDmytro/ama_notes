@@ -13,10 +13,15 @@ import options from 'constants/codeMirrorOptions'
 import styled from 'styled-components'
 import { updateNote } from 'actions'
 
+interface UpdateNoteParams {
+    id: string
+    text: string
+}
+
 interface NoteEditorProps {
     loading: boolean
     activeNote: NoteItem
-    updateNote: Function
+    updateNote: (params: UpdateNoteParams) => void
 }
 
 const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote }) => {
@@ -32,15 +37,11 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote
                 options={options}
                 editorDidMount={(editor) => {
                     editor.focus()
-                    editor.setCursor(editor.lineCount(), 0)
                 }}
                 onBeforeChange={(editor, data, value) => {
                     updateNote({ id: activeNote.id, text: value })
                 }}
-                onChange={(editor, data, value) => {
-                    editor.focus()
-                    editor.setCursor(editor.lineCount(), 0)
-                }}
+                onChange={(editor, data, value) => {}}
             />
         )
     }
@@ -61,8 +62,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(NoteEditor)
 
 const EmptyEditor = styled.div`
     grid-area: editor;
-    background: ${Colors.EMPTY_EDITOR};
-    width: 100%;
+    max-height: calc(100vh - 25px);
+    overflow-y: auto;
 `
 
 const EmptyEditorCenter = styled(EmptyEditor)`

@@ -22,8 +22,6 @@ function* fetchCategories() {
 }
 
 function* syncState(state) {
-    console.log('s', state)
-
     try {
         yield saveState(state)
 

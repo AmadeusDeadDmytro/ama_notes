@@ -9,7 +9,7 @@ import kebabCase from 'lodash/kebabCase'
 import styled from 'styled-components'
 
 interface AppProps {
-    addCategory: Function
+    addCategory: (categoryName: CategoryItem) => void
     categories: CategoryItem[]
 }
 
@@ -129,13 +129,19 @@ const AddCategoryButton = styled.button`
     }
 `
 
-const CategoryListContainer = styled.div``
+const CategoryListContainer = styled.div`
+    font-size: 0.9rem;
+`
 const CategoryEach = styled.div<{ active: boolean }>`
     cursor: pointer;
     padding: 0.5rem;
     color: rgba(255, 255, 255, 0.8);
     border-bottom: 2px solid ${Colors.BACKGROUND_DARK_TWO};
     background: ${({ active }) => active && Colors.ACTIVE};
+
+    &:last-of-type {
+        border-bottom: none;
+    }
 
     &:hover {
         background: ${Colors.BACKGROUND_DARK_THREE};

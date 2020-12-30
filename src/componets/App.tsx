@@ -11,8 +11,8 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 interface AppProps {
-    loadNotes: Function
-    loadCategories: Function
+    loadNotes: () => void
+    loadCategories: () => void
 }
 
 const App: React.FC<AppProps> = ({ loadNotes, loadCategories }) => {

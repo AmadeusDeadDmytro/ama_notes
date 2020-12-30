@@ -39,7 +39,7 @@ const categoryReducer = (state = initialState, action): CategoryState => {
             return {
                 ...state,
                 categories: state.categories.map((category) => {
-                    return category.id === action.payload.id ? { id: category.id, name: action.payload.title } : category
+                    return category.id === action.payload.id ? { id: category.id, name: action.payload.name } : category
                 }),
             }
         case ActionType.DELETE_CATEGORY:

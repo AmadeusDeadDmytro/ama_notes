@@ -10,11 +10,11 @@ import styled from 'styled-components'
 import { v4 as uuid } from 'uuid'
 
 interface NavigationProps {
-    addNote: Function
+    addNote: (note: NoteItem) => void
+    swapNote: (noteId: string) => void
+    deleteNote: (noteId: string) => void
+    syncState: (notes: NoteItem[], categories: CategoryItem[]) => void
     activeNote: NoteItem
-    deleteNote: Function
-    swapNote: Function
-    syncState: Function
     notes: NoteItem[]
     categories: CategoryItem[]
     syncing: boolean
@@ -22,7 +22,7 @@ interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote, swapNote, syncState, notes, syncing, categories }) => {
     const newNoteHandler = () => {
-        const note = {
+        const note: NoteItem = {
             id: uuid(),
             text: '',
             created: '',
