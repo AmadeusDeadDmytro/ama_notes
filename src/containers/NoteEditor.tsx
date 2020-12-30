@@ -3,29 +3,23 @@ import 'codemirror/theme/base16-light.css'
 import 'codemirror/mode/gfm/gfm.js'
 import 'codemirror/addon/selection/active-line.js'
 
-import React, { useEffect } from 'react'
-import { loadNotes, updateNote } from 'actions'
-
 import { Controlled as CodeMirror } from 'react-codemirror2'
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
 import { NoteItem } from 'types'
+import React from 'react'
 import { connect } from 'react-redux'
 import options from 'constants/codeMirrorOptions'
 import styled from 'styled-components'
+import { updateNote } from 'actions'
 
 interface NoteEditorProps {
     loading: boolean
     activeNote: NoteItem
     updateNote: Function
-    loadNotes: Function
 }
 
-const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote, loadNotes }) => {
-    useEffect(() => {
-        loadNotes()
-    }, [loadNotes])
-
+const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote }) => {
     if (loading) {
         return <EmptyEditor />
     } else if (!activeNote) {
@@ -60,7 +54,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    loadNotes: () => dispatch(loadNotes()),
     updateNote: (note: any) => dispatch(updateNote(note)),
 })
 

@@ -6,6 +6,8 @@ const colors = {
     HOVER: '#9BB1BF',
     ACTIVE: '#829eb0',
     EMPTY_EDITOR: '#a7c8bb',
+    A_COLOR_ONE: '#bfbfbf', ///888
+    A_COLOR_TWO: '#f0f0f0', ///eee
 }
 
 export default colors
