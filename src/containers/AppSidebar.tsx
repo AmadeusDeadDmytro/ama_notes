@@ -1,6 +1,6 @@
+import { ApplicationState, CategoryItem } from 'types'
 import React, { useState } from 'react'
 
-import { CategoryItem } from 'types'
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
 import { addCategory } from 'actions'
@@ -9,7 +9,7 @@ import kebabCase from 'lodash/kebabCase'
 import styled from 'styled-components'
 
 interface AppProps {
-    addCategory: (categoryName: CategoryItem) => void
+    addCategory: (category: CategoryItem) => void
     categories: CategoryItem[]
 }
 
@@ -69,12 +69,12 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, categories }) => {
     )
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: ApplicationState) => ({
     categories: state.categoryState.categories,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    addCategory: (category) => dispatch(addCategory(category)),
+    addCategory: (category: CategoryItem) => dispatch(addCategory(category)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppSidebar)

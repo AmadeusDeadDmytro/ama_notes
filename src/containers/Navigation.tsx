@@ -1,4 +1,4 @@
-import { CategoryItem, NoteItem } from 'types'
+import { ApplicationState, CategoryItem, NoteItem } from 'types'
 import { addNote, deleteNote, swapNote, syncState } from 'actions'
 import { downloadNote, getNoteTitle } from 'helpers'
 
@@ -14,7 +14,7 @@ interface NavigationProps {
     swapNote: (noteId: string) => void
     deleteNote: (noteId: string) => void
     syncState: (notes: NoteItem[], categories: CategoryItem[]) => void
-    activeNote: NoteItem
+    activeNote?: NoteItem
     notes: NoteItem[]
     categories: CategoryItem[]
     syncing: boolean
@@ -64,7 +64,7 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote
     )
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: ApplicationState) => ({
     syncing: state.syncState.syncing,
     notes: state.noteState.notes,
     categories: state.categoryState.categories,
@@ -72,10 +72,10 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    addNote: (note) => dispatch(addNote(note)),
-    swapNote: (noteId) => dispatch(swapNote(noteId)),
-    deleteNote: (noteId) => dispatch(deleteNote(noteId)),
-    syncState: (notes, categories) => dispatch(syncState(notes, categories)),
+    addNote: (note: NoteItem) => dispatch(addNote(note)),
+    swapNote: (noteId: string) => dispatch(swapNote(noteId)),
+    deleteNote: (noteId: string) => dispatch(deleteNote(noteId)),
+    syncState: (notes: NoteItem[], categories: CategoryItem[]) => dispatch(syncState(notes, categories)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation)

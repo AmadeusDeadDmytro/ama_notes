@@ -1,8 +1,8 @@
+import { ApplicationState, NoteItem } from 'types'
 import { pruneNotes, swapNote } from 'actions'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
-import { NoteItem } from 'types'
 import React from 'react'
 import { connect } from 'react-redux'
 import { getNoteTitle } from 'helpers'
@@ -42,13 +42,13 @@ const NoteList: React.FC<NoteListProps> = ({ active, notes, swapNote, pruneNotes
     )
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: ApplicationState) => ({
     notes: state.noteState.notes,
     active: state.noteState.active,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    swapNote: (noteId) => dispatch(swapNote(noteId)),
+    swapNote: (noteId: string) => dispatch(swapNote(noteId)),
     pruneNotes: () => dispatch(pruneNotes()),
 })
 

@@ -3,30 +3,26 @@ import 'codemirror/theme/base16-light.css'
 import 'codemirror/mode/gfm/gfm.js'
 import 'codemirror/addon/selection/active-line.js'
 
+import { ApplicationState, NoteItem } from 'types'
+
 import { Controlled as CodeMirror } from 'react-codemirror2'
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
-import { NoteItem } from 'types'
 import React from 'react'
 import { connect } from 'react-redux'
 import options from 'constants/codeMirrorOptions'
 import styled from 'styled-components'
 import { updateNote } from 'actions'
 
-interface UpdateNoteParams {
-    id: string
-    text: string
-}
-
 interface NoteEditorProps {
     loading: boolean
-    activeNote: NoteItem
-    updateNote: (params: UpdateNoteParams) => void
+    activeNote?: NoteItem
+    updateNote: (note: NoteItem) => void
 }
 
 const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote }) => {
     if (loading) {
-        return <EmptyEditor />
+        return <EmptyEditor>Загрузка...</EmptyEditor>
     } else if (!activeNote) {
         return <EmptyEditorCenter>Создать первую запись</EmptyEditorCenter>
     } else {
@@ -39,7 +35,7 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote
                     editor.focus()
                 }}
                 onBeforeChange={(editor, data, value) => {
-                    updateNote({ id: activeNote.id, text: value })
+                    updateNote({ id: activeNote.id, text: value, created: '', lastUpdated: '' })
                 }}
                 onChange={(editor, data, value) => {}}
             />
@@ -47,15 +43,13 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: ApplicationState) => ({
     loading: state.noteState.loading,
     activeNote: state.noteState.notes.find((note) => note.id === state.noteState.active),
-    notes: state.noteState.notes,
-    active: state.noteState.active,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    updateNote: (note: any) => dispatch(updateNote(note)),
+    updateNote: (note: NoteItem) => dispatch(updateNote(note)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteEditor)
@@ -64,6 +58,9 @@ const EmptyEditor = styled.div`
     grid-area: editor;
     max-height: calc(100vh - 25px);
     overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `
 
 const EmptyEditorCenter = styled(EmptyEditor)`

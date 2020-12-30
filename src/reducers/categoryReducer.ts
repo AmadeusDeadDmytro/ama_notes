@@ -1,5 +1,6 @@
-import { ActionType } from 'constants/enums'
-import { CategoryState } from 'types'
+import { CategoryActionTypes, CategoryState } from 'types'
+
+import { Actions } from 'constants/enums'
 
 const initialState: CategoryState = {
     categories: [],
@@ -8,41 +9,34 @@ const initialState: CategoryState = {
     loading: true,
 }
 
-const categoryReducer = (state = initialState, action): CategoryState => {
+const categoryReducer = (state = initialState, action: CategoryActionTypes): CategoryState => {
     switch (action.type) {
-        case ActionType.LOAD_CATEGORIES:
+        case Actions.LOAD_CATEGORIES:
             return initialState
-        case ActionType.LOAD_NOTES_SUCCESS:
-            return {
-                ...state,
-                categories: action.payload,
-                active: '',
-                loading: false,
-            }
-        case ActionType.LOAD_CATEGORIES_ERROR:
+        case Actions.LOAD_CATEGORIES_ERROR:
             return {
                 ...state,
                 loading: false,
                 error: action.payload,
             }
-        case ActionType.SWAP_CATEGORY:
+        case Actions.SWAP_CATEGORY:
             return {
                 ...state,
                 active: action.payload,
             }
-        case ActionType.ADD_CATEGORY:
+        case Actions.ADD_CATEGORY:
             return {
                 ...state,
                 categories: [...state.categories, action.payload],
             }
-        case ActionType.UPDATE_CATEGORY:
+        case Actions.UPDATE_CATEGORY:
             return {
                 ...state,
                 categories: state.categories.map((category) => {
                     return category.id === action.payload.id ? { id: category.id, name: action.payload.name } : category
                 }),
             }
-        case ActionType.DELETE_CATEGORY:
+        case Actions.DELETE_CATEGORY:
             const deletedCategoryIndex = state.categories.findIndex((category) => category.id === action.payload)
             let newActiveCategoryId = ''
 

@@ -1,38 +1,40 @@
 import { all, put, take, takeLatest } from 'redux-saga/effects'
+import { loadCategoriesError, loadCategoriesSuccess, loadNotesError, loadNotesSuccess, syncStateError, syncStateSuccess } from 'actions'
 import { requestCategories, requestNotes, saveState } from 'api'
 
-import { ActionType } from 'constants/enums'
+import { Actions } from 'constants/enums'
+import { SyncStateAction } from 'types/index'
 
 function* fetchNotes() {
     try {
-        const data = yield requestNotes()
-        yield put({ type: ActionType.LOAD_NOTES_SUCCESS, payload: data })
+        const notes = yield requestNotes()
+        yield put(loadNotesSuccess(notes))
     } catch (error) {
-        yield put({ type: ActionType.LOAD_NOTES_ERROR, payload: error.message })
+        yield put(loadNotesError(error))
     }
 }
 
 function* fetchCategories() {
     try {
-        const data = yield requestCategories()
-        yield put({ type: ActionType.LOAD_CATEGORIES_SUCCESS, payload: data })
+        const categories = yield requestCategories()
+        yield put(loadCategoriesSuccess(categories))
     } catch (error) {
-        yield put({ type: ActionType.LOAD_CATEGORIES_ERROR, payload: error.message })
+        yield put(loadCategoriesError(error))
     }
 }
 
-function* syncState(state) {
+function* postState({ payload: { notes, categories } }: SyncStateAction) {
     try {
-        yield saveState(state)
+        yield saveState(notes, categories)
 
-        yield put({ type: ActionType.SYNC_STATE_SUCCESS })
+        yield put(syncStateSuccess())
     } catch (error) {
-        yield put({ type: ActionType.SYNC_STATE_ERROR, payload: error.message })
+        yield put(syncStateError(error))
     }
 }
 
 export function* allSaga() {
-    yield all([takeLatest(ActionType.LOAD_NOTES, fetchNotes), takeLatest(ActionType.LOAD_CATEGORIES, fetchCategories), takeLatest(ActionType.SYNC_STATE, syncState)])
+    yield all([takeLatest(Actions.LOAD_NOTES, fetchNotes), takeLatest(Actions.LOAD_CATEGORIES, fetchCategories), takeLatest(Actions.SYNC_STATE, postState)])
 }
 
 export default allSaga
