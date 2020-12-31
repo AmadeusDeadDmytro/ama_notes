@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid'
 
 const initialState: NoteState = {
     notes: [],
-    active: '',
+    activeNoteId: '',
     error: '',
     loading: true,
 }
@@ -16,7 +16,7 @@ const noteReducer = (state = initialState, action: NotesActionTypes): NoteState 
         case Actions.PRUNE_NOTES:
             return {
                 ...state,
-                notes: state.notes.filter((note) => note.text !== '' || note.id === state.active),
+                notes: state.notes.filter((note) => note.text !== '' || note.id === state.activeNoteId),
             }
         case Actions.LOAD_NOTES:
             return initialState
@@ -24,7 +24,7 @@ const noteReducer = (state = initialState, action: NotesActionTypes): NoteState 
             return {
                 ...state,
                 notes: action.payload,
-                active: action.payload.length > 0 ? action.payload[0].id : '',
+                activeNoteId: action.payload.length > 0 ? action.payload[0].id : '',
                 loading: false,
             }
         case Actions.LOAD_NOTES_ERROR:
@@ -36,7 +36,7 @@ const noteReducer = (state = initialState, action: NotesActionTypes): NoteState 
         case Actions.SWAP_NOTE:
             return {
                 ...state,
-                active: action.payload,
+                activeNoteId: action.payload,
             }
         case Actions.ADD_NOTE:
             return {
@@ -78,7 +78,7 @@ const noteReducer = (state = initialState, action: NotesActionTypes): NoteState 
             return {
                 ...state,
                 notes: state.notes.filter((note) => note.id !== action.payload),
-                active: newActiveNoteId,
+                activeNoteId: newActiveNoteId,
             }
         default:
             return state

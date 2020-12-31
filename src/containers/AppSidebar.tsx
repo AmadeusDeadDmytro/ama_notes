@@ -1,19 +1,21 @@
 import { ApplicationState, CategoryItem } from 'types'
 import React, { useState } from 'react'
+import { addCategory, swapCategory } from 'actions'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
-import { addCategory } from 'actions'
 import { connect } from 'react-redux'
 import kebabCase from 'lodash/kebabCase'
 import styled from 'styled-components'
 
 interface AppProps {
     addCategory: (category: CategoryItem) => void
+    swapCategory: (categoryId: string) => void
     categories: CategoryItem[]
+    activeCategoryId: string
 }
 
-const AppSidebar: React.FC<AppProps> = ({ addCategory, categories }) => {
+const AppSidebar: React.FC<AppProps> = ({ addCategory, swapCategory, categories, activeCategoryId }) => {
     const [addingTempCategory, setAddingTempCategory] = useState(false)
     const [tempCategory, setTempCategory] = useState('')
 
@@ -31,7 +33,15 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, categories }) => {
                 <CategoryListContainer>
                     {categories.map((category) => {
                         return (
-                            <CategoryEach key={category.id} active={!category}>
+                            <CategoryEach
+                                key={category.id}
+                                active={category.id === activeCategoryId}
+                                onClick={() => {
+                                    if (category.id !== activeCategoryId) {
+                                        swapCategory(category.id)
+                                    }
+                                }}
+                            >
                                 {category.name}
                             </CategoryEach>
                         )
@@ -70,10 +80,12 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, categories }) => {
 }
 
 const mapStateToProps = (state: ApplicationState) => ({
+    activeCategoryId: state.categoryState.activeCategoryId,
     categories: state.categoryState.categories,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+    swapCategory: (categoryId: string) => dispatch(swapCategory(categoryId)),
     addCategory: (category: CategoryItem) => dispatch(addCategory(category)),
 })
 

@@ -10,6 +10,7 @@ import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
 import React from 'react'
 import { connect } from 'react-redux'
+import moment from 'moment'
 import options from 'constants/codeMirrorOptions'
 import styled from 'styled-components'
 import { updateNote } from 'actions'
@@ -35,7 +36,12 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote
                     editor.focus()
                 }}
                 onBeforeChange={(editor, data, value) => {
-                    updateNote({ id: activeNote.id, text: value, created: '', lastUpdated: '' })
+                    updateNote({
+                        id: activeNote.id,
+                        text: value,
+                        created: activeNote.created,
+                        lastUpdated: moment().format(),
+                    })
                 }}
                 onChange={(editor, data, value) => {}}
             />
@@ -45,7 +51,7 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote
 
 const mapStateToProps = (state: ApplicationState) => ({
     loading: state.noteState.loading,
-    activeNote: state.noteState.notes.find((note) => note.id === state.noteState.active),
+    activeNote: state.noteState.notes.find((note) => note.id === state.noteState.activeNoteId),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

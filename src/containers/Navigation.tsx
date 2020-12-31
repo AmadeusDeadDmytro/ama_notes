@@ -6,6 +6,7 @@ import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
 import React from 'react'
 import { connect } from 'react-redux'
+import moment from 'moment'
 import styled from 'styled-components'
 import { v4 as uuid } from 'uuid'
 
@@ -25,8 +26,8 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote
         const note: NoteItem = {
             id: uuid(),
             text: '',
-            created: '',
-            lastUpdated: '',
+            created: moment().format(),
+            lastUpdated: moment().format(),
         }
 
         if ((activeNote && activeNote.text !== '') || !activeNote) {
@@ -68,7 +69,7 @@ const mapStateToProps = (state: ApplicationState) => ({
     syncing: state.syncState.syncing,
     notes: state.noteState.notes,
     categories: state.categoryState.categories,
-    activeNote: state.noteState.notes.find((note) => note.id === state.noteState.active),
+    activeNote: state.noteState.notes.find((note) => note.id === state.noteState.activeNoteId),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
