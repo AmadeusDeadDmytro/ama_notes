@@ -23,11 +23,28 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, swapCategory, categories,
         !addingTempCategory && setAddingTempCategory(true)
     }
 
+    const onSubmit = (event) => {
+        event.preventDefault()
+
+        const category = { id: kebabCase(tempCategory), name: tempCategory }
+
+        addCategory(category)
+
+        setTempCategory('')
+        setAddingTempCategory(false)
+    }
+
     return (
         <AppSidebarContainer>
             <AppSidebarMain>
-                <Title>AmaNote</Title>
-                <AllNotes>Все записи</AllNotes>
+                <AppSidebarLink
+                    onClick={() => {
+                        swapCategory('')
+                    }}
+                >
+                    Все записи
+                </AppSidebarLink>
+
                 <AllCategories>Категории</AllCategories>
 
                 <CategoryListContainer>
@@ -49,23 +66,19 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, swapCategory, categories,
                 </CategoryListContainer>
 
                 {addingTempCategory && (
-                    <AddCategoryForm
-                        onSubmit={(event) => {
-                            event.preventDefault()
-
-                            const category = { id: kebabCase(tempCategory), name: tempCategory }
-
-                            addCategory(category)
-
-                            setTempCategory('')
-                            setAddingTempCategory(false)
-                        }}
-                    >
+                    <AddCategoryForm onSubmit={onSubmit}>
                         <CategoryNameInput
                             placeholder="Имя категории..."
                             autoFocus
                             onChange={(event) => {
                                 setTempCategory(event.target.value)
+                            }}
+                            onBlur={(event) => {
+                                if (!tempCategory) {
+                                    setAddingTempCategory(false)
+                                } else {
+                                    onSubmit(event)
+                                }
                             }}
                         />
                     </AddCategoryForm>
@@ -92,11 +105,23 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(AppSidebar)
 
 const AppSidebarContainer = styled.aside`
+    padding: 1rem 0;
     grid-area: app-sidebar;
     background: ${Colors.BACKGROUND_DARK_ONE};
     color: rgba(255, 255, 255, 0.8);
     display: flex;
     flex-direction: column;
+`
+
+const AppSidebarLink = styled.div`
+    padding: 0 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    &:hover {
+        background: ${Colors.A_COLOR_THREE};
+    }
 `
 
 const AppSidebarMain = styled.section`
@@ -112,7 +137,7 @@ const AllNotes = styled.p`
     padding: 0 0.5rem;
 `
 const AllCategories = styled.h2`
-    margin: 2rem 0 0;
+    margin: 1rem 0 0;
     color: ${Colors.A_COLOR_ONE};
     text-transform: uppercase;
     font-size: 0.7rem;
@@ -148,7 +173,6 @@ const CategoryEach = styled.div<{ active: boolean }>`
     cursor: pointer;
     padding: 0.5rem;
     color: rgba(255, 255, 255, 0.8);
-    border-bottom: 2px solid ${Colors.BACKGROUND_DARK_TWO};
     background: ${({ active }) => active && Colors.ACTIVE};
 
     &:last-of-type {

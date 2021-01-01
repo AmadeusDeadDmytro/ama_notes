@@ -44,7 +44,7 @@ export default connect(null, mapDispatchToProps)(App)
 const AppContainer = styled.div`
     display: grid;
     grid-template-areas: 'app-sidebar note-sidebar editor editor' 'nav nav nav nav';
-    grid-template-columns: 150px 250px auto;
+    grid-template-columns: 175px 250px auto;
     grid-template-rows: auto 25px;
     min-height: 100vh;
 `

@@ -36,7 +36,7 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote
         }
     }
 
-    const deleteHandler = () => {
+    const deleteNoteHandler = () => {
         if (activeNote) {
             deleteNote(activeNote.id)
         }
@@ -55,7 +55,7 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote
     return (
         <NavigationContainer>
             <NavButton onClick={newNoteHandler}>+ Новая запись</NavButton>
-            <NavButton onClick={deleteHandler}>x Удалить запись</NavButton>
+            <NavButton onClick={deleteNoteHandler}>x Удалить запись</NavButton>
             <NavButton onClick={downloadHandler}>^ Скачать запись</NavButton>
             <NavButton onClick={syncNoteHandler}>
                 Синхронизировать записи
