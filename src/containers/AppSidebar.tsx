@@ -1,6 +1,6 @@
-import { ApplicationState, CategoryItem } from 'types'
+import { ApplicationState, CategoryItem, NoteItem } from 'types'
 import React, { useState } from 'react'
-import { addCategory, swapCategory } from 'actions'
+import { addCategory, swapCategory, swapNote } from 'actions'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
@@ -11,11 +11,13 @@ import styled from 'styled-components'
 interface AppProps {
     addCategory: (category: CategoryItem) => void
     swapCategory: (categoryId: string) => void
+    swapNote: (swapNote: string) => void
+    notes: NoteItem[]
     categories: CategoryItem[]
     activeCategoryId: string
 }
 
-const AppSidebar: React.FC<AppProps> = ({ addCategory, swapCategory, categories, activeCategoryId }) => {
+const AppSidebar: React.FC<AppProps> = ({ addCategory, swapCategory, swapNote, notes, categories, activeCategoryId }) => {
     const [addingTempCategory, setAddingTempCategory] = useState(false)
     const [tempCategory, setTempCategory] = useState('')
 
@@ -39,7 +41,9 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, swapCategory, categories,
             <AppSidebarMain>
                 <AppSidebarLink
                     onClick={() => {
+                        const newNoteId = notes.length > 0 ? notes[0].id : ''
                         swapCategory('')
+                        swapNote(newNoteId)
                     }}
                 >
                     Все записи
@@ -54,8 +58,12 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, swapCategory, categories,
                                 key={category.id}
                                 active={category.id === activeCategoryId}
                                 onClick={() => {
+                                    const notesForNewCategory = notes.filter((note) => note.category === category.id)
+                                    const newNoteId = notesForNewCategory.length > 0 ? notesForNewCategory[0].id : ''
+
                                     if (category.id !== activeCategoryId) {
                                         swapCategory(category.id)
+                                        swapNote(newNoteId)
                                     }
                                 }}
                             >
@@ -95,9 +103,11 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, swapCategory, categories,
 const mapStateToProps = (state: ApplicationState) => ({
     activeCategoryId: state.categoryState.activeCategoryId,
     categories: state.categoryState.categories,
+    notes: state.noteState.notes,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+    swapNote: (noteId: string) => dispatch(swapNote(noteId)),
     swapCategory: (categoryId: string) => dispatch(swapCategory(categoryId)),
     addCategory: (category: CategoryItem) => dispatch(addCategory(category)),
 })

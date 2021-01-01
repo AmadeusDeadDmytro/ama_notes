@@ -44,6 +44,11 @@ export const pruneNotes = () => ({
     type: Actions.PRUNE_NOTES,
 })
 
+export const addCategoryToNote = (categoryId: string, noteId: string) => ({
+    type: Actions.ADD_CATEGORY_TO_NOTE,
+    payload: { categoryId, noteId },
+})
+
 // =================================================================================================================
 // Категории
 // =================================================================================================================

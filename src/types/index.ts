@@ -109,7 +109,24 @@ export interface PruneNotesAction {
     payload: string
 }
 
-export type NotesActionTypes = LoadNotesAction | LoadNotesSuccessAction | LoadNotesErrorAction | AddNoteAction | DeleteNoteAction | UpdateNoteAction | SwapNoteAction | PruneNotesAction
+export interface AddCategoryToNoteAction {
+    type: typeof Actions.ADD_CATEGORY_TO_NOTE
+    payload: {
+        categoryId: string
+        noteId: string
+    }
+}
+
+export type NotesActionTypes =
+    | LoadNotesAction
+    | LoadNotesSuccessAction
+    | LoadNotesErrorAction
+    | AddNoteAction
+    | DeleteNoteAction
+    | UpdateNoteAction
+    | SwapNoteAction
+    | PruneNotesAction
+    | AddCategoryToNoteAction
 
 /* Категории */
 

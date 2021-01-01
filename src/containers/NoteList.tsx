@@ -1,6 +1,6 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
 import React, { useEffect, useRef, useState } from 'react'
-import { pruneNotes, swapNote } from 'actions'
+import { addCategoryToNote, pruneNotes, swapCategory, swapNote } from 'actions'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
@@ -9,14 +9,18 @@ import { getNoteTitle } from 'helpers'
 import styled from 'styled-components'
 
 interface NoteListProps {
+    activeCategoryId: string
     activeNoteId: string
+    notes: NoteItem[]
     filteredNotes: NoteItem[]
     filteredCategories: CategoryItem[]
-    swapNote: Function
-    pruneNotes: Function
+    swapNote: (noteId: string) => void
+    swapCategory: (category: string) => void
+    pruneNotes: () => void
+    addCategoryToNote: (categoryId: string, noteId: string) => void
 }
 
-const NoteList: React.FC<NoteListProps> = ({ activeNoteId, filteredNotes, filteredCategories, swapNote, pruneNotes }) => {
+const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, notes, filteredNotes, filteredCategories, swapNote, swapCategory, pruneNotes, addCategoryToNote }) => {
     const [noteOptionsId, setNoteOptionsId] = useState('')
     const node = useRef<HTMLDivElement>(null)
 
@@ -68,9 +72,30 @@ const NoteList: React.FC<NoteListProps> = ({ activeNoteId, filteredNotes, filter
                             {noteOptionsId === note.id && (
                                 <NoteOptionsContext>
                                     <ContextActionTitle>Переместить в категорию</ContextActionTitle>
-                                    {filteredCategories.map((category) => (
-                                        <div key={category.id}>{category.name}</div>
-                                    ))}
+
+                                    <SelectElement
+                                        defaultValue=""
+                                        onChange={(event) => {
+                                            addCategoryToNote(event.target.value, note.id)
+                                            const notesForNewCategory = notes.filter((note) => note.category === event.target.value)
+                                            const newNoteId = notesForNewCategory.length > 0 ? notesForNewCategory[0].id : ''
+
+                                            if (event.target.value !== activeCategoryId) {
+                                                swapCategory(event.target.value)
+                                                swapNote(newNoteId)
+                                            }
+                                        }}
+                                    >
+                                        <SelectElementOption disabled value="">
+                                            Выберите категорию
+                                        </SelectElementOption>
+
+                                        {filteredCategories.map((category) => (
+                                            <SelectElementOption key={category.id} value={category.id}>
+                                                {category.name}
+                                            </SelectElementOption>
+                                        ))}
+                                    </SelectElement>
                                 </NoteOptionsContext>
                             )}
                         </NoteEach>
@@ -82,14 +107,18 @@ const NoteList: React.FC<NoteListProps> = ({ activeNoteId, filteredNotes, filter
 }
 
 const mapStateToProps = (state: ApplicationState) => ({
+    activeCategoryId: state.categoryState.activeCategoryId,
     activeNoteId: state.noteState.activeNoteId,
+    notes: state.noteState.notes,
     filteredNotes: state.categoryState.activeCategoryId ? state.noteState.notes.filter((note) => note.category === state.categoryState.activeCategoryId) : state.noteState.notes,
     filteredCategories: state.categoryState.categories.filter((category) => category.id !== state.categoryState.activeCategoryId),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     swapNote: (noteId: string) => dispatch(swapNote(noteId)),
+    swapCategory: (categoryId: string) => dispatch(swapCategory(categoryId)),
     pruneNotes: () => dispatch(pruneNotes()),
+    addCategoryToNote: (categoryId: string, noteId: string) => dispatch(addCategoryToNote(categoryId, noteId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteList)
@@ -117,7 +146,7 @@ const NoteEach = styled.div<{ active: boolean }>`
 `
 
 const NoteOptions = styled.div<{ active: boolean }>`
-    color: ${({ active }) => (active ? Colors.A_COLOR_FOUR : 'transparent')};
+    color: ${Colors.A_COLOR_FOUR};
     padding: 0.5rem;
     z-index: 1;
     cursor: pointer;
@@ -141,3 +170,12 @@ const ContextActionTitle = styled.h2`
     margin-top: 0;
     font-size: 1rem;
 `
+
+const SelectElement = styled.select`
+    -webkit-appearance: none;
+    font-size: 1rem;
+    padding: 0.5rem;
+    width: 100%;
+`
+
+const SelectElementOption = styled.option``
