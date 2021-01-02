@@ -21,10 +21,11 @@ interface NoteListProps {
 }
 
 const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, notes, filteredNotes, filteredCategories, swapNote, swapCategory, pruneNotes, addCategoryToNote }) => {
+    const initialSearchResults: NoteItem[] = filteredNotes
     const [noteOptionsId, setNoteOptionsId] = useState('')
     const node = useRef<HTMLDivElement>(null)
 
-    const handleNoteOptionsClick = (event: MouseEvent | React.MouseEvent<HTMLDivElement>, noteId: string = '') => {
+    const handleNoteOptionsClick = (event: MouseEvent | React.MouseEvent<HTMLDivElement> | React.ChangeEvent<HTMLSelectElement>, noteId: string = '') => {
         event.stopPropagation()
 
         if (node.current) {
@@ -40,6 +41,10 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
         }
     }
 
+    const searchNotes = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const filteredResults = filteredNotes.filter((note) => note.text.toLowerCase().search(event.target.value.toLowerCase()) !== -1)
+    }
+
     useEffect(() => {
         document.addEventListener('mousedown', handleNoteOptionsClick)
 
@@ -50,6 +55,7 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
 
     return (
         <NoteSidebar>
+            <Searchbar placeholder="Найти запись" onChange={searchNotes} type="search" />
             <NoteListContainer>
                 {filteredNotes.map((note) => {
                     const noteTitle: string = getNoteTitle(note.text)
@@ -84,6 +90,7 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
                                                 swapCategory(event.target.value)
                                                 swapNote(newNoteId)
                                             }
+                                            handleNoteOptionsClick(event)
                                         }}
                                     >
                                         <SelectElementOption disabled value="">
@@ -122,6 +129,24 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteList)
+
+const Searchbar = styled.input`
+    -webkit-appearance: textfield;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    padding: 1rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    background-color: white;
+    outline: none;
+    border-radius: 0;
+    border-width: 1px;
+    border-style: solid;
+    border-image: initial;
+    border-color: ${Colors.A_COLOR_TWO};
+`
 
 const NoteSidebar = styled.aside`
     grid-area: note-sidebar;

@@ -13,6 +13,13 @@ const categoryReducer = (state = initialState, action: CategoryActionTypes): Cat
     switch (action.type) {
         case Actions.LOAD_CATEGORIES:
             return initialState
+        case Actions.LOAD_CATEGORIES_SUCCESS:
+            return {
+                ...state,
+                categories: action.payload,
+                activeCategoryId: '',
+                loading: false,
+            }
         case Actions.LOAD_CATEGORIES_ERROR:
             return {
                 ...state,

@@ -52,7 +52,10 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCate
                     Все записи
                 </AppSidebarLink>
 
-                <AllCategories>Категории</AllCategories>
+                <CategoryTitle>
+                    <CategoryTitleH2>Категории</CategoryTitleH2>
+                    <AddButton onClick={newTempCategoryHandler}>+</AddButton>
+                </CategoryTitle>
 
                 <CategoryListContainer>
                     {categories.map((category) => {
@@ -73,8 +76,12 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCate
                                 <CategoryName>{category.name}</CategoryName>
                                 <CategoryOptions
                                     onClick={() => {
+                                        const newNoteId = notes.length > 0 ? notes[0].id : ''
                                         deleteCategory(category.id)
                                         pruneCategoryFromNotes(category.id)
+
+                                        swapCategory('')
+                                        swapNote(newNoteId)
                                     }}
                                 >
                                     X
@@ -102,10 +109,6 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCate
                         />
                     </AddCategoryForm>
                 )}
-
-                <AppSidebarButton>
-                    <AddCategoryButton onClick={newTempCategoryHandler}>Добавить категорию</AddCategoryButton>
-                </AppSidebarButton>
             </AppSidebarMain>
         </AppSidebarContainer>
     )
@@ -159,18 +162,27 @@ const Title = styled.h1`
 const AllNotes = styled.p`
     padding: 0 0.5rem;
 `
-const AllCategories = styled.h2`
-    margin: 1rem 0 0;
+const CategoryTitle = styled.div`
+    margin-top: 1rem;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`
+
+const CategoryTitleH2 = styled.h2`
+    margin: 0;
     color: ${Colors.A_COLOR_ONE};
     text-transform: uppercase;
     font-size: 0.7rem;
-    padding: 0.5rem;
 `
 
 const AppSidebarButton = styled.section`
     width: 100%;
     align-self: flex-end;
 `
+
+const AddButton = styled.button``
 
 const AddCategoryButton = styled.button`
     display: block;
