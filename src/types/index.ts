@@ -109,6 +109,11 @@ export interface PruneNotesAction {
     payload: string
 }
 
+export interface PruneCategoryFromNotesAction {
+    type: typeof Actions.PRUNE_CATEGORY_FROM_NOTES
+    payload: string
+}
+
 export interface AddCategoryToNoteAction {
     type: typeof Actions.ADD_CATEGORY_TO_NOTE
     payload: {
@@ -126,6 +131,7 @@ export type NotesActionTypes =
     | UpdateNoteAction
     | SwapNoteAction
     | PruneNotesAction
+    | PruneCategoryFromNotesAction
     | AddCategoryToNoteAction
 
 /* Категории */

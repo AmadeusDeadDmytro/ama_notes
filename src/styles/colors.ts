@@ -10,6 +10,7 @@ const colors = {
     A_COLOR_TWO: '#f0f0f0', /// eee
     A_COLOR_THREE: '#26336e', /// 444
     A_COLOR_FOUR: '#0f345c', /// 333
+    A_COLOR_FIVE: '#8ba7f4', /// bbb
 }
 
 export default colors

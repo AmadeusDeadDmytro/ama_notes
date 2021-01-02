@@ -1,6 +1,6 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
 import React, { useState } from 'react'
-import { addCategory, swapCategory, swapNote } from 'actions'
+import { addCategory, deleteCategory, pruneCategoryFromNotes, swapCategory, swapNote } from 'actions'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
@@ -10,6 +10,8 @@ import styled from 'styled-components'
 
 interface AppProps {
     addCategory: (category: CategoryItem) => void
+    deleteCategory: (categoryId: string) => void
+    pruneCategoryFromNotes: (categoryId: string) => void
     swapCategory: (categoryId: string) => void
     swapNote: (swapNote: string) => void
     notes: NoteItem[]
@@ -17,7 +19,7 @@ interface AppProps {
     activeCategoryId: string
 }
 
-const AppSidebar: React.FC<AppProps> = ({ addCategory, swapCategory, swapNote, notes, categories, activeCategoryId }) => {
+const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCategoryFromNotes, swapCategory, swapNote, notes, categories, activeCategoryId }) => {
     const [addingTempCategory, setAddingTempCategory] = useState(false)
     const [tempCategory, setTempCategory] = useState('')
 
@@ -25,7 +27,7 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, swapCategory, swapNote, n
         !addingTempCategory && setAddingTempCategory(true)
     }
 
-    const onSubmit = (event) => {
+    const onSubmit = (event: React.FormEvent<HTMLFormElement> | React.FocusEvent<HTMLInputElement>) => {
         event.preventDefault()
 
         const category = { id: kebabCase(tempCategory), name: tempCategory }
@@ -67,7 +69,15 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, swapCategory, swapNote, n
                                     }
                                 }}
                             >
-                                {category.name}
+                                <CategoryName>{category.name}</CategoryName>
+                                <CategoryOptions
+                                    onClick={() => {
+                                        deleteCategory(category.id)
+                                        pruneCategoryFromNotes(category.id)
+                                    }}
+                                >
+                                    X
+                                </CategoryOptions>
                             </CategoryEach>
                         )
                     })}
@@ -110,6 +120,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     swapNote: (noteId: string) => dispatch(swapNote(noteId)),
     swapCategory: (categoryId: string) => dispatch(swapCategory(categoryId)),
     addCategory: (category: CategoryItem) => dispatch(addCategory(category)),
+    deleteCategory: (categoryId: string) => dispatch(deleteCategory(categoryId)),
+    pruneCategoryFromNotes: (categoryId: string) => dispatch(pruneCategoryFromNotes(categoryId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppSidebar)
@@ -179,11 +191,21 @@ const AddCategoryButton = styled.button`
 const CategoryListContainer = styled.div`
     font-size: 0.9rem;
 `
+
+const CategoryOptions = styled.div`
+    color: transparent;
+    z-index: 1;
+    cursor: pointer;
+`
+
 const CategoryEach = styled.div<{ active: boolean }>`
     cursor: pointer;
     padding: 0.5rem;
     color: rgba(255, 255, 255, 0.8);
-    background: ${({ active }) => active && Colors.ACTIVE};
+    background: ${({ active }) => active && Colors.A_COLOR_FIVE};
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     &:last-of-type {
         border-bottom: none;
@@ -191,6 +213,10 @@ const CategoryEach = styled.div<{ active: boolean }>`
 
     &:hover {
         background: ${Colors.BACKGROUND_DARK_THREE};
+
+        ${CategoryOptions} {
+            color: ${Colors.A_COLOR_FIVE};
+        }
     }
 `
 
@@ -204,3 +230,5 @@ const CategoryNameInput = styled.input`
     -webkit-appearance: none;
     color: ${Colors.A_COLOR_TWO};
 `
+
+const CategoryName = styled.div``

@@ -71,6 +71,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.167",
     "@types/mousetrap": "^1.6.5",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
