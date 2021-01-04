@@ -37,7 +37,7 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, sendNoteTo
     }
 
     const trashNoteHandler = () => {
-        if (activeNote) {
+        if (activeNote && !activeNote.trash) {
             sendNoteToTrash(activeNote.id)
         }
     }

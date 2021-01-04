@@ -64,7 +64,7 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCate
                                 key={category.id}
                                 active={category.id === activeCategoryId}
                                 onClick={() => {
-                                    const notesForNewCategory = notes.filter((note) => note.category === category.id)
+                                    const notesForNewCategory = notes.filter((note) => !note.trash && note.category === category.id)
                                     const newNoteId = notesForNewCategory.length > 0 ? notesForNewCategory[0].id : ''
 
                                     if (category.id !== activeCategoryId) {
@@ -79,7 +79,7 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCate
                                         const newNoteId = notes.length > 0 ? notes[0].id : ''
                                         deleteCategory(category.id)
                                         pruneCategoryFromNotes(category.id)
-                                        swapCategory('')
+                                        swapFolder(Folders.ALL)
                                         swapNote(newNoteId)
                                     }}
                                 >

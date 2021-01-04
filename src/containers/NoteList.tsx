@@ -83,12 +83,10 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
                                         defaultValue=""
                                         onChange={(event) => {
                                             addCategoryToNote(event.target.value, note.id)
-                                            const notesForNewCategory = notes.filter((note) => note.category === event.target.value)
-                                            const newNoteId = notesForNewCategory.length > 0 ? notesForNewCategory[0].id : ''
 
                                             if (event.target.value !== activeCategoryId) {
                                                 swapCategory(event.target.value)
-                                                swapNote(newNoteId)
+                                                swapNote(note.id)
                                             }
                                             handleNoteOptionsClick(event)
                                         }}
@@ -97,11 +95,13 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
                                             Выберите категорию
                                         </SelectElementOption>
 
-                                        {filteredCategories.map((category) => (
-                                            <SelectElementOption key={category.id} value={category.id}>
-                                                {category.name}
-                                            </SelectElementOption>
-                                        ))}
+                                        {filteredCategories
+                                            .filter((category) => category.id !== note.category)
+                                            .map((category) => (
+                                                <SelectElementOption key={category.id} value={category.id}>
+                                                    {category.name}
+                                                </SelectElementOption>
+                                            ))}
                                         {note.category && (
                                             <SelectElementOption key="none" value="">
                                                 Удалить категорию записи
@@ -123,7 +123,7 @@ const mapStateToProps = (state: ApplicationState) => {
     let filteredNotes: NoteItem[] = []
 
     if (noteState.activeFolder === Folders.CATEGORY) {
-        filteredNotes = noteState.notes.filter((note) => note.category === noteState.activeCategoryId)
+        filteredNotes = noteState.notes.filter((note) => !note.trash && note.category === noteState.activeCategoryId)
     } else if (noteState.activeFolder === Folders.TRASH) {
         filteredNotes = noteState.notes.filter((note) => note.trash)
     } else {

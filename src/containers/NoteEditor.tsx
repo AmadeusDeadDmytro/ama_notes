@@ -25,7 +25,7 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote
     if (loading) {
         return <EmptyEditor>Загрузка...</EmptyEditor>
     } else if (!activeNote) {
-        return <EmptyEditorCenter>Создать запись</EmptyEditorCenter>
+        return <EmptyEditorCenter />
     } else {
         return (
             <Editor
