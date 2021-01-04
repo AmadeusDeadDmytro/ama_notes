@@ -1,9 +1,10 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
 import React, { useState } from 'react'
-import { addCategory, deleteCategory, pruneCategoryFromNotes, swapCategory, swapNote } from 'actions'
+import { addCategory, deleteCategory, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote } from 'actions'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
+import { Folders } from 'constants/enums'
 import { connect } from 'react-redux'
 import kebabCase from 'lodash/kebabCase'
 import styled from 'styled-components'
@@ -13,13 +14,14 @@ interface AppProps {
     deleteCategory: (categoryId: string) => void
     pruneCategoryFromNotes: (categoryId: string) => void
     swapCategory: (categoryId: string) => void
+    swapFolder: (folder: string) => void
     swapNote: (swapNote: string) => void
+    activeCategoryId: string
     notes: NoteItem[]
     categories: CategoryItem[]
-    activeCategoryId: string
 }
 
-const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCategoryFromNotes, swapCategory, swapNote, notes, categories, activeCategoryId }) => {
+const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote, notes, categories, activeCategoryId }) => {
     const [addingTempCategory, setAddingTempCategory] = useState(false)
     const [tempCategory, setTempCategory] = useState('')
 
@@ -42,15 +44,8 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCate
     return (
         <AppSidebarContainer>
             <AppSidebarMain>
-                <AppSidebarLink
-                    onClick={() => {
-                        const newNoteId = notes.length > 0 ? notes[0].id : ''
-                        swapCategory('')
-                        swapNote(newNoteId)
-                    }}
-                >
-                    Все записи
-                </AppSidebarLink>
+                <AppSidebarLink onClick={() => swapFolder(Folders.ALL)}>Все записи</AppSidebarLink>
+                <AppSidebarLink onClick={() => swapFolder(Folders.TRASH)}>Корзина</AppSidebarLink>
 
                 <CategoryTitle>
                     <CategoryTitleH2>Категории</CategoryTitleH2>
@@ -79,8 +74,8 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCate
                                         const newNoteId = notes.length > 0 ? notes[0].id : ''
                                         deleteCategory(category.id)
                                         pruneCategoryFromNotes(category.id)
-
                                         swapCategory('')
+                                        swapFolder(Folders.ALL)
                                         swapNote(newNoteId)
                                     }}
                                 >
@@ -115,7 +110,7 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCate
 }
 
 const mapStateToProps = (state: ApplicationState) => ({
-    activeCategoryId: state.categoryState.activeCategoryId,
+    activeCategoryId: state.noteState.activeCategoryId,
     categories: state.categoryState.categories,
     notes: state.noteState.notes,
 })
@@ -123,6 +118,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     swapNote: (noteId: string) => dispatch(swapNote(noteId)),
     swapCategory: (categoryId: string) => dispatch(swapCategory(categoryId)),
+    swapFolder: (folder: string) => dispatch(swapFolder(folder)),
     addCategory: (category: CategoryItem) => dispatch(addCategory(category)),
     deleteCategory: (categoryId: string) => dispatch(deleteCategory(categoryId)),
     pruneCategoryFromNotes: (categoryId: string) => dispatch(pruneCategoryFromNotes(categoryId)),
@@ -139,11 +135,12 @@ const AppSidebarContainer = styled.aside`
     flex-direction: column;
 `
 
-const AppSidebarLink = styled.div`
+const AppSidebarLink = styled.div<{ active?: boolean }>`
     padding: 0 0.5rem;
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 600;
+    background: ${({ active }) => (active ? Colors.A_COLOR_SIX : '')};
 
     &:hover {
         background: ${Colors.A_COLOR_THREE};

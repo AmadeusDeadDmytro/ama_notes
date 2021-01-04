@@ -4,6 +4,7 @@ import { addCategoryToNote, pruneNotes, swapCategory, swapNote } from 'actions'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
+import { Folders } from 'constants/enums'
 import { connect } from 'react-redux'
 import { getNoteTitle } from 'helpers'
 import styled from 'styled-components'
@@ -21,7 +22,6 @@ interface NoteListProps {
 }
 
 const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, notes, filteredNotes, filteredCategories, swapNote, swapCategory, pruneNotes, addCategoryToNote }) => {
-    const initialSearchResults: NoteItem[] = filteredNotes
     const [noteOptionsId, setNoteOptionsId] = useState('')
     const node = useRef<HTMLDivElement>(null)
 
@@ -76,7 +76,7 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
                                 ...
                             </NoteOptions>
                             {noteOptionsId === note.id && (
-                                <NoteOptionsContext>
+                                <NoteOptionsContext ref={node}>
                                     <ContextActionTitle>Переместить в категорию</ContextActionTitle>
 
                                     <SelectElement
@@ -102,6 +102,9 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
                                                 {category.name}
                                             </SelectElementOption>
                                         ))}
+                                        <SelectElementOption key="none" value="">
+                                            Удалить категорию записи
+                                        </SelectElementOption>
                                     </SelectElement>
                                 </NoteOptionsContext>
                             )}
@@ -113,13 +116,26 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
     )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({
-    activeCategoryId: state.categoryState.activeCategoryId,
-    activeNoteId: state.noteState.activeNoteId,
-    notes: state.noteState.notes,
-    filteredNotes: state.categoryState.activeCategoryId ? state.noteState.notes.filter((note) => note.category === state.categoryState.activeCategoryId) : state.noteState.notes,
-    filteredCategories: state.categoryState.categories.filter((category) => category.id !== state.categoryState.activeCategoryId),
-})
+const mapStateToProps = (state: ApplicationState) => {
+    const { noteState, categoryState } = state
+    let filteredNotes: NoteItem[] = []
+
+    if (noteState.activeCategoryId) {
+        filteredNotes = noteState.notes.filter((note) => note.category === noteState.activeCategoryId)
+    } else if (noteState.activeFolder === Folders.TRASH) {
+        filteredNotes = noteState.notes.filter((note) => note.trash)
+    } else {
+        filteredNotes = noteState.notes.filter((note) => !note.trash)
+    }
+
+    return {
+        activeCategoryId: noteState.activeCategoryId,
+        activeNoteId: noteState.activeNoteId,
+        notes: noteState.notes,
+        filteredNotes,
+        filteredCategories: categoryState.categories.filter((category) => category.id !== noteState.activeCategoryId),
+    }
+}
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     swapNote: (noteId: string) => dispatch(swapNote(noteId)),
@@ -183,7 +199,7 @@ const NoteOptionsContext = styled.div`
     color: ${Colors.A_COLOR_FOUR};
     top: 32px;
     left: 200px;
-    min-width: 150px;
+    min-width: 350px;
     padding: 1rem;
     background: white;
     border: 1px solid ${Colors.A_COLOR_TWO};

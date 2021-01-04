@@ -1,5 +1,5 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
-import { addNote, deleteNote, swapNote, syncState } from 'actions'
+import { addNote, deleteNote, sendNoteToTrash, swapNote, syncState } from 'actions'
 import { downloadNote, getNoteTitle } from 'helpers'
 
 import Colors from 'styles/colors'
@@ -13,7 +13,7 @@ import { v4 as uuid } from 'uuid'
 interface NavigationProps {
     addNote: (note: NoteItem) => void
     swapNote: (noteId: string) => void
-    deleteNote: (noteId: string) => void
+    sendNoteToTrash: (noteId: string) => void
     syncState: (notes: NoteItem[], categories: CategoryItem[]) => void
     activeNote?: NoteItem
     notes: NoteItem[]
@@ -21,7 +21,7 @@ interface NavigationProps {
     syncing: boolean
 }
 
-const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote, swapNote, syncState, notes, syncing, categories }) => {
+const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, sendNoteToTrash, swapNote, syncState, notes, syncing, categories }) => {
     const newNoteHandler = () => {
         const note: NoteItem = {
             id: uuid(),
@@ -38,7 +38,7 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote
 
     const deleteNoteHandler = () => {
         if (activeNote) {
-            deleteNote(activeNote.id)
+            sendNoteToTrash(activeNote.id)
         }
     }
 
@@ -48,7 +48,7 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, deleteNote
 
     const downloadHandler = () => {
         if (activeNote) {
-            downloadNote(getNoteTitle(activeNote.text), activeNote.text)
+            downloadNote(getNoteTitle(activeNote.text), activeNote)
         }
     }
 
@@ -75,7 +75,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     addNote: (note: NoteItem) => dispatch(addNote(note)),
     swapNote: (noteId: string) => dispatch(swapNote(noteId)),
-    deleteNote: (noteId: string) => dispatch(deleteNote(noteId)),
+    sendNoteToTrash: (noteId: string) => dispatch(sendNoteToTrash(noteId)),
     syncState: (notes: NoteItem[], categories: CategoryItem[]) => dispatch(syncState(notes, categories)),
 })
 

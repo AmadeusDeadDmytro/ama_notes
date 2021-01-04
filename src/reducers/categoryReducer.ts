@@ -4,7 +4,6 @@ import { Actions } from 'constants/enums'
 
 const initialState: CategoryState = {
     categories: [],
-    activeCategoryId: '',
     error: '',
     loading: true,
 }
@@ -17,7 +16,6 @@ const categoryReducer = (state = initialState, action: CategoryActionTypes): Cat
             return {
                 ...state,
                 categories: action.payload,
-                activeCategoryId: '',
                 loading: false,
             }
         case Actions.LOAD_CATEGORIES_ERROR:
@@ -25,11 +23,6 @@ const categoryReducer = (state = initialState, action: CategoryActionTypes): Cat
                 ...state,
                 loading: false,
                 error: action.payload,
-            }
-        case Actions.SWAP_CATEGORY:
-            return {
-                ...state,
-                activeCategoryId: action.payload,
             }
         case Actions.ADD_CATEGORY:
             return {
@@ -44,19 +37,9 @@ const categoryReducer = (state = initialState, action: CategoryActionTypes): Cat
                 }),
             }
         case Actions.DELETE_CATEGORY:
-            const deletedCategoryIndex = state.categories.findIndex((category) => category.id === action.payload)
-            let newActiveCategoryId = ''
-
-            if (deletedCategoryIndex === 0 && state.categories[1]) {
-                newActiveCategoryId = state.categories[deletedCategoryIndex + 1].id
-            } else if (state.categories[deletedCategoryIndex - 1]) {
-                newActiveCategoryId = state.categories[deletedCategoryIndex - 1].id
-            }
-
             return {
                 ...state,
                 categories: state.categories.filter((category) => category.id !== action.payload),
-                activeCategoryId: newActiveCategoryId,
             }
         default:
             return state
