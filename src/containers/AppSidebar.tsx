@@ -17,11 +17,12 @@ interface AppProps {
     swapFolder: (folder: string) => void
     swapNote: (swapNote: string) => void
     activeCategoryId: string
+    activeFolder: string
     notes: NoteItem[]
     categories: CategoryItem[]
 }
 
-const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote, notes, categories, activeCategoryId }) => {
+const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote, notes, categories, activeCategoryId, activeFolder }) => {
     const [addingTempCategory, setAddingTempCategory] = useState(false)
     const [tempCategory, setTempCategory] = useState('')
 
@@ -44,8 +45,12 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCate
     return (
         <AppSidebarContainer>
             <AppSidebarMain>
-                <AppSidebarLink onClick={() => swapFolder(Folders.ALL)}>Все записи</AppSidebarLink>
-                <AppSidebarLink onClick={() => swapFolder(Folders.TRASH)}>Корзина</AppSidebarLink>
+                <AppSidebarLink onClick={() => swapFolder(Folders.ALL)} active={activeFolder === Folders.ALL}>
+                    Все записи
+                </AppSidebarLink>
+                <AppSidebarLink onClick={() => swapFolder(Folders.TRASH)} active={activeFolder === Folders.TRASH}>
+                    Корзина
+                </AppSidebarLink>
 
                 <CategoryTitle>
                     <CategoryTitleH2>Категории</CategoryTitleH2>
@@ -75,7 +80,6 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCate
                                         deleteCategory(category.id)
                                         pruneCategoryFromNotes(category.id)
                                         swapCategory('')
-                                        swapFolder(Folders.ALL)
                                         swapNote(newNoteId)
                                     }}
                                 >
@@ -110,6 +114,7 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCate
 }
 
 const mapStateToProps = (state: ApplicationState) => ({
+    activeFolder: state.noteState.activeFolder,
     activeCategoryId: state.noteState.activeCategoryId,
     categories: state.categoryState.categories,
     notes: state.noteState.notes,
