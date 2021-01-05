@@ -58,7 +58,7 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
             <Searchbar placeholder="Найти запись" onChange={searchNotes} type="search" />
             <NoteListContainer>
                 {filteredNotes.map((note) => {
-                    const noteTitle: string = getNoteTitle(note.text)
+                    const noteTitle = getNoteTitle(note.text)
 
                     return (
                         <NoteEach

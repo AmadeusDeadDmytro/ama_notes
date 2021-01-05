@@ -2,15 +2,15 @@ import { NoteItem } from 'types'
 
 export const getNoteTitle = (text: string): string => {
     let noteTitle: string
+    let noteText = text[0] === '#' && text[1] === '' ? text.slice(2, 52) : text.slice(0, 50)
 
-    if (!text) {
+    if (!noteText) {
         noteTitle = 'Новая запись'
-    } else if (text.indexOf('\n') !== -1) {
-        noteTitle = text.slice(0, text.indexOf('\n'))
+    } else if (noteText.indexOf('\n') !== -1) {
+        noteTitle = noteText.slice(0, noteText.indexOf('\n'))
     } else {
-        noteTitle = text.slice(0, 50)
+        noteTitle = noteText.slice(0, 50)
     }
-
     return noteTitle
 }
 
@@ -19,6 +19,7 @@ export function noteWithFrontmatter(note: NoteItem): string {
 Заголовок: ${getNoteTitle(note.text)}
 Создано: ${note.created}
 Изменено: ${note.lastUpdated}
+Категория: ${note.category ? note.category : ''}
 ---
 
 ${note.text}
