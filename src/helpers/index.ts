@@ -4,15 +4,15 @@ import moment from 'moment'
 import { v4 as uuid } from 'uuid'
 
 export const getNoteTitle = (text: string): string => {
+    const noteTitleRegEx = /[\w`?!.]{1,50}/
+
     let noteTitle: string
-    let noteText = text[0] === '#' && text[1] === '' ? text.slice(2, 52) : text.slice(0, 50)
+    let noteText = text.match(noteTitleRegEx)
 
     if (!noteText) {
         noteTitle = 'Новая запись'
-    } else if (noteText.indexOf('\n') !== -1) {
-        noteTitle = noteText.slice(0, noteText.indexOf('\n'))
     } else {
-        noteTitle = noteText.slice(0, 50)
+        noteTitle = noteText[0]
     }
     return noteTitle
 }
