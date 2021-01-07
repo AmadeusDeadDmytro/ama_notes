@@ -1,5 +1,5 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
-import { Book, Folder, Trash2 } from 'react-feather'
+import { Book, Folder, Trash2, X } from 'react-feather'
 import React, { useState } from 'react'
 import { addCategory, deleteCategory, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote } from 'actions'
 
@@ -89,7 +89,7 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCate
                                         swapNote(newNoteId)
                                     }}
                                 >
-                                    X
+                                    <X size={12} />
                                 </CategoryOptions>
                             </CategoryEach>
                         )

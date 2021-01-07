@@ -4,7 +4,7 @@ import { loadCategories, loadNotes } from 'actions'
 import AppSidebar from 'containers/AppSidebar'
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
-import Navigation from 'containers/Navigation'
+import KeyboardShortcuts from 'containers/KeyboardShortcuts'
 import NoteEditor from 'containers/NoteEditor'
 import NoteList from 'containers/NoteList'
 import { connect } from 'react-redux'
@@ -26,10 +26,10 @@ const App: React.FC<AppProps> = ({ loadNotes, loadCategories }) => {
 
     return (
         <AppContainer>
-            <Navigation />
             <AppSidebar />
             <NoteList />
             <NoteEditor />
+            <KeyboardShortcuts />
         </AppContainer>
     )
 }
@@ -43,8 +43,7 @@ export default connect(null, mapDispatchToProps)(App)
 
 const AppContainer = styled.div`
     display: grid;
-    grid-template-areas: 'app-sidebar note-sidebar editor editor' 'nav nav nav nav';
+    grid-template-areas: 'app-sidebar note-sidebar editor editor';
     grid-template-columns: 175px 300px auto;
-    grid-template-rows: auto 25px;
     min-height: 100vh;
 `

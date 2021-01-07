@@ -1,27 +1,45 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
 import React, { useEffect, useRef, useState } from 'react'
-import { addCategoryToNote, pruneNotes, swapCategory, swapNote } from 'actions'
+import { addCategoryToNote, addNote, pruneNotes, swapCategory, swapNote } from 'actions'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
 import { Folders } from 'constants/enums'
+import NoteOptions from 'containers/NoteOptions'
+import { PlusCircle } from 'react-feather'
 import { connect } from 'react-redux'
 import { getNoteTitle } from 'helpers'
+import moment from 'moment'
 import styled from 'styled-components'
+import { v4 as uuid } from 'uuid'
 
 interface NoteListProps {
+    activeNote?: NoteItem
     activeCategoryId: string
     activeNoteId: string
     notes: NoteItem[]
     filteredNotes: NoteItem[]
     filteredCategories: CategoryItem[]
+    addNote: (note: NoteItem) => void
     swapNote: (noteId: string) => void
     swapCategory: (category: string) => void
     pruneNotes: () => void
     addCategoryToNote: (categoryId: string, noteId: string) => void
 }
 
-const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, notes, filteredNotes, filteredCategories, swapNote, swapCategory, pruneNotes, addCategoryToNote }) => {
+const NoteList: React.FC<NoteListProps> = ({
+    activeNote,
+    addNote,
+    activeCategoryId,
+    activeNoteId,
+    notes,
+    filteredNotes,
+    filteredCategories,
+    swapNote,
+    swapCategory,
+    pruneNotes,
+    addCategoryToNote,
+}) => {
     const [noteOptionsId, setNoteOptionsId] = useState('')
     const node = useRef<HTMLDivElement>(null)
 
@@ -41,6 +59,21 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
         }
     }
 
+    const newNoteHandler = () => {
+        const note: NoteItem = {
+            id: uuid(),
+            text: '',
+            created: moment().format(),
+            lastUpdated: moment().format(),
+            category: activeCategoryId ? activeCategoryId : undefined,
+        }
+
+        if ((activeNote && activeNote.text !== '') || !activeNote) {
+            addNote(note)
+            swapNote(note.id)
+        }
+    }
+
     const searchNotes = (event: React.ChangeEvent<HTMLInputElement>) => {
         const filteredResults = filteredNotes.filter((note) => note.text.toLowerCase().search(event.target.value.toLowerCase()) !== -1)
     }
@@ -56,6 +89,11 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
     return (
         <NoteSidebar>
             <Searchbar placeholder="Найти запись" onChange={searchNotes} type="search" />
+            <AddNote>
+                <div>
+                    <PlusCircle size={20} onClick={newNoteHandler} />
+                </div>
+            </AddNote>
             <NoteListContainer>
                 {filteredNotes.map((note) => {
                     const noteTitle = getNoteTitle(note.text)
@@ -72,9 +110,9 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
                             }}
                         >
                             {noteTitle}
-                            <NoteOptions active={noteOptionsId === note.id} onClick={(event) => handleNoteOptionsClick(event, note.id)}>
+                            <NoteOptionsDiv active={noteOptionsId === note.id} onClick={(event) => handleNoteOptionsClick(event, note.id)}>
                                 ...
-                            </NoteOptions>
+                            </NoteOptionsDiv>
                             {noteOptionsId === note.id && (
                                 <NoteOptionsContext ref={node}>
                                     <ContextActionTitle>Переместить в категорию</ContextActionTitle>
@@ -109,6 +147,7 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
                                             </SelectElementOption>
                                         )}
                                     </SelectElement>
+                                    <NoteOptions />
                                 </NoteOptionsContext>
                             )}
                         </NoteEach>
@@ -136,11 +175,13 @@ const mapStateToProps = (state: ApplicationState) => {
         activeNoteId: noteState.activeNoteId,
         notes: noteState.notes,
         filteredNotes,
+        activeNote: state.noteState.notes.find((note) => note.id === state.noteState.activeNoteId),
         filteredCategories: categoryState.categories.filter((category) => category.id !== noteState.activeCategoryId),
     }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+    addNote: (note: NoteItem) => dispatch(addNote(note)),
     swapNote: (noteId: string) => dispatch(swapNote(noteId)),
     swapCategory: (categoryId: string) => dispatch(swapCategory(categoryId)),
     pruneNotes: () => dispatch(pruneNotes()),
@@ -148,6 +189,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteList)
+
+const AddNote = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+
+    div {
+    }
+`
 
 const Searchbar = styled.input`
     -webkit-appearance: textfield;
@@ -177,8 +227,8 @@ const NoteListContainer = styled.div``
 const NoteEach = styled.div<{ active: boolean }>`
     position: relative;
     cursor: pointer;
-    padding: 0 0.5rem;
-    border-bottom: 2px solid ${Colors.HOVER};
+    padding: 0.5rem;
+    border-bottom: 1px solid ${Colors.HOVER};
     background: ${({ active }) => active && Colors.ACTIVE};
     display: flex;
     align-items: center;
@@ -189,7 +239,7 @@ const NoteEach = styled.div<{ active: boolean }>`
     }
 `
 
-const NoteOptions = styled.div<{ active: boolean }>`
+const NoteOptionsDiv = styled.div<{ active: boolean }>`
     color: ${Colors.A_COLOR_FOUR};
     padding: 0.5rem;
     z-index: 1;

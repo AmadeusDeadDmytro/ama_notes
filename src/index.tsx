@@ -1,6 +1,6 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 
-import App from 'componets/App'
+import App from 'containers/App'
 import { Provider } from 'react-redux'
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'

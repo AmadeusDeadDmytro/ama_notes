@@ -1,9 +1,8 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
-import { Cloud, Download, Plus, X } from 'react-feather'
-import { addNote, deleteNote, sendNoteToTrash, swapNote, syncState } from 'actions'
+import { Download, X } from 'react-feather'
+import { addNote, sendNoteToTrash, swapNote, syncState } from 'actions'
 import { downloadNote, getNoteTitle } from 'helpers'
 
-import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -11,19 +10,16 @@ import moment from 'moment'
 import styled from 'styled-components'
 import { v4 as uuid } from 'uuid'
 
-interface NavigationProps {
-    addNote: (note: NoteItem) => void
+interface NoteOptionsProps {
     swapNote: (noteId: string) => void
     sendNoteToTrash: (noteId: string) => void
-    syncState: (notes: NoteItem[], categories: CategoryItem[]) => void
     activeNote?: NoteItem
     activeCategoryId: string
     notes: NoteItem[]
     categories: CategoryItem[]
-    syncing: boolean
 }
 
-const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, activeCategoryId, sendNoteToTrash, swapNote, syncState, notes, syncing, categories }) => {
+const NoteOptions: React.FC<NoteOptionsProps> = ({ activeNote, activeCategoryId, swapNote, sendNoteToTrash, notes, categories }) => {
     const newNoteHandler = () => {
         const note: NoteItem = {
             id: uuid(),
@@ -45,37 +41,31 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, activeCate
         }
     }
 
-    const syncNoteHandler = () => {
+    const syncNotesHandler = () => {
         syncState(notes, categories)
     }
 
-    const downloadHandler = () => {
+    const downloadNoteHandler = () => {
         if (activeNote) {
             downloadNote(getNoteTitle(activeNote.text), activeNote)
         }
     }
 
     return (
-        <NavigationContainer>
-            <NavButton onClick={newNoteHandler}>
-                <Plus /> Новая запись
-            </NavButton>
+        <NoteOptionsNav>
             <NavButton onClick={trashNoteHandler}>
-                <X /> Удалить запись
+                <X size={15} />
+                Удалить заметку
             </NavButton>
-            <NavButton onClick={downloadHandler}>
-                <Download /> Скачать запись
+            <NavButton onClick={downloadNoteHandler}>
+                <Download size={15} />
+                Скачать заметку
             </NavButton>
-            <NavButton onClick={syncNoteHandler}>
-                <Cloud />
-                Синхронизировать записи
-            </NavButton>
-        </NavigationContainer>
+        </NoteOptionsNav>
     )
 }
 
 const mapStateToProps = (state: ApplicationState) => ({
-    syncing: state.syncState.syncing,
     notes: state.noteState.notes,
     categories: state.categoryState.categories,
     activeNote: state.noteState.notes.find((note) => note.id === state.noteState.activeNoteId),
@@ -83,25 +73,35 @@ const mapStateToProps = (state: ApplicationState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    addNote: (note: NoteItem) => dispatch(addNote(note)),
     swapNote: (noteId: string) => dispatch(swapNote(noteId)),
     sendNoteToTrash: (noteId: string) => dispatch(sendNoteToTrash(noteId)),
-    syncState: (notes: NoteItem[], categories: CategoryItem[]) => dispatch(syncState(notes, categories)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navigation)
+export default connect(mapStateToProps, mapDispatchToProps)(NoteOptions)
 
-const NavButton = styled.button`
+const NoteOptionsNav = styled.nav`
+    margin-top: 1rem;
+
+    svg {
+        margin-right: 0.5rem;
+    }
+`
+
+const NavButton = styled.div`
+    cursor: pointer;
     display: flex;
     align-items: center;
-    cursor: pointer;
     background: transparent;
     font-weight: 600;
     border: none;
     font-size: 1rem;
+    padding: 0 0.5rem;
 
-    &:hover {
-        background: ${Colors.HOVER};
+    div {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 0;
     }
 
     svg {
@@ -109,10 +109,8 @@ const NavButton = styled.button`
         width: 18px;
         margin-right: 0.3rem;
     }
-`
 
-const NavigationContainer = styled.div`
-    grid-area: nav;
-    background: ${Colors.BACKGROUND};
-    display: flex;
+    &:hover {
+        background: rgba(0, 0, 0, 0.1);
+    }
 `
