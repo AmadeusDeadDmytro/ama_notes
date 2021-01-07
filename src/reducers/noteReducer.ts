@@ -2,6 +2,7 @@ import { Actions, Folders } from 'constants/enums'
 import { NoteItem, NoteState, NotesActionTypes } from 'types'
 
 import { loadNotes } from './../actions/index'
+import { sortByLastUpdated } from 'helpers'
 import { v4 as uuid } from 'uuid'
 
 const initialState: NoteState = {
@@ -21,7 +22,7 @@ const noteReducer = (state = initialState, action: NotesActionTypes): NoteState 
             return {
                 ...state,
                 notes: action.payload,
-                activeNoteId: action.payload.length > 0 ? action.payload[0].id : '',
+                activeNoteId: getFirstNote(Folders.ALL, action.payload),
                 loading: false,
             }
         case Actions.LOAD_NOTES_ERROR:
@@ -145,7 +146,7 @@ const noteReducer = (state = initialState, action: NotesActionTypes): NoteState 
 export default noteReducer
 
 export function getFirstNote(folder: string, notes: NoteItem[], categoryId?: string): string {
-    const notesNotTrash = notes.filter((note) => !note.trash)
+    const notesNotTrash = notes.filter((note) => !note.trash).sort(sortByLastUpdated)
 
     switch (folder) {
         case Folders.CATEGORY:

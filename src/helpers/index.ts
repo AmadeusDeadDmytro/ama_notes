@@ -39,3 +39,10 @@ export const downloadNote = (filename: string, note: NoteItem): void => {
         pom.click()
     }
 }
+
+export const sortByLastUpdated = (a: NoteItem, b: NoteItem) => {
+    let dateA = new Date(a.lastUpdated)
+    let dateB = new Date(b.lastUpdated)
+
+    return dateA > dateB ? -1 : dateA < dateB ? 1 : 0
+}

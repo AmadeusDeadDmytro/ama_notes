@@ -1,6 +1,7 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
 import React, { useEffect, useRef, useState } from 'react'
 import { addCategoryToNote, addNote, pruneNotes, swapCategory, swapNote } from 'actions'
+import { getNoteTitle, sortByLastUpdated } from 'helpers'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
@@ -9,7 +10,6 @@ import { MoreHorizontal } from 'react-feather'
 import NoteOptions from 'containers/NoteOptions'
 import { connect } from 'react-redux'
 import { folderMap } from 'constants/index'
-import { getNoteTitle } from 'helpers'
 import styled from 'styled-components'
 
 interface NoteListProps {
@@ -145,11 +145,7 @@ const mapStateToProps = (state: ApplicationState) => {
         filteredNotes = noteState.notes.filter((note) => !note.trash)
     }
 
-    filteredNotes.sort(function (a, b) {
-        let dateA = new Date(a.lastUpdated)
-        let dateB = new Date(b.lastUpdated)
-        return dateA > dateB ? -1 : dateA < dateB ? 1 : 0
-    })
+    filteredNotes.sort(sortByLastUpdated)
 
     return {
         activeFolder: noteState.activeFolder,
