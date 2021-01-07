@@ -1,4 +1,5 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
+import { Cloud, Download, Plus, X } from 'react-feather'
 import { addNote, deleteNote, sendNoteToTrash, swapNote, syncState } from 'actions'
 import { downloadNote, getNoteTitle } from 'helpers'
 
@@ -16,18 +17,20 @@ interface NavigationProps {
     sendNoteToTrash: (noteId: string) => void
     syncState: (notes: NoteItem[], categories: CategoryItem[]) => void
     activeNote?: NoteItem
+    activeCategoryId: string
     notes: NoteItem[]
     categories: CategoryItem[]
     syncing: boolean
 }
 
-const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, sendNoteToTrash, swapNote, syncState, notes, syncing, categories }) => {
+const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, activeCategoryId, sendNoteToTrash, swapNote, syncState, notes, syncing, categories }) => {
     const newNoteHandler = () => {
         const note: NoteItem = {
             id: uuid(),
             text: '',
             created: moment().format(),
             lastUpdated: moment().format(),
+            category: activeCategoryId ? activeCategoryId : undefined,
         }
 
         if ((activeNote && activeNote.text !== '') || !activeNote) {
@@ -54,12 +57,18 @@ const Navigation: React.FC<NavigationProps> = ({ addNote, activeNote, sendNoteTo
 
     return (
         <NavigationContainer>
-            <NavButton onClick={newNoteHandler}>+ Новая запись</NavButton>
-            <NavButton onClick={trashNoteHandler}>x Удалить запись</NavButton>
-            <NavButton onClick={downloadHandler}>^ Скачать запись</NavButton>
+            <NavButton onClick={newNoteHandler}>
+                <Plus /> Новая запись
+            </NavButton>
+            <NavButton onClick={trashNoteHandler}>
+                <X /> Удалить запись
+            </NavButton>
+            <NavButton onClick={downloadHandler}>
+                <Download /> Скачать запись
+            </NavButton>
             <NavButton onClick={syncNoteHandler}>
+                <Cloud />
                 Синхронизировать записи
-                {syncing && 'Синхронизация...'}
             </NavButton>
         </NavigationContainer>
     )
@@ -70,6 +79,7 @@ const mapStateToProps = (state: ApplicationState) => ({
     notes: state.noteState.notes,
     categories: state.categoryState.categories,
     activeNote: state.noteState.notes.find((note) => note.id === state.noteState.activeNoteId),
+    activeCategoryId: state.noteState.activeCategoryId,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -82,7 +92,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation)
 
 const NavButton = styled.button`
-    display: block;
+    display: flex;
+    align-items: center;
     cursor: pointer;
     background: transparent;
     font-weight: 600;
@@ -91,6 +102,12 @@ const NavButton = styled.button`
 
     &:hover {
         background: ${Colors.HOVER};
+    }
+
+    svg {
+        height: 18px;
+        width: 18px;
+        margin-right: 0.3rem;
     }
 `
 

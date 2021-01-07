@@ -2,7 +2,7 @@ const options = {
     mode: 'gfm',
     theme: 'base16-light',
     lineNumbers: true,
-    lineWrapping: 'wrap',
+    lineWrapping: true,
     styleActiveLine: {
         nonEmpty: true,
     },

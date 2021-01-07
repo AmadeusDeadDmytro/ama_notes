@@ -88,7 +88,8 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
                                                 swapCategory(event.target.value)
                                                 swapNote(note.id)
                                             }
-                                            handleNoteOptionsClick(event)
+
+                                            setNoteOptionsId('')
                                         }}
                                     >
                                         <SelectElementOption disabled value="">

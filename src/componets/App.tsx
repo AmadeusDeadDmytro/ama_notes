@@ -26,10 +26,10 @@ const App: React.FC<AppProps> = ({ loadNotes, loadCategories }) => {
 
     return (
         <AppContainer>
+            <Navigation />
             <AppSidebar />
             <NoteList />
             <NoteEditor />
-            <Navigation />
         </AppContainer>
     )
 }

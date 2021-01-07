@@ -1,4 +1,5 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
+import { Book, Folder, Trash2 } from 'react-feather'
 import React, { useState } from 'react'
 import { addCategory, deleteCategory, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote } from 'actions'
 
@@ -46,9 +47,11 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCate
         <AppSidebarContainer>
             <AppSidebarMain>
                 <AppSidebarLink onClick={() => swapFolder(Folders.ALL)} active={activeFolder === Folders.ALL}>
-                    Все записи
+                    <Book size={15} style={{ marginRight: '.5rem' }} />
+                    Заметки
                 </AppSidebarLink>
                 <AppSidebarLink onClick={() => swapFolder(Folders.TRASH)} active={activeFolder === Folders.TRASH}>
+                    <Trash2 size={15} style={{ marginRight: '.5rem' }} />
                     Корзина
                 </AppSidebarLink>
 
@@ -73,7 +76,10 @@ const AppSidebar: React.FC<AppProps> = ({ addCategory, deleteCategory, pruneCate
                                     }
                                 }}
                             >
-                                <CategoryName>{category.name}</CategoryName>
+                                <CategoryEachName>
+                                    <Folder size={15} style={{ marginRight: '.5rem' }} />
+                                    {category.name}
+                                </CategoryEachName>
                                 <CategoryOptions
                                     onClick={() => {
                                         const newNoteId = notes.length > 0 ? notes[0].id : ''
@@ -141,6 +147,8 @@ const AppSidebarContainer = styled.aside`
 `
 
 const AppSidebarLink = styled.div<{ active?: boolean }>`
+    display: flex;
+    align-items: center;
     padding: 0 0.5rem;
     cursor: pointer;
     font-size: 0.9rem;
@@ -246,4 +254,7 @@ const CategoryNameInput = styled.input`
     color: ${Colors.A_COLOR_TWO};
 `
 
-const CategoryName = styled.div``
+const CategoryEachName = styled.div`
+    display: flex;
+    align-items: center;
+`
