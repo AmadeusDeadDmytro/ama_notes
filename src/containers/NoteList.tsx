@@ -5,6 +5,7 @@ import { addCategoryToNote, addNote, pruneNotes, swapCategory, swapNote } from '
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
 import { Folders } from 'constants/enums'
+import { MoreHorizontal } from 'react-feather'
 import NoteOptions from 'containers/NoteOptions'
 import { connect } from 'react-redux'
 import { getNoteTitle } from 'helpers'
@@ -74,7 +75,7 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
                         >
                             {noteTitle}
                             <NoteOptionsDiv active={noteOptionsId === note.id} onClick={(event) => handleNoteOptionsClick(event, note.id)}>
-                                ...
+                                <MoreHorizontal size={15} />
                             </NoteOptionsDiv>
                             {noteOptionsId === note.id && (
                                 <NoteOptionsContext ref={node}>

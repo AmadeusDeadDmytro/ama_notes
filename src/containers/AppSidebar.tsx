@@ -1,5 +1,5 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
-import { Book, Cloud, Folder, PlusCircle, Trash2, X } from 'react-feather'
+import { Book, Folder, Plus, Settings, Trash2, UploadCloud, X } from 'react-feather'
 import React, { useState } from 'react'
 import { addCategory, addNote, deleteCategory, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote, syncState } from 'actions'
 
@@ -12,7 +12,7 @@ import moment from 'moment'
 import styled from 'styled-components'
 import { v4 as uuid } from 'uuid'
 
-const iconColor = 'rgba(255, 255, 255, 0.4)'
+const iconColor = 'rgba(255, 255, 255, 0.2)'
 
 interface AppProps {
     addNote: (note: NoteItem) => void
@@ -86,13 +86,9 @@ const AppSidebar: React.FC<AppProps> = ({
     return (
         <AppSidebarContainer>
             <AppSidebarMain>
-                <AppSidebarLink onClick={newNoteHandler}>
-                    <PlusCircle size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
-                    Добавить заметку
-                </AppSidebarLink>
                 <AppSidebarLink onClick={() => swapFolder(Folders.ALL)} active={activeFolder === Folders.ALL}>
                     <Book size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
-                    Заметки
+                    Все заметки
                 </AppSidebarLink>
                 <AppSidebarLink onClick={() => swapFolder(Folders.TRASH)} active={activeFolder === Folders.TRASH}>
                     <Trash2 size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
@@ -101,9 +97,9 @@ const AppSidebar: React.FC<AppProps> = ({
 
                 <CategoryTitle>
                     <CategoryTitleH2>Категории</CategoryTitleH2>
-                    <AddButton onClick={newTempCategoryHandler}>
-                        <PlusCircle size={15} color={iconColor} />
-                    </AddButton>
+                    <AddCategoryButton onClick={newTempCategoryHandler}>
+                        <Plus size={15} color={iconColor} />
+                    </AddCategoryButton>
                 </CategoryTitle>
 
                 <CategoryListContainer>
@@ -160,10 +156,20 @@ const AppSidebar: React.FC<AppProps> = ({
                         />
                     </AddCategoryForm>
                 )}
-                <AppSidebarLink onClick={syncNotesHandler}>
-                    <Cloud size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
-                    Синхронизировать
-                </AppSidebarLink>
+                <AppSidebarActions onClick={syncNotesHandler}>
+                    <ActionButton onClick={newNoteHandler}>
+                        <Plus size={18} style={{ marginRight: '.5rem' }} color={iconColor} />
+                        {/* <AppSidebarActionsH1>Новая заметка</AppSidebarActionsH1> */}
+                    </ActionButton>
+                    <ActionButton onClick={syncNotesHandler}>
+                        <UploadCloud size={18} style={{ marginRight: '.5rem' }} color={iconColor} />
+                        {/* <AppSidebarActionsH1>Синхронизировать</AppSidebarActionsH1> */}
+                    </ActionButton>
+                    <ActionButton>
+                        <Settings size={18} style={{ marginRight: '.5rem' }} color={iconColor} />
+                        {/* <AppSidebarActionsH1>Настройки</AppSidebarActionsH1> */}
+                    </ActionButton>
+                </AppSidebarActions>
             </AppSidebarMain>
         </AppSidebarContainer>
     )
@@ -190,6 +196,38 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppSidebar)
 
+const AppSidebarActions = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+`
+
+const AppSidebarActionsH1 = styled.h1`
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0;
+`
+
+const ActionButton = styled.div`
+    svg {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: ${Colors.A_COLOR_SEVEN};
+        padding: 0.7rem;
+        border-radius: 50%;
+        stroke: ${Colors.A_COLOR_EIGHT};
+        margin: 0 0.25rem;
+
+        &:hover {
+            background: ${Colors.A_COLOR_FOUR};
+        }
+    }
+`
+
 const AppSidebarContainer = styled.aside`
     padding: 1rem 0 0.25rem;
     grid-area: app-sidebar;
@@ -206,7 +244,7 @@ const AppSidebarLink = styled.div<{ active?: boolean }>`
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 600;
-    background: ${({ active }) => (active ? Colors.A_COLOR_SIX : '')};
+    background: ${({ active }) => (active ? Colors.A_COLOR_SEVEN : '')};
 
     &:hover {
         background: ${Colors.A_COLOR_THREE};
@@ -257,19 +295,17 @@ const AddButton = styled.button`
 `
 
 const AddCategoryButton = styled.button`
-    display: block;
     cursor: pointer;
+    -webkit-appearance: none;
+    padding: 0;
+    color: rgba(255, 255, 255, 0.8);
     background: transparent;
-    font-weight: 600;
-    border: none;
     font-size: 1rem;
-    color: white;
-    width: 100%;
-    text-align: center;
-    padding: 1rem;
+    border: none;
+    line-height: 1;
 
-    &:hover {
-        background: rgba(0, 0, 0, 0.2);
+    svg:hover {
+        stroke: white;
     }
 `
 
