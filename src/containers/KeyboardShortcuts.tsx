@@ -52,23 +52,23 @@ const KeyboardShortcuts: React.FC<KeyboardShortcutsProps> = ({ activeNote, activ
         }
     }
 
-    useKey('ctrl+n', () => {
+    useKey('shift+n', () => {
         newNoteHandler()
     })
 
-    useKey('ctrl+c', () => {
+    useKey('shift+c', () => {
         newTempCategoryHandler()
     })
 
-    useKey('ctrl+w', () => {
+    useKey('shift+w', () => {
         trashNoteHandler()
     })
 
-    useKey('ctrl+s', () => {
+    useKey('shift+s', () => {
         syncNotesHandler()
     })
 
-    useKey('ctrl+d', () => {
+    useKey('shift+d', () => {
         downloadNoteHandler()
     })
 
