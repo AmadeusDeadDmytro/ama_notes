@@ -202,7 +202,7 @@ const NoteEach = styled.div<{ active: boolean }>`
     cursor: pointer;
     padding: 0.5rem;
     border-bottom: 1px solid ${Colors.A_COLOR_EIGHT};
-    background: ${({ active }) => active && Colors.A_COLOR_TWO};
+    background: ${({ active }) => active && Colors.A_COLOR_SIX};
     font-weight: ${({ active }) => active && 600};
     display: flex;
     align-items: center;
