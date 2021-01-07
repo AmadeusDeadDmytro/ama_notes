@@ -32,9 +32,7 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote
                 className="mousetrap"
                 value={activeNote.text}
                 options={options}
-                editorDidMount={(editor) => {
-                    editor.focus()
-                }}
+                editorDidMount={(editor) => {}}
                 onBeforeChange={(editor, data, value) => {
                     updateNote({
                         id: activeNote.id,
@@ -44,7 +42,9 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote
                     })
                 }}
                 onChange={(editor, data, value) => {
-                    editor.focus()
+                    if (activeNote && activeNote.text === '') {
+                        editor.focus()
+                    }
                 }}
             />
         )

@@ -6,6 +6,7 @@ const options = {
     styleActiveLine: {
         nonEmpty: true,
     },
+    viewportMargin: Infinity,
 }
 
 export default options
