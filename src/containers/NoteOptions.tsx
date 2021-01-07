@@ -1,36 +1,31 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
 import { Bookmark, Download, Trash } from 'react-feather'
-import { addNote, sendNoteToTrash, swapNote, syncState, toggleFavoriteNote } from 'actions'
 import { downloadNote, getNoteTitle } from 'helpers'
+import { sendNoteToTrash, syncState, toggleFavoriteNote } from 'actions'
 
 import { Dispatch } from 'redux'
 import React from 'react'
 import { connect } from 'react-redux'
-import moment from 'moment'
 import styled from 'styled-components'
-import { v4 as uuid } from 'uuid'
 
 interface NoteOptionsProps {
-    swapNote: (noteId: string) => void
     sendNoteToTrash: (noteId: string) => void
     toggleFavoriteNote: (noteId: string) => void
-    activeNote?: NoteItem
-    activeCategoryId: string
     notes: NoteItem[]
     categories: CategoryItem[]
     clickedNote: NoteItem
 }
 
-const NoteOptions: React.FC<NoteOptionsProps> = ({ activeNote, toggleFavoriteNote, clickedNote, activeCategoryId, swapNote, sendNoteToTrash, notes, categories }) => {
+const NoteOptions: React.FC<NoteOptionsProps> = ({ toggleFavoriteNote, clickedNote, sendNoteToTrash, notes, categories }) => {
     const trashNoteHandler = () => {
-        if (activeNote && !activeNote.trash) {
-            sendNoteToTrash(activeNote.id)
+        if (clickedNote && !clickedNote.trash) {
+            sendNoteToTrash(clickedNote.id)
         }
     }
 
     const downloadNoteHandler = () => {
-        if (activeNote) {
-            downloadNote(getNoteTitle(activeNote.text), activeNote)
+        if (clickedNote) {
+            downloadNote(getNoteTitle(clickedNote.text), clickedNote)
         }
     }
 
@@ -61,12 +56,10 @@ const NoteOptions: React.FC<NoteOptionsProps> = ({ activeNote, toggleFavoriteNot
 const mapStateToProps = (state: ApplicationState) => ({
     notes: state.noteState.notes,
     categories: state.categoryState.categories,
-    activeNote: state.noteState.notes.find((note) => note.id === state.noteState.activeNoteId),
     activeCategoryId: state.noteState.activeCategoryId,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    swapNote: (noteId: string) => dispatch(swapNote(noteId)),
     sendNoteToTrash: (noteId: string) => dispatch(sendNoteToTrash(noteId)),
     toggleFavoriteNote: (noteId: string) => dispatch(toggleFavoriteNote(noteId)),
 })

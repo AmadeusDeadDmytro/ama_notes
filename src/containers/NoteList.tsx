@@ -8,13 +8,15 @@ import { Folders } from 'constants/enums'
 import { MoreHorizontal } from 'react-feather'
 import NoteOptions from 'containers/NoteOptions'
 import { connect } from 'react-redux'
+import { folderMap } from 'constants/index'
 import { getNoteTitle } from 'helpers'
 import styled from 'styled-components'
 
 interface NoteListProps {
+    activeFolder: string
     activeCategoryId: string
+    activeCategory?: CategoryItem
     activeNoteId: string
-    notes: NoteItem[]
     filteredNotes: NoteItem[]
     filteredCategories: CategoryItem[]
     swapNote: (noteId: string) => void
@@ -23,7 +25,18 @@ interface NoteListProps {
     addCategoryToNote: (categoryId: string, noteId: string) => void
 }
 
-const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, notes, filteredNotes, filteredCategories, swapNote, swapCategory, pruneNotes, addCategoryToNote }) => {
+const NoteList: React.FC<NoteListProps> = ({
+    activeFolder,
+    activeCategory,
+    activeCategoryId,
+    activeNoteId,
+    filteredNotes,
+    filteredCategories,
+    swapNote,
+    swapCategory,
+    pruneNotes,
+    addCategoryToNote,
+}) => {
     const [noteOptionsId, setNoteOptionsId] = useState('')
     const node = useRef<HTMLDivElement>(null)
 
@@ -58,6 +71,7 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
     return (
         <NoteSidebar>
             <Searchbar placeholder="Найти запись" onChange={searchNotes} type="search" />
+            <NoteSidebarHeader>{activeFolder === 'CATEGORY' ? activeCategory!.name : folderMap[activeFolder]}</NoteSidebarHeader>
             <NoteListContainer>
                 {filteredNotes.map((note) => {
                     const noteTitle = getNoteTitle(note.text)
@@ -143,7 +157,9 @@ const mapStateToProps = (state: ApplicationState) => {
     })
 
     return {
+        activeFolder: noteState.activeFolder,
         activeCategoryId: noteState.activeCategoryId,
+        activeCategory: categoryState.categories.find((category) => category.id === noteState.activeCategoryId),
         activeNoteId: noteState.activeNoteId,
         notes: noteState.notes,
         filteredNotes,
@@ -161,6 +177,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteList)
+
+const NoteSidebarHeader = styled.div``
 
 const Searchbar = styled.input`
     -webkit-appearance: textfield;
