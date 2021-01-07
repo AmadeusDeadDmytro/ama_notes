@@ -66,7 +66,7 @@ const NoteList: React.FC<NoteListProps> = ({
 
     return (
         <NoteSidebar>
-            <NoteSidebarHeader>{activeFolder === 'CATEGORY' ? activeCategory!.name : folderMap[activeFolder]}</NoteSidebarHeader>
+            <NoteSidebarHeader>{activeFolder === 'CATEGORY' ? activeCategory && activeCategory.name : folderMap[activeFolder]}</NoteSidebarHeader>
             <NoteListContainer>
                 {filteredNotes.map((note) => {
                     const noteTitle = getNoteTitle(note.text)
