@@ -1,5 +1,5 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
-import { Download, X } from 'react-feather'
+import { Download, Trash } from 'react-feather'
 import { addNote, sendNoteToTrash, swapNote, syncState } from 'actions'
 import { downloadNote, getNoteTitle } from 'helpers'
 
@@ -20,29 +20,10 @@ interface NoteOptionsProps {
 }
 
 const NoteOptions: React.FC<NoteOptionsProps> = ({ activeNote, activeCategoryId, swapNote, sendNoteToTrash, notes, categories }) => {
-    const newNoteHandler = () => {
-        const note: NoteItem = {
-            id: uuid(),
-            text: '',
-            created: moment().format(),
-            lastUpdated: moment().format(),
-            category: activeCategoryId ? activeCategoryId : undefined,
-        }
-
-        if ((activeNote && activeNote.text !== '') || !activeNote) {
-            addNote(note)
-            swapNote(note.id)
-        }
-    }
-
     const trashNoteHandler = () => {
         if (activeNote && !activeNote.trash) {
             sendNoteToTrash(activeNote.id)
         }
-    }
-
-    const syncNotesHandler = () => {
-        syncState(notes, categories)
     }
 
     const downloadNoteHandler = () => {
@@ -54,7 +35,7 @@ const NoteOptions: React.FC<NoteOptionsProps> = ({ activeNote, activeCategoryId,
     return (
         <NoteOptionsNav>
             <NavButton onClick={trashNoteHandler}>
-                <X size={15} />
+                <Trash size={15} />
                 Удалить заметку
             </NavButton>
             <NavButton onClick={downloadNoteHandler}>

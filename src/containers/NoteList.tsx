@@ -6,40 +6,23 @@ import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
 import { Folders } from 'constants/enums'
 import NoteOptions from 'containers/NoteOptions'
-import { PlusCircle } from 'react-feather'
 import { connect } from 'react-redux'
 import { getNoteTitle } from 'helpers'
-import moment from 'moment'
 import styled from 'styled-components'
-import { v4 as uuid } from 'uuid'
 
 interface NoteListProps {
-    activeNote?: NoteItem
     activeCategoryId: string
     activeNoteId: string
     notes: NoteItem[]
     filteredNotes: NoteItem[]
     filteredCategories: CategoryItem[]
-    addNote: (note: NoteItem) => void
     swapNote: (noteId: string) => void
     swapCategory: (category: string) => void
     pruneNotes: () => void
     addCategoryToNote: (categoryId: string, noteId: string) => void
 }
 
-const NoteList: React.FC<NoteListProps> = ({
-    activeNote,
-    addNote,
-    activeCategoryId,
-    activeNoteId,
-    notes,
-    filteredNotes,
-    filteredCategories,
-    swapNote,
-    swapCategory,
-    pruneNotes,
-    addCategoryToNote,
-}) => {
+const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, notes, filteredNotes, filteredCategories, swapNote, swapCategory, pruneNotes, addCategoryToNote }) => {
     const [noteOptionsId, setNoteOptionsId] = useState('')
     const node = useRef<HTMLDivElement>(null)
 
@@ -59,21 +42,6 @@ const NoteList: React.FC<NoteListProps> = ({
         }
     }
 
-    const newNoteHandler = () => {
-        const note: NoteItem = {
-            id: uuid(),
-            text: '',
-            created: moment().format(),
-            lastUpdated: moment().format(),
-            category: activeCategoryId ? activeCategoryId : undefined,
-        }
-
-        if ((activeNote && activeNote.text !== '') || !activeNote) {
-            addNote(note)
-            swapNote(note.id)
-        }
-    }
-
     const searchNotes = (event: React.ChangeEvent<HTMLInputElement>) => {
         const filteredResults = filteredNotes.filter((note) => note.text.toLowerCase().search(event.target.value.toLowerCase()) !== -1)
     }
@@ -89,11 +57,6 @@ const NoteList: React.FC<NoteListProps> = ({
     return (
         <NoteSidebar>
             <Searchbar placeholder="Найти запись" onChange={searchNotes} type="search" />
-            <AddNote>
-                <div>
-                    <PlusCircle size={20} onClick={newNoteHandler} />
-                </div>
-            </AddNote>
             <NoteListContainer>
                 {filteredNotes.map((note) => {
                     const noteTitle = getNoteTitle(note.text)
@@ -189,15 +152,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteList)
-
-const AddNote = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    padding: 1rem;
-
-    div {
-    }
-`
 
 const Searchbar = styled.input`
     -webkit-appearance: textfield;
