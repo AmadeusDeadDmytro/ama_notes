@@ -1,6 +1,6 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
-import { Download, Trash } from 'react-feather'
-import { addNote, sendNoteToTrash, swapNote, syncState } from 'actions'
+import { Bookmark, Download, Trash } from 'react-feather'
+import { addNote, sendNoteToTrash, swapNote, syncState, toggleFavoriteNote } from 'actions'
 import { downloadNote, getNoteTitle } from 'helpers'
 
 import { Dispatch } from 'redux'
@@ -13,13 +13,15 @@ import { v4 as uuid } from 'uuid'
 interface NoteOptionsProps {
     swapNote: (noteId: string) => void
     sendNoteToTrash: (noteId: string) => void
+    toggleFavoriteNote: (noteId: string) => void
     activeNote?: NoteItem
     activeCategoryId: string
     notes: NoteItem[]
     categories: CategoryItem[]
+    clickedNote: NoteItem
 }
 
-const NoteOptions: React.FC<NoteOptionsProps> = ({ activeNote, activeCategoryId, swapNote, sendNoteToTrash, notes, categories }) => {
+const NoteOptions: React.FC<NoteOptionsProps> = ({ activeNote, toggleFavoriteNote, clickedNote, activeCategoryId, swapNote, sendNoteToTrash, notes, categories }) => {
     const trashNoteHandler = () => {
         if (activeNote && !activeNote.trash) {
             sendNoteToTrash(activeNote.id)
@@ -32,8 +34,18 @@ const NoteOptions: React.FC<NoteOptionsProps> = ({ activeNote, activeCategoryId,
         }
     }
 
+    const favoriteNoteHandler = () => {
+        toggleFavoriteNote(clickedNote.id)
+    }
+
     return (
         <NoteOptionsNav>
+            {!clickedNote.trash && (
+                <NavButton onClick={favoriteNoteHandler}>
+                    <Bookmark size={15} />
+                    {clickedNote.favorite ? 'Удалить из Избранного' : 'Добавить в Избранное'}
+                </NavButton>
+            )}
             <NavButton onClick={trashNoteHandler}>
                 <Trash size={15} />
                 Удалить заметку
@@ -56,6 +68,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     swapNote: (noteId: string) => dispatch(swapNote(noteId)),
     sendNoteToTrash: (noteId: string) => dispatch(sendNoteToTrash(noteId)),
+    toggleFavoriteNote: (noteId: string) => dispatch(toggleFavoriteNote(noteId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteOptions)

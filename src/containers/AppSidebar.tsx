@@ -1,5 +1,5 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
-import { Book, Folder, Plus, Settings, Trash2, UploadCloud, X } from 'react-feather'
+import { Book, Bookmark, Folder, Plus, Settings, Trash2, UploadCloud, X } from 'react-feather'
 import React, { useState } from 'react'
 import { addCategory, addNote, deleteCategory, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote, syncState } from 'actions'
 
@@ -89,6 +89,10 @@ const AppSidebar: React.FC<AppProps> = ({
                 <AppSidebarLink onClick={() => swapFolder(Folders.ALL)} active={activeFolder === Folders.ALL}>
                     <Book size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
                     Все заметки
+                </AppSidebarLink>
+                <AppSidebarLink onClick={() => swapFolder(Folders.FAVORITES)} active={activeFolder === Folders.FAVORITES}>
+                    <Bookmark size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
+                    Избранные
                 </AppSidebarLink>
                 <AppSidebarLink onClick={() => swapFolder(Folders.TRASH)} active={activeFolder === Folders.TRASH}>
                     <Trash2 size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
@@ -232,7 +236,7 @@ const ActionButton = styled.div`
 const AppSidebarContainer = styled.aside`
     padding: 1rem 0 0.25rem;
     grid-area: app-sidebar;
-    background: ${Colors.BACKGROUND_DARK_ONE};
+    background: ${Colors.A_COLOR_FOUR};
     color: rgba(255, 255, 255, 0.8);
     display: flex;
     flex-direction: column;
@@ -324,7 +328,7 @@ const CategoryEach = styled.div<{ active: boolean }>`
     cursor: pointer;
     padding: 0.5rem;
     color: rgba(255, 255, 255, 0.8);
-    background: ${({ active }) => active && Colors.A_COLOR_FIVE};
+    background: ${({ active }) => active && Colors.A_COLOR_SEVEN};
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -334,7 +338,7 @@ const CategoryEach = styled.div<{ active: boolean }>`
     }
 
     &:hover {
-        background: ${Colors.BACKGROUND_DARK_THREE};
+        background: ${Colors.A_COLOR_THREE};
 
         ${CategoryOptions} {
             color: ${Colors.A_COLOR_FIVE};

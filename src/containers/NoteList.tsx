@@ -111,7 +111,7 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
                                             </SelectElementOption>
                                         )}
                                     </SelectElement>
-                                    <NoteOptions />
+                                    <NoteOptions clickedNote={note} />
                                 </NoteOptionsContext>
                             )}
                         </NoteEach>
@@ -128,6 +128,8 @@ const mapStateToProps = (state: ApplicationState) => {
 
     if (noteState.activeFolder === Folders.CATEGORY) {
         filteredNotes = noteState.notes.filter((note) => !note.trash && note.category === noteState.activeCategoryId)
+    } else if (noteState.activeFolder === Folders.FAVORITES) {
+        filteredNotes = noteState.notes.filter((note) => !note.trash && note.favorite)
     } else if (noteState.activeFolder === Folders.TRASH) {
         filteredNotes = noteState.notes.filter((note) => note.trash)
     } else {
@@ -180,7 +182,7 @@ const Searchbar = styled.input`
 
 const NoteSidebar = styled.aside`
     grid-area: note-sidebar;
-    background: ${Colors.BACKGROUND};
+    background: ${Colors.A_COLOR_TWO};
     border-right: 1px solid ${Colors.A_COLOR_NINE};
 `
 
@@ -190,7 +192,7 @@ const NoteEach = styled.div<{ active: boolean }>`
     position: relative;
     cursor: pointer;
     padding: 0.5rem;
-    border-bottom: 1px solid ${Colors.HOVER};
+    border-bottom: 1px solid ${Colors.A_COLOR_EIGHT};
     background: ${({ active }) => active && Colors.A_COLOR_TWO};
     font-weight: ${({ active }) => active && 600};
     display: flex;
