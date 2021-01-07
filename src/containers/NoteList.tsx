@@ -56,21 +56,16 @@ const NoteList: React.FC<NoteListProps> = ({
         }
     }
 
-    const searchNotes = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const filteredResults = filteredNotes.filter((note) => note.text.toLowerCase().search(event.target.value.toLowerCase()) !== -1)
-    }
-
     useEffect(() => {
         document.addEventListener('mousedown', handleNoteOptionsClick)
 
         return () => {
             document.removeEventListener('mousedown', handleNoteOptionsClick)
         }
-    }, [])
+    })
 
     return (
         <NoteSidebar>
-            <Searchbar placeholder="Найти запись" onChange={searchNotes} type="search" />
             <NoteSidebarHeader>{activeFolder === 'CATEGORY' ? activeCategory!.name : folderMap[activeFolder]}</NoteSidebarHeader>
             <NoteListContainer>
                 {filteredNotes.map((note) => {

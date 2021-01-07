@@ -1,7 +1,7 @@
-import { ApplicationState, CategoryItem, NoteItem } from 'types'
+import { ApplicationState, NoteItem } from 'types'
 import { Bookmark, Download, Trash } from 'react-feather'
 import { downloadNote, getNoteTitle } from 'helpers'
-import { sendNoteToTrash, syncState, toggleFavoriteNote } from 'actions'
+import { sendNoteToTrash, toggleFavoriteNote } from 'actions'
 
 import { Dispatch } from 'redux'
 import React from 'react'
@@ -11,12 +11,10 @@ import styled from 'styled-components'
 interface NoteOptionsProps {
     sendNoteToTrash: (noteId: string) => void
     toggleFavoriteNote: (noteId: string) => void
-    notes: NoteItem[]
-    categories: CategoryItem[]
     clickedNote: NoteItem
 }
 
-const NoteOptions: React.FC<NoteOptionsProps> = ({ toggleFavoriteNote, clickedNote, sendNoteToTrash, notes, categories }) => {
+const NoteOptions: React.FC<NoteOptionsProps> = ({ toggleFavoriteNote, clickedNote, sendNoteToTrash }) => {
     const trashNoteHandler = () => {
         if (clickedNote && !clickedNote.trash) {
             sendNoteToTrash(clickedNote.id)
@@ -54,8 +52,6 @@ const NoteOptions: React.FC<NoteOptionsProps> = ({ toggleFavoriteNote, clickedNo
 }
 
 const mapStateToProps = (state: ApplicationState) => ({
-    notes: state.noteState.notes,
-    categories: state.categoryState.categories,
     activeCategoryId: state.noteState.activeCategoryId,
 })
 
