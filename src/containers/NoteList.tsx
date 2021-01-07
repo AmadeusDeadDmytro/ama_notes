@@ -124,7 +124,7 @@ const NoteList: React.FC<NoteListProps> = ({ activeCategoryId, activeNoteId, not
 
 const mapStateToProps = (state: ApplicationState) => {
     const { noteState, categoryState } = state
-    let filteredNotes: NoteItem[] = []
+    let filteredNotes: NoteItem[]
 
     if (noteState.activeFolder === Folders.CATEGORY) {
         filteredNotes = noteState.notes.filter((note) => !note.trash && note.category === noteState.activeCategoryId)
@@ -133,6 +133,12 @@ const mapStateToProps = (state: ApplicationState) => {
     } else {
         filteredNotes = noteState.notes.filter((note) => !note.trash)
     }
+
+    filteredNotes.sort(function (a, b) {
+        let dateA = new Date(a.lastUpdated)
+        let dateB = new Date(b.lastUpdated)
+        return dateA > dateB ? -1 : dateA < dateB ? 1 : 0
+    })
 
     return {
         activeCategoryId: noteState.activeCategoryId,
@@ -175,6 +181,7 @@ const Searchbar = styled.input`
 const NoteSidebar = styled.aside`
     grid-area: note-sidebar;
     background: ${Colors.BACKGROUND};
+    border-right: 1px solid ${Colors.A_COLOR_NINE};
 `
 
 const NoteListContainer = styled.div``
@@ -184,13 +191,14 @@ const NoteEach = styled.div<{ active: boolean }>`
     cursor: pointer;
     padding: 0.5rem;
     border-bottom: 1px solid ${Colors.HOVER};
-    background: ${({ active }) => active && Colors.ACTIVE};
+    background: ${({ active }) => active && Colors.A_COLOR_TWO};
+    font-weight: ${({ active }) => active && 600};
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     &:hover {
-        background: ${Colors.HOVER};
+        background: ${Colors.A_COLOR_NINE};
     }
 `
 

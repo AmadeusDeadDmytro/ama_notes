@@ -87,6 +87,7 @@ const Editor = styled(CodeMirror)`
         font-weight: 500;
         font-size: 15px;
         line-height: 1.5;
+        padding-left: 0.5rem;
     }
 
     .CodeMirror-activeline-background {

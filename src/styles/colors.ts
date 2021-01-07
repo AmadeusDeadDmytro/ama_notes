@@ -14,6 +14,7 @@ const colors = {
     A_COLOR_SIX: '#12083b', /// 222
     A_COLOR_SEVEN: '#000b23', /// 292929
     A_COLOR_EIGHT: '#fdde6c', /// 6ab0f3
+    A_COLOR_NINE: '#816eca', /// ccc
 }
 
 export default colors

@@ -219,10 +219,11 @@ const ActionButton = styled.div`
         background: ${Colors.A_COLOR_SEVEN};
         padding: 0.7rem;
         border-radius: 50%;
-        stroke: ${Colors.A_COLOR_EIGHT};
+        stroke: rgba(255, 255, 255, 0.7);
         margin: 0 0.25rem;
 
         &:hover {
+            stroke: ${Colors.A_COLOR_EIGHT};
             background: ${Colors.A_COLOR_FOUR};
         }
     }
