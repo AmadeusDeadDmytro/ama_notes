@@ -8,9 +8,8 @@ import { Dispatch } from 'redux'
 import { Folders } from 'constants/enums'
 import { connect } from 'react-redux'
 import kebabCase from 'lodash/kebabCase'
-import moment from 'moment'
+import { newNote } from 'helpers'
 import styled from 'styled-components'
-import { v4 as uuid } from 'uuid'
 
 const iconColor = 'rgba(255, 255, 255, 0.3)'
 
@@ -65,15 +64,9 @@ const AppSidebar: React.FC<AppProps> = ({
     }
 
     const newNoteHandler = () => {
-        const note: NoteItem = {
-            id: uuid(),
-            text: '',
-            created: moment().format(),
-            lastUpdated: moment().format(),
-            category: activeCategoryId ? activeCategoryId : undefined,
-        }
-
         if ((activeNote && activeNote.text !== '') || !activeNote) {
+            const note = newNote(activeCategoryId, activeFolder)
+
             addNote(note)
             swapNote(note.id)
         }

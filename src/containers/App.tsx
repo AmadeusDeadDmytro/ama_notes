@@ -29,7 +29,6 @@ const App: React.FC<AppProps> = ({ loadNotes, loadCategories }) => {
             <AppSidebar />
             <NoteList />
             <NoteEditor />
-            <KeyboardShortcuts />
         </AppContainer>
     )
 }
