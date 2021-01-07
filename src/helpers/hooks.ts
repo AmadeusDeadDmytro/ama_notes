@@ -1,3 +1,4 @@
+import mousetrap from 'mousetrap'
 import 'mousetrap-global-bind'
 
 import { useEffect, useRef } from 'react'
@@ -21,4 +22,19 @@ export const useInterval = (callback: () => void, delay: number | null) => {
             return () => clearInterval(id)
         }
     }, [delay])
+}
+
+export const useKey = (key: string, action: () => void) => {
+    let actionRef = useRef(noop)
+    actionRef.current = action
+
+    useEffect(() => {
+        mousetrap.bindGlobal(key, () => {
+            if (!actionRef.current) return
+            actionRef.current()
+        })
+        return () => {
+            mousetrap.unbind(key)
+        }
+    }, [key])
 }

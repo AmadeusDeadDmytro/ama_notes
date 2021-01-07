@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
 import kebabCase from 'lodash/kebabCase'
 import { newNote } from 'helpers'
 import styled from 'styled-components'
+import { useKeyboard } from 'contexts/KeyboardContext'
 
 const iconColor = 'rgba(255, 255, 255, 0.3)'
 
@@ -44,7 +45,7 @@ const AppSidebar: React.FC<AppProps> = ({
     activeCategoryId,
     activeFolder,
 }) => {
-    const [addingTempCategory, setAddingTempCategory] = useState(false)
+    const { addingTempCategory, setAddingTempCategory } = useKeyboard()
     const [tempCategory, setTempCategory] = useState('')
 
     const newTempCategoryHandler = () => {

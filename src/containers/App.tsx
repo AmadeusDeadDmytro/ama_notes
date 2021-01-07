@@ -4,6 +4,8 @@ import { loadCategories, loadNotes } from 'actions'
 import AppSidebar from 'containers/AppSidebar'
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
+import { KeyboardProvider } from 'contexts/KeyboardContext'
+import KeyboardShortcuts from 'containers/KeyboardShortcuts'
 import NoteEditor from 'containers/NoteEditor'
 import NoteList from 'containers/NoteList'
 import { connect } from 'react-redux'
@@ -25,9 +27,12 @@ const App: React.FC<AppProps> = ({ loadNotes, loadCategories }) => {
 
     return (
         <AppContainer>
-            <AppSidebar />
-            <NoteList />
-            <NoteEditor />
+            <KeyboardProvider>
+                <AppSidebar />
+                <NoteList />
+                <NoteEditor />
+                <KeyboardShortcuts />
+            </KeyboardProvider>
         </AppContainer>
     )
 }
