@@ -35,8 +35,8 @@ export const updateNote = (note: NoteItem) => ({
     payload: note,
 })
 
-export const sendNoteToTrash = (noteId: string) => ({
-    type: Actions.SEND_NOTE_TO_TRASH,
+export const toggleTrashedNote = (noteId: string) => ({
+    type: Actions.TOGGLE_TRASHED_NOTE,
     payload: noteId,
 })
 
@@ -97,7 +97,7 @@ export const loadCategoriesSuccess = (categories: CategoryItem[]) => ({
     payload: categories,
 })
 
-export const loadCategoriesError = (error: string) => ({
+export const loadCategoriesError = () => ({
     type: Actions.LOAD_CATEGORIES_ERROR,
 })
 

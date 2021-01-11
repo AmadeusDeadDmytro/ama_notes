@@ -87,14 +87,14 @@ const noteReducer = (state = initialState, action: NotesActionTypes): NoteState 
                     }
                 }),
             }
-        case Actions.SEND_NOTE_TO_TRASH:
+        case Actions.TOGGLE_TRASHED_NOTE:
             return {
                 ...state,
                 notes: state.notes.map((note) => {
                     if (note.id === action.payload) {
                         return {
                             ...note,
-                            trash: true,
+                            trash: !note.trash,
                         }
                     } else {
                         return note

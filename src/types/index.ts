@@ -97,8 +97,8 @@ export interface DeleteNoteAction {
     payload: string
 }
 
-export interface SendNoteToTrashAction {
-    type: typeof Actions.SEND_NOTE_TO_TRASH
+export interface ToggleTrashAction {
+    type: typeof Actions.TOGGLE_TRASHED_NOTE
     payload: string
 }
 
@@ -150,7 +150,7 @@ export type NotesActionTypes =
     | LoadNotesSuccessAction
     | LoadNotesErrorAction
     | AddNoteAction
-    | SendNoteToTrashAction
+    | ToggleTrashAction
     | DeleteNoteAction
     | ToggleFavoriteNoteAction
     | UpdateNoteAction

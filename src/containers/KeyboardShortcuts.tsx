@@ -1,5 +1,5 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
-import { addNote, sendNoteToTrash, swapNote, syncState } from 'actions'
+import { addNote, toggleTrashedNote, swapNote, syncState } from 'actions'
 import { downloadNote, getNoteTitle, newNote } from 'helpers'
 
 import { Dispatch } from 'redux'
@@ -11,7 +11,7 @@ import { useKeyboard } from 'contexts/KeyboardContext'
 interface KeyboardShortcutsProps {
     addNote: (note: NoteItem) => void
     swapNote: (noteId: string) => void
-    sendNoteToTrash: (noteId: string) => void
+    toggleTrashedNote: (noteId: string) => void
     syncState: (notes: NoteItem[], categories: CategoryItem[]) => void
     activeNote?: NoteItem
     activeCategoryId: string
@@ -21,7 +21,7 @@ interface KeyboardShortcutsProps {
     syncing: boolean
 }
 
-const KeyboardShortcuts: React.FC<KeyboardShortcutsProps> = ({ activeNote, activeCategoryId, activeFolder, addNote, swapNote, sendNoteToTrash, syncState, notes, categories }) => {
+const KeyboardShortcuts: React.FC<KeyboardShortcutsProps> = ({ activeNote, activeCategoryId, activeFolder, addNote, swapNote, toggleTrashedNote, syncState, notes, categories }) => {
     const { addingTempCategory, setAddingTempCategory } = useKeyboard()
     const newNoteHandler = () => {
         const note = newNote(activeCategoryId, activeFolder)
@@ -38,7 +38,7 @@ const KeyboardShortcuts: React.FC<KeyboardShortcutsProps> = ({ activeNote, activ
 
     const trashNoteHandler = () => {
         if (activeNote && !activeNote.trash) {
-            sendNoteToTrash(activeNote.id)
+            toggleTrashedNote(activeNote.id)
         }
     }
 
@@ -52,23 +52,23 @@ const KeyboardShortcuts: React.FC<KeyboardShortcutsProps> = ({ activeNote, activ
         }
     }
 
-    useKey('shift+n', () => {
+    useKey('alt+n', () => {
         newNoteHandler()
     })
 
-    useKey('shift+c', () => {
+    useKey('alt+c', () => {
         newTempCategoryHandler()
     })
 
-    useKey('shift+w', () => {
+    useKey('alt+w', () => {
         trashNoteHandler()
     })
 
-    useKey('shift+s', () => {
+    useKey('alt+s', () => {
         syncNotesHandler()
     })
 
-    useKey('shift+d', () => {
+    useKey('alt+d', () => {
         downloadNoteHandler()
     })
 
@@ -87,7 +87,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     addNote: (note: NoteItem) => dispatch(addNote(note)),
     swapNote: (noteId: string) => dispatch(swapNote(noteId)),
-    sendNoteToTrash: (noteId: string) => dispatch(sendNoteToTrash(noteId)),
+    toggleTrashedNote: (noteId: string) => dispatch(toggleTrashedNote(noteId)),
     syncState: (notes: NoteItem[], categories: CategoryItem[]) => dispatch(syncState(notes, categories)),
 })
 

@@ -1,7 +1,7 @@
 import { ApplicationState, NoteItem } from 'types'
-import { Bookmark, Download, Trash } from 'react-feather'
+import { ArrowUp, Bookmark, Download, Trash } from 'react-feather'
 import { downloadNote, getNoteTitle } from 'helpers'
-import { sendNoteToTrash, toggleFavoriteNote } from 'actions'
+import { toggleTrashedNote, toggleFavoriteNote } from 'actions'
 
 import { Dispatch } from 'redux'
 import React from 'react'
@@ -9,16 +9,14 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 interface NoteOptionsProps {
-    sendNoteToTrash: (noteId: string) => void
+    toggleTrashedNote: (noteId: string) => void
     toggleFavoriteNote: (noteId: string) => void
     clickedNote: NoteItem
 }
 
-const NoteOptions: React.FC<NoteOptionsProps> = ({ toggleFavoriteNote, clickedNote, sendNoteToTrash }) => {
+const NoteOptions: React.FC<NoteOptionsProps> = ({ toggleFavoriteNote, clickedNote, toggleTrashedNote }) => {
     const trashNoteHandler = () => {
-        if (clickedNote && !clickedNote.trash) {
-            sendNoteToTrash(clickedNote.id)
-        }
+        toggleTrashedNote(clickedNote.id)
     }
 
     const downloadNoteHandler = () => {
@@ -40,12 +38,20 @@ const NoteOptions: React.FC<NoteOptionsProps> = ({ toggleFavoriteNote, clickedNo
                 </NavButton>
             )}
             <NavButton onClick={trashNoteHandler}>
-                <Trash size={15} />
-                Удалить заметку
+                {clickedNote.trash ? (
+                    <>
+                        <ArrowUp size={15} />
+                        Восстановить
+                    </>
+                ) : (
+                    <>
+                        <Trash size={15} />В корзину
+                    </>
+                )}
             </NavButton>
             <NavButton onClick={downloadNoteHandler}>
                 <Download size={15} />
-                Скачать заметку
+                Скачать
             </NavButton>
         </NoteOptionsNav>
     )
@@ -56,7 +62,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    sendNoteToTrash: (noteId: string) => dispatch(sendNoteToTrash(noteId)),
+    toggleTrashedNote: (noteId: string) => dispatch(toggleTrashedNote(noteId)),
     toggleFavoriteNote: (noteId: string) => dispatch(toggleFavoriteNote(noteId)),
 })
 
