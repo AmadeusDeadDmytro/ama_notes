@@ -3,6 +3,8 @@ node_js:
   - "12"
 install:
   - "npm i"
+script:
+  - "npm run build"
 deploy:
   provider: pages
   skip_cleanup: true
