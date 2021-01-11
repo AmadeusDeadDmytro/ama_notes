@@ -6,6 +6,7 @@ install:
 deploy:
   provider: pages
   skip_cleanup: true
-  github_token: "9723fb1efede1acc9780377cd1e34cbe425b58ea"
+  github_token: $GITHUB_TOKEN
+  local_dir: build
   on:
     branch: master
