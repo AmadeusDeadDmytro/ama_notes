@@ -6,6 +6,6 @@ install:
 deploy:
   provider: pages
   skip_cleanup: true
-  github_token: cf6daa517a49b5f70ea0f35c906bf778547c286d
+  github_token: "cf6daa517a49b5f70ea0f35c906bf778547c286d"
   on:
     branch: master
