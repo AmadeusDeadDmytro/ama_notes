@@ -1,4 +1,4 @@
-import { all, put, take, takeLatest } from 'redux-saga/effects'
+import { all, put, takeLatest } from 'redux-saga/effects'
 import { loadCategoriesError, loadCategoriesSuccess, loadNotesError, loadNotesSuccess, syncStateError, syncStateSuccess } from 'actions'
 import { requestCategories, requestNotes, saveState } from 'api'
 

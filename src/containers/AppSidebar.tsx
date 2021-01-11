@@ -1,7 +1,7 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
 import { Book, Bookmark, Folder, Plus, Settings, Trash2, UploadCloud, X } from 'react-feather'
 import React, { useState } from 'react'
-import { addCategory, addNote, deleteCategory, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote, syncState } from 'actions'
+import { addCategory, addNote, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote, syncState } from 'actions'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
@@ -189,7 +189,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     swapCategory: (categoryId: string) => dispatch(swapCategory(categoryId)),
     swapFolder: (folder: string) => dispatch(swapFolder(folder)),
     addCategory: (category: CategoryItem) => dispatch(addCategory(category)),
-    deleteCategory: (categoryId: string) => dispatch(deleteCategory(categoryId)),
     pruneCategoryFromNotes: (categoryId: string) => dispatch(pruneCategoryFromNotes(categoryId)),
     syncState: (notes: NoteItem[], categories: CategoryItem[]) => dispatch(syncState(notes, categories)),
 })
@@ -202,12 +201,6 @@ const AppSidebarActions = styled.div`
     justify-content: center;
     margin-bottom: 1rem;
     flex-wrap: wrap;
-`
-
-const AppSidebarActionsH1 = styled.h1`
-    font-size: 1.05rem;
-    font-weight: 700;
-    margin: 0;
 `
 
 const ActionButton = styled.div`
@@ -256,14 +249,6 @@ const AppSidebarMain = styled.section`
     flex: 1;
 `
 
-const Title = styled.h1`
-    font-size: 1.3rem;
-    padding: 0.5rem;
-    margin: 0;
-`
-const AllNotes = styled.p`
-    padding: 0 0.5rem;
-`
 const CategoryTitle = styled.div`
     margin-top: 1rem;
     padding: 0.5rem;
@@ -277,22 +262,6 @@ const CategoryTitleH2 = styled.h2`
     color: ${Colors.A_COLOR_ONE};
     text-transform: uppercase;
     font-size: 0.7rem;
-`
-
-const AppSidebarButton = styled.section`
-    width: 100%;
-    align-self: flex-end;
-`
-
-const AddButton = styled.button`
-    cursor: pointer;
-    -webkit-appearance: none;
-    padding: 0 0.5rem;
-    color: rgba(255, 255, 255, 0.8);
-    background: transparent;
-    font-size: 1rem;
-    border: none;
-    line-height: 1;
 `
 
 const AddCategoryButton = styled.button`

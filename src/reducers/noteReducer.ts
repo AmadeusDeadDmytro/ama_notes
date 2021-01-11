@@ -1,9 +1,7 @@
 import { Actions, Folders } from 'constants/enums'
 import { NoteItem, NoteState, NotesActionTypes } from 'types'
 
-import { loadNotes } from './../actions/index'
 import { sortByLastUpdated } from 'helpers'
-import { v4 as uuid } from 'uuid'
 
 const initialState: NoteState = {
     notes: [],

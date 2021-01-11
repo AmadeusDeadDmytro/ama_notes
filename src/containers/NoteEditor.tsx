@@ -6,7 +6,6 @@ import 'codemirror/addon/selection/active-line.js'
 import { ApplicationState, NoteItem } from 'types'
 
 import { Controlled as CodeMirror } from 'react-codemirror2'
-import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
 import React from 'react'
 import { connect } from 'react-redux'

@@ -2,8 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6aadfe21-b55d-49dd-98f6-fca7107499d3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.coveralls.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/AppSidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/AppSidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/NoteEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/NoteEditor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/NoteList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/NoteList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reducers/noteReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/noteReducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reducers/syncReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/syncReducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sagas/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sagas/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +51,8 @@
       <updated>1608921122049</updated>
       <workItem from="1608921125140" duration="63000" />
       <workItem from="1610212328788" duration="46000" />
-      <workItem from="1610377958268" duration="2314000" />
+      <workItem from="1610377958268" duration="8606000" />
+      <workItem from="1610397951887" duration="1918000" />
     </task>
     <task id="LOCAL-00001" summary="ci: travis">
       <created>1610379503305</created>
@@ -58,7 +68,154 @@
       <option name="project" value="LOCAL" />
       <updated>1610380060892</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="test: jest">
+      <created>1610380298927</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1610380298927</updated>
+    </task>
+    <task id="LOCAL-00004" summary="trying build with travis">
+      <created>1610380519169</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1610380519169</updated>
+    </task>
+    <task id="LOCAL-00005" summary="trying build with travis 2">
+      <created>1610381106511</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1610381106511</updated>
+    </task>
+    <task id="LOCAL-00006" summary="travis update">
+      <created>1610381441818</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1610381441818</updated>
+    </task>
+    <task id="LOCAL-00007" summary="travis update">
+      <created>1610381894640</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1610381894640</updated>
+    </task>
+    <task id="LOCAL-00008" summary="travis update">
+      <created>1610382477836</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1610382477836</updated>
+    </task>
+    <task id="LOCAL-00009" summary="travis update">
+      <created>1610382973328</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1610382973328</updated>
+    </task>
+    <task id="LOCAL-00010" summary="travis update">
+      <created>1610384384627</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1610384384627</updated>
+    </task>
+    <task id="LOCAL-00011" summary="travis update">
+      <created>1610385662373</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1610385662373</updated>
+    </task>
+    <task id="LOCAL-00012" summary="travis update">
+      <created>1610385949599</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1610385949599</updated>
+    </task>
+    <task id="LOCAL-00013" summary="travis update">
+      <created>1610386509122</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1610386509122</updated>
+    </task>
+    <task id="LOCAL-00014" summary="travis update">
+      <created>1610386746421</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1610386746421</updated>
+    </task>
+    <task id="LOCAL-00015" summary="travis update">
+      <created>1610386956089</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1610386956089</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.travis.yml">
+      <created>1610387429643</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1610387429643</updated>
+    </task>
+    <task id="LOCAL-00017" summary="travis update">
+      <created>1610387609983</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1610387609983</updated>
+    </task>
+    <task id="LOCAL-00018" summary="...">
+      <created>1610398209040</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1610398209040</updated>
+    </task>
+    <task id="LOCAL-00019" summary="...">
+      <created>1610398382977</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1610398382977</updated>
+    </task>
+    <task id="LOCAL-00020" summary="...">
+      <created>1610398676617</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1610398676617</updated>
+    </task>
+    <task id="LOCAL-00021" summary="...">
+      <created>1610398962296</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1610398962296</updated>
+    </task>
+    <task id="LOCAL-00022" summary="...">
+      <created>1610399307341</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1610399307341</updated>
+    </task>
+    <task id="LOCAL-00023" summary="...">
+      <created>1610399473657</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1610399473657</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -79,6 +236,12 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ci: travis" />
     <MESSAGE value="update .gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="update .gitignore" />
+    <MESSAGE value="test: jest" />
+    <MESSAGE value="trying build with travis" />
+    <MESSAGE value="trying build with travis 2" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.travis.yml" />
+    <MESSAGE value="travis update" />
+    <MESSAGE value="..." />
+    <option name="LAST_COMMIT_MESSAGE" value="..." />
   </component>
 </project>

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { loadCategories, loadNotes } from 'actions'
 
 import AppSidebar from 'containers/AppSidebar'
-import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
 import { KeyboardProvider } from 'contexts/KeyboardContext'
 import KeyboardShortcuts from 'containers/KeyboardShortcuts'

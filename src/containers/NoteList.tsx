@@ -171,24 +171,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(NoteList)
 
 const NoteSidebarHeader = styled.div``
 
-const Searchbar = styled.input`
-    -webkit-appearance: textfield;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    font-size: 1rem;
-    padding: 1rem;
-    height: 2.5rem;
-    line-height: 2.5rem;
-    background-color: white;
-    outline: none;
-    border-radius: 0;
-    border-width: 1px;
-    border-style: solid;
-    border-image: initial;
-    border-color: ${Colors.A_COLOR_TWO};
-`
-
 const NoteSidebar = styled.aside`
     grid-area: note-sidebar;
     background: ${Colors.A_COLOR_TWO};

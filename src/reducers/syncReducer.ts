@@ -9,7 +9,6 @@ const initialState = {
 
 const syncReducer = (state = initialState, action: SyncStateActionTypes): SyncState => {
     switch (action.type) {
-        default:
         case Actions.SYNC_STATE:
             return {
                 ...state,
@@ -26,6 +25,7 @@ const syncReducer = (state = initialState, action: SyncStateActionTypes): SyncSt
                 syncing: false,
                 error: action.payload,
             }
+        default:
             return state
     }
 }
