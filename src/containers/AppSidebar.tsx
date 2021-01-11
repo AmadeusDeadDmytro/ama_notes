@@ -1,7 +1,7 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
 import { Book, Bookmark, Folder, Plus, Settings, Trash2, UploadCloud, X } from 'react-feather'
 import React, { useState } from 'react'
-import { addCategory, addNote, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote, syncState } from 'actions'
+import { addCategory, addNote, deleteCategory, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote, syncState } from 'actions'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
@@ -189,6 +189,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     swapCategory: (categoryId: string) => dispatch(swapCategory(categoryId)),
     swapFolder: (folder: string) => dispatch(swapFolder(folder)),
     addCategory: (category: CategoryItem) => dispatch(addCategory(category)),
+    deleteCategory: (categoryId: string) => dispatch(deleteCategory(categoryId)),
     pruneCategoryFromNotes: (categoryId: string) => dispatch(pruneCategoryFromNotes(categoryId)),
     syncState: (notes: NoteItem[], categories: CategoryItem[]) => dispatch(syncState(notes, categories)),
 })
