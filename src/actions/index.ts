@@ -97,7 +97,7 @@ export const loadCategoriesSuccess = (categories: CategoryItem[]) => ({
     payload: categories,
 })
 
-export const loadCategoriesError = () => ({
+export const loadCategoriesError = (error: string) => ({
     type: Actions.LOAD_CATEGORIES_ERROR,
 })
 
