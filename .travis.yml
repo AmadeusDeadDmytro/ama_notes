@@ -3,11 +3,10 @@ node_js:
   - "12"
 install:
   - "npm i"
-script:
-  - npm run build
 deploy:
   provider: pages
   skip_cleanup: true
+  local_dir: './build'
   github_token: $GITHUB_TOKEN
   on:
     branch: master
