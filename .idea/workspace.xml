@@ -4,15 +4,10 @@
     <list default="true" id="6aadfe21-b55d-49dd-98f6-fca7107499d3" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/.coveralls.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/AppSidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/AppSidebar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/NoteEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/NoteEditor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/NoteList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/NoteList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reducers/noteReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/noteReducer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reducers/syncReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/syncReducer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sagas/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sagas/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +47,7 @@
       <workItem from="1608921125140" duration="63000" />
       <workItem from="1610212328788" duration="46000" />
       <workItem from="1610377958268" duration="8606000" />
-      <workItem from="1610397951887" duration="1918000" />
+      <workItem from="1610397951887" duration="4358000" />
     </task>
     <task id="LOCAL-00001" summary="ci: travis">
       <created>1610379503305</created>
@@ -215,7 +210,35 @@
       <option name="project" value="LOCAL" />
       <updated>1610399473657</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="...">
+      <created>1610399884338</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1610399884339</updated>
+    </task>
+    <task id="LOCAL-00025" summary="...">
+      <created>1610400069556</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1610400069556</updated>
+    </task>
+    <task id="LOCAL-00026" summary="package json homepage">
+      <created>1610400513113</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1610400513113</updated>
+    </task>
+    <task id="LOCAL-00027" summary="package json ...">
+      <created>1610400771147</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1610400771147</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -242,6 +265,9 @@
     <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.travis.yml" />
     <MESSAGE value="travis update" />
     <MESSAGE value="..." />
-    <option name="LAST_COMMIT_MESSAGE" value="..." />
+    <MESSAGE value="package json homepage" />
+    <MESSAGE value="package json ..." />
+    <MESSAGE value="some changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="some changes" />
   </component>
 </project>
