@@ -157,17 +157,12 @@ const AppSidebar: React.FC<AppProps> = ({
                     </AddCategoryForm>
                 )}
                 <AppSidebarActions onClick={syncNotesHandler}>
-                    <ActionButton onClick={newNoteHandler}>
-                        <Plus size={18} style={{ marginRight: '.5rem' }} color={iconColor} />
-                        {/* <AppSidebarActionsH1>Новая заметка</AppSidebarActionsH1> */}
-                    </ActionButton>
+                    <ActionButton onClick={newNoteHandler}>{activeFolder !== Folders.TRASH && <Plus size={18} style={{ marginRight: '.5rem' }} color={iconColor} />}</ActionButton>
                     <ActionButton onClick={syncNotesHandler}>
                         <UploadCloud size={18} style={{ marginRight: '.5rem' }} color={iconColor} />
-                        {/* <AppSidebarActionsH1>Синхронизировать</AppSidebarActionsH1> */}
                     </ActionButton>
                     <ActionButton>
                         <Settings size={18} style={{ marginRight: '.5rem' }} color={iconColor} />
-                        {/* <AppSidebarActionsH1>Настройки</AppSidebarActionsH1> */}
                     </ActionButton>
                 </AppSidebarActions>
             </AppSidebarMain>
