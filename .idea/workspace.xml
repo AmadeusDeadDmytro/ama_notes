@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6aadfe21-b55d-49dd-98f6-fca7107499d3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/AppSidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/AppSidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/NoteEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/NoteEditor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/NoteOptions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/NoteOptions.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/colors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/colors.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -11,6 +18,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1mA0WRzTsDC4Pe8F5dQABbmnof6" />
   <component name="ProjectViewState">
@@ -42,7 +57,8 @@
       <workItem from="1608921125140" duration="63000" />
       <workItem from="1610212328788" duration="46000" />
       <workItem from="1610377958268" duration="8606000" />
-      <workItem from="1610397951887" duration="4581000" />
+      <workItem from="1610397951887" duration="5854000" />
+      <workItem from="1610436012261" duration="2313000" />
     </task>
     <task id="LOCAL-00001" summary="ci: travis">
       <created>1610379503305</created>
@@ -240,7 +256,35 @@
       <option name="project" value="LOCAL" />
       <updated>1610402318378</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="some changesMake Redux DevTools optional">
+      <created>1610402595443</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1610402595443</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Implement restoring notes from trash">
+      <created>1610403130445</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1610403130445</updated>
+    </task>
+    <task id="LOCAL-00031" summary="fix">
+      <created>1610403205611</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1610403205611</updated>
+    </task>
+    <task id="LOCAL-00032" summary="getting dark theme toggling working">
+      <created>1610437376308</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1610437376308</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -270,6 +314,10 @@
     <MESSAGE value="package json homepage" />
     <MESSAGE value="package json ..." />
     <MESSAGE value="some changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="some changes" />
+    <MESSAGE value="some changesMake Redux DevTools optional" />
+    <MESSAGE value="Implement restoring notes from trash" />
+    <MESSAGE value="fix" />
+    <MESSAGE value="getting dark theme toggling working" />
+    <option name="LAST_COMMIT_MESSAGE" value="getting dark theme toggling working" />
   </component>
 </project>

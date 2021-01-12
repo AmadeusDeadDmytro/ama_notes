@@ -14,6 +14,8 @@ import options from 'constants/codeMirrorOptions'
 import styled from 'styled-components'
 import { updateNote } from 'actions'
 
+import Colors from 'styles/colors'
+
 interface NoteEditorProps {
     loading: boolean
     activeNote?: NoteItem
@@ -66,11 +68,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(NoteEditor)
 
 const EmptyEditor = styled.div`
     grid-area: editor;
-    max-height: calc(100vh - 25px);
-    overflow-y: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: ${Colors.A_COLOR_TEN};
 `
 
 const EmptyEditorCenter = styled(EmptyEditor)`
@@ -89,7 +87,7 @@ const Editor = styled(CodeMirror)`
         font-weight: 500;
         font-size: 15px;
         line-height: 1.5;
-        padding-left: 0.5rem;
+        padding-left: 1rem;
     }
 
     .CodeMirror-activeline-background {

@@ -8,6 +8,7 @@ const colors = {
     A_COLOR_SEVEN: '#661b12', /// 292929
     A_COLOR_EIGHT: '#fdde6c', /// 6ab0f3
     A_COLOR_NINE: '#F8f22f', /// ccc
+    A_COLOR_TEN: '#d4d4ce', /// f5f5f5
 }
 
 export default colors

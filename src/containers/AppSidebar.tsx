@@ -200,7 +200,7 @@ const AppSidebarActions = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1rem;
+    margin: 3rem 0 1rem;
     flex-wrap: wrap;
 `
 

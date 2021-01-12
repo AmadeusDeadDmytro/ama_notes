@@ -4,7 +4,7 @@ import moment from 'moment'
 import { v4 as uuid } from 'uuid'
 
 export const getNoteTitle = (text: string): string => {
-    const noteTitleRegEx = /[\w`?!.]{1,50}/
+    const noteTitleRegEx = /[\w`?!., ]{1,50}/
 
     let noteTitle: string
     let noteText = text.match(noteTitleRegEx)

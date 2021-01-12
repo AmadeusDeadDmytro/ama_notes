@@ -59,5 +59,5 @@ const AppContainer = styled.div`
     display: grid;
     grid-template-areas: 'app-sidebar note-sidebar editor editor';
     grid-template-columns: 175px 300px auto;
-    min-height: 100vh;
+    height: 100vh;
 `
