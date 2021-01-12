@@ -87,39 +87,43 @@ const NoteList: React.FC<NoteListProps> = ({
                                 <MoreHorizontal size={15} />
                             </NoteOptionsDiv>
                             {noteOptionsId === note.id && (
-                                <NoteOptionsContext ref={node}>
-                                    <ContextActionTitle>Переместить в категорию</ContextActionTitle>
+                                <NoteOptionsContext ref={node} onClick={(event) => event.stopPropagation()}>
+                                    {!note.trash && (
+                                        <>
+                                            <ContextActionTitle>Переместить в категорию</ContextActionTitle>
 
-                                    <SelectElement
-                                        defaultValue=""
-                                        onChange={(event) => {
-                                            addCategoryToNote(event.target.value, note.id)
+                                            <SelectElement
+                                                defaultValue=""
+                                                onChange={(event) => {
+                                                    addCategoryToNote(event.target.value, note.id)
 
-                                            if (event.target.value !== activeCategoryId) {
-                                                swapCategory(event.target.value)
-                                                swapNote(note.id)
-                                            }
+                                                    if (event.target.value !== activeCategoryId) {
+                                                        swapCategory(event.target.value)
+                                                        swapNote(note.id)
+                                                    }
 
-                                            setNoteOptionsId('')
-                                        }}
-                                    >
-                                        <SelectElementOption disabled value="">
-                                            Выберите категорию
-                                        </SelectElementOption>
-
-                                        {filteredCategories
-                                            .filter((category) => category.id !== note.category)
-                                            .map((category) => (
-                                                <SelectElementOption key={category.id} value={category.id}>
-                                                    {category.name}
+                                                    setNoteOptionsId('')
+                                                }}
+                                            >
+                                                <SelectElementOption disabled value="">
+                                                    Выберите категорию
                                                 </SelectElementOption>
-                                            ))}
-                                        {note.category && (
-                                            <SelectElementOption key="none" value="">
-                                                Удалить категорию записи
-                                            </SelectElementOption>
-                                        )}
-                                    </SelectElement>
+
+                                                {filteredCategories
+                                                    .filter((category) => category.id !== note.category)
+                                                    .map((category) => (
+                                                        <SelectElementOption key={category.id} value={category.id}>
+                                                            {category.name}
+                                                        </SelectElementOption>
+                                                    ))}
+                                                {note.category && (
+                                                    <SelectElementOption key="none" value="">
+                                                        Удалить категорию записи
+                                                    </SelectElementOption>
+                                                )}
+                                            </SelectElement>
+                                        </>
+                                    )}
                                     <NoteOptions clickedNote={note} />
                                 </NoteOptionsContext>
                             )}
@@ -208,10 +212,10 @@ const NoteOptionsContext = styled.div`
     color: ${Colors.A_COLOR_FOUR};
     top: 32px;
     left: 200px;
-    min-width: 350px;
+    min-width: 250px;
     padding: 1rem;
     background: white;
-    border: 1px solid ${Colors.A_COLOR_TWO};
+    border: 1px solid ${Colors.A_COLOR_ELEVEN};
     z-index: 5;
     box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.1);
 `
