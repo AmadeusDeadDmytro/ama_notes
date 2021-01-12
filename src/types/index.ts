@@ -27,6 +27,7 @@ export interface ApplicationState {
     noteState: NoteState
     categoryState: CategoryState
     syncState: SyncState
+    themeState: ThemeState
 }
 
 export interface NoteState {
@@ -47,6 +48,10 @@ export interface CategoryState {
 export interface SyncState {
     syncing: boolean
     error: string
+}
+
+export interface ThemeState {
+    dark: boolean
 }
 
 // =================================================================================================================
@@ -193,3 +198,11 @@ export interface UpdateCategoryAction {
 }
 
 export type CategoryActionTypes = LoadCategoriesAction | LoadCategoriesSuccessAction | LoadCategoriesErrorAction | AddCategoryAction | DeleteCategoryAction | UpdateCategoryAction
+
+/* Темы */
+
+export interface ToggleDarkTheme {
+    type: typeof Actions.TOGGLE_DARK_THEME
+}
+
+export type ThemeActionTypes = ToggleDarkTheme

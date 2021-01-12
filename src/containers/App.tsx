@@ -9,13 +9,21 @@ import NoteEditor from 'containers/NoteEditor'
 import NoteList from 'containers/NoteList'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { ApplicationState } from 'types'
 
 interface AppProps {
     loadNotes: () => void
     loadCategories: () => void
+    dark?: boolean
 }
 
-const App: React.FC<AppProps> = ({ loadNotes, loadCategories }) => {
+const App: React.FC<AppProps> = ({ loadNotes, loadCategories, dark }) => {
+    let theme = ''
+
+    if (dark) {
+        theme = 'dark'
+    }
+
     useEffect(() => {
         loadNotes()
     }, [loadNotes])
@@ -25,7 +33,7 @@ const App: React.FC<AppProps> = ({ loadNotes, loadCategories }) => {
     }, [loadCategories])
 
     return (
-        <AppContainer>
+        <AppContainer theme={theme}>
             <KeyboardProvider>
                 <AppSidebar />
                 <NoteList />
@@ -36,12 +44,16 @@ const App: React.FC<AppProps> = ({ loadNotes, loadCategories }) => {
     )
 }
 
+const mapStateToProps = (state: ApplicationState) => ({
+    dark: state.themeState.dark,
+})
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     loadNotes: () => dispatch(loadNotes()),
     loadCategories: () => dispatch(loadCategories()),
 })
 
-export default connect(null, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)
 
 const AppContainer = styled.div`
     display: grid;
