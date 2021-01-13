@@ -197,7 +197,7 @@ const NoteEach = styled.div<{ active: boolean; darkTheme: boolean }>`
     cursor: pointer;
     padding: 0.25rem 0.5rem;
     border-bottom: 1px solid ${({ darkTheme }) => Colors.A_COLOR_EIGHT(darkTheme)};
-    background: ${({ active, darkTheme }) => active && Colors.A_COLOR_SIX(darkTheme)};
+    background: ${({ active, darkTheme }) => active && Colors.A_COLOR_EIGHT(darkTheme)};
     color: ${({ active, darkTheme }) => (active ? Colors.A_COLOR_FIVE(darkTheme) : Colors.A_COLOR_SIX(darkTheme))};
     font-weight: ${({ active }) => active && 600};
     display: flex;
