@@ -1,5 +1,5 @@
 import { Actions } from 'constants/enums'
-import { SettingsState, SettingsActionTypes } from 'types'
+import { SettingsActionTypes, SettingsState } from 'types'
 
 const initialState: SettingsState = {
     isOpen: false,
@@ -21,6 +21,14 @@ const settingsReducer = (state = initialState, action: SettingsActionTypes): Set
             return {
                 ...state,
                 isOpen: !state.isOpen,
+            }
+        case Actions.UPDATE_CODE_MIRROR_OPTION:
+            return {
+                ...state,
+                codeMirrorOptions: {
+                    ...state.codeMirrorOptions,
+                    [action.payload.key]: action.payload.value,
+                },
             }
         default:
             return state

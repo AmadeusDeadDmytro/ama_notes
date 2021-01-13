@@ -1,19 +1,21 @@
 import React, { useEffect, useRef } from 'react'
 import { ApplicationState } from 'types'
 import { Dispatch } from 'redux'
-import { toggleDarkTheme, toggleSettingsModal } from 'actions'
+import { toggleDarkTheme, toggleSettingsModal, updateCodeMirrorOption } from 'actions'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Buttons } from 'styles/base'
+import { Buttons, Vbetween, Switch, SwitchInput, Slider } from 'styles/base'
+import Colors from 'styles/colors'
 
 export interface SettingsModalProps {
     isOpen: boolean
     dark: boolean
     toggleSettingsModal: () => {}
     toggleDarkTheme: () => void
+    updateCodeMirrorOption: (key: string, value: string) => void
 }
 
-const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, dark, toggleDarkTheme, toggleSettingsModal }) => {
+const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, dark, toggleDarkTheme, toggleSettingsModal, updateCodeMirrorOption }) => {
     const node = useRef<HTMLDivElement>(null)
 
     const handleDomClick = (event: MouseEvent | React.MouseEvent<HTMLDivElement> | React.ChangeEvent<HTMLSelectElement>) => {
@@ -28,6 +30,12 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, dark, toggleDarkT
 
     const toggleDarkThemeHandler = () => {
         toggleDarkTheme()
+
+        if (!dark) {
+            updateCodeMirrorOption('theme', 'zenburn')
+        } else {
+            updateCodeMirrorOption('theme', 'base16-light')
+        }
     }
 
     useEffect(() => {
@@ -41,7 +49,14 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, dark, toggleDarkT
         <Dimmer>
             <SettingsModalContainer ref={node}>
                 <H2>Настройки</H2>
-                <Button onClick={toggleDarkThemeHandler}>Включить темную тему</Button>
+
+                <SettingsOptions>
+                    <SettingsLabel>Темный режим</SettingsLabel>
+                    <Switch>
+                        <SwitchInput type="checkbox" checked={dark} onChange={toggleDarkThemeHandler} />
+                        <Slider round />
+                    </Switch>
+                </SettingsOptions>
             </SettingsModalContainer>
         </Dimmer>
     ) : null
@@ -55,6 +70,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     toggleSettingsModal: () => dispatch(toggleSettingsModal()),
     toggleDarkTheme: () => dispatch(toggleDarkTheme()),
+    updateCodeMirrorOption: (key: string, value: string) => dispatch(updateCodeMirrorOption(key, value)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsModal)
@@ -91,6 +107,19 @@ const SettingsModalContainer = styled.div`
 
 const H2 = styled.h2`
     margin-top: 0;
+    margin-bottom: 1.5rem;
 `
 
-const Button = styled(Buttons)``
+const SettingsOptions = styled(Vbetween)`
+    padding: 0.5rem 0;
+    border-bottom: 2px solid ${Colors.A_COLOR_ELEVEN()};
+
+    &:last-of-type {
+        border-bottom: 0;
+    }
+`
+
+const SettingsLabel = styled.div`
+    font-weight: 600;
+    font-size: 1.1rem;
+`

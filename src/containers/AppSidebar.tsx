@@ -89,15 +89,15 @@ const AppSidebar: React.FC<AppProps> = ({
         <AppSidebarContainer darkTheme={isDarkTheme}>
             <AppSidebarMain>
                 <AppSidebarLink onClick={() => swapFolder(Folders.ALL)} active={activeFolder === Folders.ALL} darkTheme={isDarkTheme}>
-                    <Book size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
+                    <Book size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
                     Все заметки
                 </AppSidebarLink>
                 <AppSidebarLink onClick={() => swapFolder(Folders.FAVORITES)} active={activeFolder === Folders.FAVORITES} darkTheme={isDarkTheme}>
-                    <Bookmark size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
+                    <Bookmark size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
                     Избранные
                 </AppSidebarLink>
                 <AppSidebarLink onClick={() => swapFolder(Folders.TRASH)} active={activeFolder === Folders.TRASH} darkTheme={isDarkTheme}>
-                    <Trash2 size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
+                    <Trash2 size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
                     Корзина
                 </AppSidebarLink>
 
@@ -126,7 +126,7 @@ const AppSidebar: React.FC<AppProps> = ({
                                 }}
                             >
                                 <CategoryEachName>
-                                    <Folder size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
+                                    <Folder size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
                                     {category.name}
                                 </CategoryEachName>
                                 <CategoryOptions
@@ -249,7 +249,7 @@ const AppSidebarLink = styled.div<{ active?: boolean; darkTheme: boolean }>`
     font-size: 0.9rem;
     font-weight: 600;
     background: ${({ active, darkTheme }) => (active ? Colors.A_COLOR_SEVEN(darkTheme) : '')};
-    color: ${({ active, darkTheme }) => (active ? Colors.A_COLOR_TEN(darkTheme) : Colors.A_COLOR_SIX(darkTheme))};
+    color: ${({ darkTheme }) => Colors.A_COLOR_TEN(darkTheme)};
 
     &:hover {
         background: ${({ darkTheme }) => Colors.A_COLOR_THREE(darkTheme)};
@@ -301,6 +301,11 @@ const CategoryOptions = styled.div`
     cursor: pointer;
 `
 
+const CategoryEachName = styled.div`
+    display: flex;
+    align-items: center;
+`
+
 const CategoryEach = styled.div<{ active: boolean; darkTheme: boolean }>`
     cursor: pointer;
     padding: 0.5rem;
@@ -322,20 +327,33 @@ const CategoryEach = styled.div<{ active: boolean; darkTheme: boolean }>`
             color: ${({ darkTheme }) => Colors.A_COLOR_TEN(darkTheme)};
         }
     }
+
+    ${CategoryEachName} {
+        svg {
+            ${({ active }) => active && 'stroke: ' + Colors.PRIMARY};
+        }
+    }
 `
 
 const AddCategoryForm = styled.form``
 
 const CategoryNameInput = styled.input<{ darkTheme: boolean }>`
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.2);
     border: 1px solid ${({ darkTheme }) => Colors.A_COLOR_ONE(darkTheme)};
     padding: 0.5rem;
     font-size: 0.9rem;
+    border-radius: 4px;
     -webkit-appearance: none;
     color: ${Colors.A_COLOR_TWO()};
-`
+    line-height: 1;
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    width: 120px;
 
-const CategoryEachName = styled.div`
-    display: flex;
-    align-items: center;
+    &:active,
+    &:focus {
+        border-color: ${Colors.PRIMARY};
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
 `
