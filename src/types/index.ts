@@ -28,6 +28,7 @@ export interface ApplicationState {
     categoryState: CategoryState
     syncState: SyncState
     themeState: ThemeState
+    settingsState: SettingsState
 }
 
 export interface NoteState {
@@ -52,6 +53,20 @@ export interface SyncState {
 
 export interface ThemeState {
     dark: boolean
+}
+
+export interface SettingsState {
+    isOpen: boolean
+    codeMirrorOptions: {
+        mode: string
+        theme: string
+        lineNumbers: boolean
+        lineWrapping: boolean
+        styleActiveLine: {
+            nonEmpty: true
+        }
+        viewportMargin: number
+    }
 }
 
 // =================================================================================================================
@@ -206,3 +221,11 @@ export interface ToggleDarkTheme {
 }
 
 export type ThemeActionTypes = ToggleDarkTheme
+
+/* Настройки */
+
+export interface ToggleSettingsModalAction {
+    type: typeof Actions.TOGGLE_SETTINGS_MODAL
+}
+
+export type SettingsActionTypes = ToggleSettingsModalAction

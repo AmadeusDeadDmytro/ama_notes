@@ -23,6 +23,7 @@ interface NoteListProps {
     swapCategory: (category: string) => void
     pruneNotes: () => void
     addCategoryToNote: (categoryId: string, noteId: string) => void
+    isDarkTheme: boolean
 }
 
 const NoteList: React.FC<NoteListProps> = ({
@@ -36,6 +37,7 @@ const NoteList: React.FC<NoteListProps> = ({
     swapCategory,
     pruneNotes,
     addCategoryToNote,
+    isDarkTheme,
 }) => {
     const [noteOptionsId, setNoteOptionsId] = useState('')
     const node = useRef<HTMLDivElement>(null)
@@ -65,8 +67,8 @@ const NoteList: React.FC<NoteListProps> = ({
     })
 
     return (
-        <NoteSidebar>
-            <NoteSidebarHeader>{activeFolder === 'CATEGORY' ? activeCategory && activeCategory.name : folderMap[activeFolder]}</NoteSidebarHeader>
+        <NoteSidebar darkTheme={isDarkTheme}>
+            <NoteSidebarHeader darkTheme={isDarkTheme}>{activeFolder === 'CATEGORY' ? activeCategory && activeCategory.name : folderMap[activeFolder]}</NoteSidebarHeader>
             <NoteListContainer>
                 {filteredNotes.map((note) => {
                     const noteTitle = getNoteTitle(note.text)
@@ -75,6 +77,7 @@ const NoteList: React.FC<NoteListProps> = ({
                         <NoteEach
                             key={note.id}
                             active={note.id === activeNoteId}
+                            darkTheme={isDarkTheme}
                             onClick={() => {
                                 if (note.id !== activeNoteId) {
                                     swapNote(note.id)
@@ -83,11 +86,11 @@ const NoteList: React.FC<NoteListProps> = ({
                             }}
                         >
                             {noteTitle}
-                            <NoteOptionsDiv active={noteOptionsId === note.id} onClick={(event) => handleNoteOptionsClick(event, note.id)}>
+                            <NoteOptionsDiv active={noteOptionsId === note.id} onClick={(event) => handleNoteOptionsClick(event, note.id)} darkTheme={isDarkTheme}>
                                 <MoreHorizontal size={15} />
                             </NoteOptionsDiv>
                             {noteOptionsId === note.id && (
-                                <NoteOptionsContext ref={node} onClick={(event) => event.stopPropagation()}>
+                                <NoteOptionsContext ref={node} onClick={(event) => event.stopPropagation()} darkTheme={isDarkTheme}>
                                     {!note.trash && (
                                         <>
                                             <ContextActionTitle>Переместить в категорию</ContextActionTitle>
@@ -136,7 +139,7 @@ const NoteList: React.FC<NoteListProps> = ({
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    const { noteState, categoryState } = state
+    const { noteState, categoryState, themeState } = state
     let filteredNotes: NoteItem[]
 
     if (noteState.activeFolder === Folders.CATEGORY) {
@@ -160,6 +163,7 @@ const mapStateToProps = (state: ApplicationState) => {
         filteredNotes,
         activeNote: state.noteState.notes.find((note) => note.id === state.noteState.activeNoteId),
         filteredCategories: categoryState.categories.filter((category) => category.id !== noteState.activeCategoryId),
+        isDarkTheme: themeState.dark,
     }
 }
 
@@ -173,49 +177,56 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteList)
 
-const NoteSidebarHeader = styled.div``
+const NoteSidebarHeader = styled.div<{ darkTheme?: boolean }>`
+    text-align: center;
+    padding: 0.5rem;
+    ${({ darkTheme }) => darkTheme && 'color: white'};
+    ${({ darkTheme }) => darkTheme && 'border-bottom: 1px solid ' + Colors.A_COLOR_EIGHT(true)};
+`
 
-const NoteSidebar = styled.aside`
+const NoteSidebar = styled.aside<{ darkTheme: boolean }>`
     grid-area: note-sidebar;
-    background: ${Colors.A_COLOR_TWO};
-    border-right: 1px solid ${Colors.A_COLOR_NINE};
+    background: ${({ darkTheme }) => Colors.A_COLOR_TWO(darkTheme)};
+    border-right: 1px solid ${({ darkTheme }) => Colors.A_COLOR_NINE(darkTheme)};
 `
 
 const NoteListContainer = styled.div``
 
-const NoteEach = styled.div<{ active: boolean }>`
+const NoteEach = styled.div<{ active: boolean; darkTheme: boolean }>`
     position: relative;
     cursor: pointer;
-    padding: 0.5rem;
-    border-bottom: 1px solid ${Colors.A_COLOR_EIGHT};
-    background: ${({ active }) => active && Colors.A_COLOR_SIX};
+    padding: 0.25rem 0.5rem;
+    border-bottom: 1px solid ${({ darkTheme }) => Colors.A_COLOR_EIGHT(darkTheme)};
+    background: ${({ active, darkTheme }) => active && Colors.A_COLOR_SIX(darkTheme)};
+    color: ${({ active, darkTheme }) => (active ? Colors.A_COLOR_FIVE(darkTheme) : Colors.A_COLOR_SIX(darkTheme))};
     font-weight: ${({ active }) => active && 600};
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     &:hover {
-        background: ${Colors.A_COLOR_NINE};
+        background: ${({ darkTheme }) => Colors.A_COLOR_NINE(darkTheme)};
+        color: ${({ darkTheme }) => Colors.A_COLOR_FIVE(darkTheme)};
     }
 `
 
-const NoteOptionsDiv = styled.div<{ active: boolean }>`
-    color: ${Colors.A_COLOR_FOUR};
+const NoteOptionsDiv = styled.div<{ active: boolean; darkTheme: boolean }>`
+    color: ${({ darkTheme }) => Colors.A_COLOR_FOUR(darkTheme)};
     padding: 0.5rem;
     z-index: 1;
     cursor: pointer;
 `
 
-const NoteOptionsContext = styled.div`
+const NoteOptionsContext = styled.div<{ darkTheme: boolean }>`
     cursor: default;
     position: absolute;
-    color: ${Colors.A_COLOR_FOUR};
+    color: ${({ darkTheme }) => Colors.A_COLOR_FOUR(darkTheme)};
     top: 32px;
     left: 200px;
     min-width: 250px;
     padding: 1rem;
     background: white;
-    border: 1px solid ${Colors.A_COLOR_ELEVEN};
+    border: 1px solid ${({ darkTheme }) => Colors.A_COLOR_ELEVEN(darkTheme)};
     z-index: 5;
     box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.1);
 `

@@ -2,14 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6aadfe21-b55d-49dd-98f6-fca7107499d3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/containers/SettingsModal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/reducers/settingsReducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/base.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/actions/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/enums.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/enums.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/AppSidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/AppSidebar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/NoteEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/NoteEditor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/NoteOptions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/NoteOptions.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/NoteList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/NoteList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reducers/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/colors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/colors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +64,11 @@
       <workItem from="1610212328788" duration="46000" />
       <workItem from="1610377958268" duration="8606000" />
       <workItem from="1610397951887" duration="5854000" />
-      <workItem from="1610436012261" duration="2313000" />
+      <workItem from="1610436012261" duration="2372000" />
+      <workItem from="1610445868172" duration="3554000" />
+      <workItem from="1610464049176" duration="4201000" />
+      <workItem from="1610518470517" duration="431000" />
+      <workItem from="1610527271669" duration="2272000" />
     </task>
     <task id="LOCAL-00001" summary="ci: travis">
       <created>1610379503305</created>
@@ -284,7 +294,28 @@
       <option name="project" value="LOCAL" />
       <updated>1610437376308</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Simple impl of delete note">
+      <created>1610438357881</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1610438357881</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Disable new note button in Trash folder">
+      <created>1610445987636</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1610445987636</updated>
+    </task>
+    <task id="LOCAL-00035" summary="remove categories from trash - this needs to be implemented better">
+      <created>1610450602557</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1610450602557</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -318,6 +349,10 @@
     <MESSAGE value="Implement restoring notes from trash" />
     <MESSAGE value="fix" />
     <MESSAGE value="getting dark theme toggling working" />
-    <option name="LAST_COMMIT_MESSAGE" value="getting dark theme toggling working" />
+    <MESSAGE value="Simple impl of delete note" />
+    <MESSAGE value="Disable new note button in Trash folder" />
+    <MESSAGE value="remove categories from trash - this needs to be implemented better" />
+    <MESSAGE value="add settings" />
+    <option name="LAST_COMMIT_MESSAGE" value="add settings" />
   </component>
 </project>

@@ -1,7 +1,7 @@
 import { ApplicationState, CategoryItem, NoteItem } from 'types'
 import { Book, Bookmark, Folder, Plus, Settings, Trash2, UploadCloud, X } from 'react-feather'
 import React, { useState } from 'react'
-import { addCategory, addNote, deleteCategory, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote, syncState } from 'actions'
+import { addCategory, addNote, deleteCategory, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote, syncState, toggleSettingsModal } from 'actions'
 
 import Colors from 'styles/colors'
 import { Dispatch } from 'redux'
@@ -28,6 +28,8 @@ interface AppProps {
     categories: CategoryItem[]
     activeCategoryId: string
     activeFolder: string
+    toggleSettingsModal: () => void
+    isDarkTheme: boolean
 }
 
 const AppSidebar: React.FC<AppProps> = ({
@@ -44,6 +46,8 @@ const AppSidebar: React.FC<AppProps> = ({
     categories,
     activeCategoryId,
     activeFolder,
+    toggleSettingsModal,
+    isDarkTheme,
 }) => {
     const { addingTempCategory, setAddingTempCategory } = useKeyboard()
     const [tempCategory, setTempCategory] = useState('')
@@ -77,24 +81,28 @@ const AppSidebar: React.FC<AppProps> = ({
         syncState(notes, categories)
     }
 
+    const settingsHandler = () => {
+        toggleSettingsModal()
+    }
+
     return (
-        <AppSidebarContainer>
+        <AppSidebarContainer darkTheme={isDarkTheme}>
             <AppSidebarMain>
-                <AppSidebarLink onClick={() => swapFolder(Folders.ALL)} active={activeFolder === Folders.ALL}>
+                <AppSidebarLink onClick={() => swapFolder(Folders.ALL)} active={activeFolder === Folders.ALL} darkTheme={isDarkTheme}>
                     <Book size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
                     Все заметки
                 </AppSidebarLink>
-                <AppSidebarLink onClick={() => swapFolder(Folders.FAVORITES)} active={activeFolder === Folders.FAVORITES}>
+                <AppSidebarLink onClick={() => swapFolder(Folders.FAVORITES)} active={activeFolder === Folders.FAVORITES} darkTheme={isDarkTheme}>
                     <Bookmark size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
                     Избранные
                 </AppSidebarLink>
-                <AppSidebarLink onClick={() => swapFolder(Folders.TRASH)} active={activeFolder === Folders.TRASH}>
+                <AppSidebarLink onClick={() => swapFolder(Folders.TRASH)} active={activeFolder === Folders.TRASH} darkTheme={isDarkTheme}>
                     <Trash2 size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
                     Корзина
                 </AppSidebarLink>
 
                 <CategoryTitle>
-                    <CategoryTitleH2>Категории</CategoryTitleH2>
+                    <CategoryTitleH2 darkTheme={isDarkTheme}>Категории</CategoryTitleH2>
                     <AddCategoryButton onClick={newTempCategoryHandler}>
                         <Plus size={15} color={iconColor} />
                     </AddCategoryButton>
@@ -105,6 +113,7 @@ const AppSidebar: React.FC<AppProps> = ({
                         return (
                             <CategoryEach
                                 key={category.id}
+                                darkTheme={isDarkTheme}
                                 active={category.id === activeCategoryId}
                                 onClick={() => {
                                     const notesForNewCategory = notes.filter((note) => !note.trash && note.category === category.id)
@@ -142,6 +151,7 @@ const AppSidebar: React.FC<AppProps> = ({
                     <AddCategoryForm onSubmit={onSubmit}>
                         <CategoryNameInput
                             placeholder="Имя категории..."
+                            darkTheme={isDarkTheme}
                             autoFocus
                             onChange={(event) => {
                                 setTempCategory(event.target.value)
@@ -157,12 +167,14 @@ const AppSidebar: React.FC<AppProps> = ({
                     </AddCategoryForm>
                 )}
                 <AppSidebarActions onClick={syncNotesHandler}>
-                    <ActionButton onClick={newNoteHandler}>{activeFolder !== Folders.TRASH && <Plus size={18} style={{ marginRight: '.5rem' }} color={iconColor} />}</ActionButton>
-                    <ActionButton onClick={syncNotesHandler}>
+                    <ActionButton onClick={newNoteHandler} darkTheme={isDarkTheme}>
+                        {activeFolder !== Folders.TRASH && <Plus size={18} style={{ marginRight: '.5rem' }} color={iconColor} />}
+                    </ActionButton>
+                    <ActionButton onClick={syncNotesHandler} darkTheme={isDarkTheme}>
                         <UploadCloud size={18} style={{ marginRight: '.5rem' }} color={iconColor} />
                     </ActionButton>
-                    <ActionButton>
-                        <Settings size={18} style={{ marginRight: '.5rem' }} color={iconColor} />
+                    <ActionButton darkTheme={isDarkTheme}>
+                        <Settings size={18} style={{ marginRight: '.5rem' }} color={iconColor} onClick={settingsHandler} />
                     </ActionButton>
                 </AppSidebarActions>
             </AppSidebarMain>
@@ -176,6 +188,7 @@ const mapStateToProps = (state: ApplicationState) => ({
     activeCategoryId: state.noteState.activeCategoryId,
     categories: state.categoryState.categories,
     notes: state.noteState.notes,
+    isDarkTheme: state.themeState.dark,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -187,6 +200,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     deleteCategory: (categoryId: string) => dispatch(deleteCategory(categoryId)),
     pruneCategoryFromNotes: (categoryId: string) => dispatch(pruneCategoryFromNotes(categoryId)),
     syncState: (notes: NoteItem[], categories: CategoryItem[]) => dispatch(syncState(notes, categories)),
+    toggleSettingsModal: () => dispatch(toggleSettingsModal()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppSidebar)
@@ -199,45 +213,47 @@ const AppSidebarActions = styled.div`
     flex-wrap: wrap;
 `
 
-const ActionButton = styled.div`
+const ActionButton = styled.div<{ darkTheme: boolean }>`
     svg {
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: ${Colors.A_COLOR_SEVEN};
+        background: ${({ darkTheme }) => Colors.A_COLOR_SEVEN(darkTheme)};
         padding: 0.7rem;
         border-radius: 50%;
         stroke: rgba(255, 255, 255, 0.7);
         margin: 0 0.25rem;
 
         &:hover {
-            stroke: ${Colors.A_COLOR_EIGHT};
-            background: ${Colors.A_COLOR_FOUR};
+            stroke: ${Colors.A_COLOR_EIGHT()};
+            background: ${({ darkTheme }) => Colors.A_COLOR_FOUR(darkTheme)};
         }
     }
 `
 
-const AppSidebarContainer = styled.aside`
+const AppSidebarContainer = styled.aside<{ darkTheme: boolean }>`
     padding: 1rem 0 0.25rem;
     grid-area: app-sidebar;
-    background: ${Colors.A_COLOR_FOUR};
+    background: ${({ darkTheme }) => Colors.A_COLOR_FOUR(darkTheme)};
     color: rgba(255, 255, 255, 0.8);
     display: flex;
     flex-direction: column;
 `
 
-const AppSidebarLink = styled.div<{ active?: boolean }>`
+const AppSidebarLink = styled.div<{ active?: boolean; darkTheme: boolean }>`
     display: flex;
     align-items: center;
     padding: 0 0.5rem;
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 600;
-    background: ${({ active }) => (active ? Colors.A_COLOR_SEVEN : '')};
+    background: ${({ active, darkTheme }) => (active ? Colors.A_COLOR_SEVEN(darkTheme) : '')};
+    color: ${({ active, darkTheme }) => (active ? Colors.A_COLOR_TEN(darkTheme) : Colors.A_COLOR_SIX(darkTheme))};
 
     &:hover {
-        background: ${Colors.A_COLOR_THREE};
+        background: ${({ darkTheme }) => Colors.A_COLOR_THREE(darkTheme)};
+        color: ${({ darkTheme }) => Colors.A_COLOR_TEN(darkTheme)};
     }
 `
 
@@ -253,9 +269,9 @@ const CategoryTitle = styled.div`
     justify-content: space-between;
 `
 
-const CategoryTitleH2 = styled.h2`
+const CategoryTitleH2 = styled.h2<{ darkTheme: boolean }>`
     margin: 0;
-    color: ${Colors.A_COLOR_ONE};
+    color: ${({ darkTheme }) => Colors.A_COLOR_ONE(darkTheme)};
     text-transform: uppercase;
     font-size: 0.7rem;
 `
@@ -285,11 +301,11 @@ const CategoryOptions = styled.div`
     cursor: pointer;
 `
 
-const CategoryEach = styled.div<{ active: boolean }>`
+const CategoryEach = styled.div<{ active: boolean; darkTheme: boolean }>`
     cursor: pointer;
     padding: 0.5rem;
     color: rgba(255, 255, 255, 0.8);
-    background: ${({ active }) => active && Colors.A_COLOR_SEVEN};
+    background: ${({ active, darkTheme }) => active && Colors.A_COLOR_SEVEN(darkTheme)};
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -299,23 +315,24 @@ const CategoryEach = styled.div<{ active: boolean }>`
     }
 
     &:hover {
-        background: ${Colors.A_COLOR_THREE};
+        background: ${({ darkTheme }) => Colors.A_COLOR_THREE(darkTheme)};
+        color: ${({ darkTheme }) => Colors.A_COLOR_TEN(darkTheme)};
 
         ${CategoryOptions} {
-            color: ${Colors.A_COLOR_FIVE};
+            color: ${({ darkTheme }) => Colors.A_COLOR_TEN(darkTheme)};
         }
     }
 `
 
 const AddCategoryForm = styled.form``
 
-const CategoryNameInput = styled.input`
+const CategoryNameInput = styled.input<{ darkTheme: boolean }>`
     background: rgba(0, 0, 0, 0.5);
-    border: 1px solid ${Colors.A_COLOR_ONE};
+    border: 1px solid ${({ darkTheme }) => Colors.A_COLOR_ONE(darkTheme)};
     padding: 0.5rem;
     font-size: 0.9rem;
     -webkit-appearance: none;
-    color: ${Colors.A_COLOR_TWO};
+    color: ${Colors.A_COLOR_TWO()};
 `
 
 const CategoryEachName = styled.div`

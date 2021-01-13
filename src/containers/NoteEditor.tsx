@@ -1,5 +1,6 @@
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/base16-light.css'
+import 'codemirror/theme/zenburn.css'
 import 'codemirror/mode/gfm/gfm.js'
 import 'codemirror/addon/selection/active-line.js'
 
@@ -10,7 +11,6 @@ import { Dispatch } from 'redux'
 import React from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import options from 'constants/codeMirrorOptions'
 import styled from 'styled-components'
 import { updateNote } from 'actions'
 
@@ -20,9 +20,19 @@ interface NoteEditorProps {
     loading: boolean
     activeNote?: NoteItem
     updateNote: (note: NoteItem) => void
+    codeMirrorOptions: {
+        mode: string
+        theme: string
+        lineNumbers: boolean
+        lineWrapping: boolean
+        styleActiveLine: {
+            nonEmpty: boolean
+        }
+        viewportMargin: number
+    }
 }
 
-const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote }) => {
+const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote, codeMirrorOptions }) => {
     if (loading) {
         return <EmptyEditor>Загрузка...</EmptyEditor>
     } else if (!activeNote) {
@@ -32,7 +42,7 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote
             <Editor
                 className="mousetrap"
                 value={activeNote.text}
-                options={options}
+                options={codeMirrorOptions}
                 editorDidMount={(editor) => {
                     editor.focus()
                     editor.setCursor(0)
@@ -58,6 +68,7 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote
 const mapStateToProps = (state: ApplicationState) => ({
     loading: state.noteState.loading,
     activeNote: state.noteState.notes.find((note) => note.id === state.noteState.activeNoteId),
+    codeMirrorOptions: state.settingsState.codeMirrorOptions,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -68,7 +79,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(NoteEditor)
 
 const EmptyEditor = styled.div`
     grid-area: editor;
-    background: ${Colors.A_COLOR_TEN};
+    background: ${Colors.A_COLOR_TEN(false)};
 `
 
 const EmptyEditorCenter = styled(EmptyEditor)`

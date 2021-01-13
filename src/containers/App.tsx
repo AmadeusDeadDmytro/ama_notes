@@ -10,6 +10,7 @@ import NoteList from 'containers/NoteList'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { ApplicationState } from 'types'
+import SettingsModal from 'containers/SettingsModal'
 
 interface AppProps {
     loadNotes: () => void
@@ -39,6 +40,7 @@ const App: React.FC<AppProps> = ({ loadNotes, loadCategories, dark }) => {
                 <NoteList />
                 <NoteEditor />
                 <KeyboardShortcuts />
+                <SettingsModal />
             </KeyboardProvider>
         </AppContainer>
     )
