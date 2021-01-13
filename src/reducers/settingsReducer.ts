@@ -12,6 +12,7 @@ const initialState: SettingsState = {
             nonEmpty: true,
         },
         viewportMargin: Infinity,
+        keyMap: 'default',
     },
 }
 

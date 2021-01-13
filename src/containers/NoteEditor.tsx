@@ -3,6 +3,7 @@ import 'codemirror/theme/base16-light.css'
 import 'codemirror/theme/zenburn.css'
 import 'codemirror/mode/gfm/gfm.js'
 import 'codemirror/addon/selection/active-line.js'
+import 'codemirror/keymap/vim'
 
 import { ApplicationState, NoteItem } from 'types'
 
@@ -20,16 +21,7 @@ interface NoteEditorProps {
     loading: boolean
     activeNote?: NoteItem
     updateNote: (note: NoteItem) => void
-    codeMirrorOptions: {
-        mode: string
-        theme: string
-        lineNumbers: boolean
-        lineWrapping: boolean
-        styleActiveLine: {
-            nonEmpty: boolean
-        }
-        viewportMargin: number
-    }
+    codeMirrorOptions: { [key: string]: any }
 }
 
 const NoteEditor: React.FC<NoteEditorProps> = ({ loading, activeNote, updateNote, codeMirrorOptions }) => {

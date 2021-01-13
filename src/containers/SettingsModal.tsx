@@ -13,9 +13,10 @@ export interface SettingsModalProps {
     toggleSettingsModal: () => {}
     toggleDarkTheme: () => void
     updateCodeMirrorOption: (key: string, value: string) => void
+    codeMirrorOptions: { [key: string]: any }
 }
 
-const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, dark, toggleDarkTheme, toggleSettingsModal, updateCodeMirrorOption }) => {
+const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, dark, toggleDarkTheme, toggleSettingsModal, updateCodeMirrorOption, codeMirrorOptions }) => {
     const node = useRef<HTMLDivElement>(null)
 
     const handleDomClick = (event: MouseEvent | React.MouseEvent<HTMLDivElement> | React.ChangeEvent<HTMLSelectElement>) => {
@@ -57,6 +58,23 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, dark, toggleDarkT
                         <Slider round />
                     </Switch>
                 </SettingsOptions>
+                <SettingsOptions>
+                    <SettingsLabel>Vim Mode</SettingsLabel>
+                    <Switch>
+                        <SwitchInput
+                            type="checkbox"
+                            checked={codeMirrorOptions.keyMap === 'vim'}
+                            onChange={() => {
+                                if (codeMirrorOptions.keyMap === 'vim') {
+                                    updateCodeMirrorOption('keyMap', 'default')
+                                } else {
+                                    updateCodeMirrorOption('keyMap', 'vim')
+                                }
+                            }}
+                        />
+                        <Slider round />
+                    </Switch>
+                </SettingsOptions>
             </SettingsModalContainer>
         </Dimmer>
     ) : null
@@ -65,6 +83,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, dark, toggleDarkT
 const mapStateToProps = (state: ApplicationState) => ({
     isOpen: state.settingsState.isOpen,
     dark: state.themeState.dark,
+    codeMirrorOptions: state.settingsState.codeMirrorOptions,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
