@@ -8,3 +8,6 @@ cd ama_notes
 npm i
 npm start
 ```
+## Ссылка
+
+https://amadeusdeaddmytro.github.io/ama_notes/
